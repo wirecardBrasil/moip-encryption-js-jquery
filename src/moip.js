@@ -8,7 +8,7 @@ var Moip = {
 };
 
 Moip.create = function (options) {
-  return new FormEncryptor(options);
+  return new Moip.FormEncryptor(options);
 };
 
 
@@ -20,6 +20,7 @@ Moip.FormEncryptor = function (options) {
 
   var hiddenFields = [];
   var encryptor = new JSEncrypt({ default_key_size: 2048 });
+  encryptor.setPublicKey(self.publicKey);
 
   var findForm = function (object) {
     if (window.jQuery && object instanceof jQuery) {
@@ -33,7 +34,7 @@ Moip.FormEncryptor = function (options) {
 
   var findInputs = function(form) {
     var inputs = [];
-    var children = form.children
+    var children = form.children;
 
     for (var i = 0; i < children.length; i++) {
       var input = children[i];
@@ -102,10 +103,21 @@ Moip.FormEncryptor = function (options) {
   var prepareForm = function (form) {
     var inputs = findInputs(form);
 
+    alert('total inputs' + inputs.length);
     cleanHidden(form);
 
     var encryptedInputs = encryptInputs(inputs);
     injectInputs(form, encryptedInputs);
+  };
+
+  var attachCallback = function (form, callback) {
+    if (window.jQuery) {
+      window.jQuery(form).submit(callback);
+    } else if (form.addEventListener) {
+      form.addEventListener('submit', callback, false);
+    } else if (form.attachEvent) {
+      form.attachEvent('onsubmit', callback);
+    }
   };
 
   self.onSubmit = function (form, callback) {
@@ -113,11 +125,11 @@ Moip.FormEncryptor = function (options) {
     form = findForm(form);
 
     var encryptionCallback = function (e) {
-      self.prepareForm(form);
+      prepareForm(form);
       return callback ? callback(e) : e;
     }
 
-    attachCallback(form);
+    attachCallback(form, encryptionCallback);
   };
 };
 
