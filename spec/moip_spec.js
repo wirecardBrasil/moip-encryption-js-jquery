@@ -1,22 +1,36 @@
 describe("Moip", function () {
 
   beforeEach(function () {
-    this.validForm = defaultForm();
-  });
 
-  it("should encrypt form", function () {
+    setFixtures(defaultForm());
+    this.moip = Moip.create({ publicKey: DEFAULT_PUBLIC_KEY });
 
-    var moip = Moip.create({ publicKey: DEFAULT_PUBLIC_KEY });
-    moip.onSubmit(this.validForm, function (e) {
-      console.log('Executing custom callback');
+    $('#test-form').submit(function (e) {
       e.preventDefault();
     });
+  });
 
-    this.validForm.submit();
+  it("should encrypt form using jquery", function () {
 
-    var cardNumberInput = this.validForm.elements['card-number'];
-    alert(cardNumberInput.getAttribute('value'));
-    expect(cardNumberInput.getAttribute('value')).not.toEqual(DEFAULT_CREDIT_CARD);
+    this.moip.onSubmit($('#test-form'));
+    $('#test-form').submit();
 
+    expect($('input[type="hidden"][name="card-number"]')).toExist();
+    expect($('input[type="hidden"][name="card-number"]').val()).not.toEqual(DEFAULT_CREDIT_CARD);
+
+    expect($('input[type="hidden"][name="cvv-number"]')).toExist();
+    expect($('input[type="hidden"][name="cvv-number"]').val()).not.toEqual(DEFAULT_CVV);
+  });
+
+  it("should encrypt form using element id", function () {
+
+    this.moip.onSubmit('test-form');
+    $('#test-form').submit();
+
+    expect($('input[type="hidden"][name="card-number"]')).toExist();
+    expect($('input[type="hidden"][name="card-number"]').val()).not.toEqual(DEFAULT_CREDIT_CARD);
+
+    expect($('input[type="hidden"][name="cvv-number"]')).toExist();
+    expect($('input[type="hidden"][name="cvv-number"]').val()).not.toEqual(DEFAULT_CVV);
   });
 });

@@ -11,41 +11,15 @@ var DEFAULT_PUBLIC_KEY = '-----BEGIN PUBLIC KEY-----' +
 '-----END PUBLIC KEY-----';
 
 function defaultForm() {
-  var form = document.createElement('form');
-  form.setAttribute('method', 'post');
-  form.setAttribute('action', '#');
 
-  var input = document.createElement('input');
-  input.setAttribute('type', 'text');
-  input.setAttribute('name', 'card-number');
-  input.setAttribute('data-encrypted-input', 'card-number');
-  input.setAttribute('value', DEFAULT_CREDIT_CARD);
-
-  form.appendChild(input);
-
-  input = document.createElement('input');
-  input.setAttribute('type', 'text');
-  input.setAttribute('name', 'cvv-number');
-  input.setAttribute('data-encrypted-input', 'cvv-number');
-  input.setAttribute('value', DEFAULT_CVV);
-
-  form.appendChild(input);
-
-  input = document.createElement('input');
-  input.setAttribute('type', 'text');
-  input.setAttribute('name', 'expiration-date-month');
-  input.setAttribute('data-encrypted-input', 'expiration-date-month');
-  input.setAttribute('value', '10');
-
-  form.appendChild(input);
-
-  input = document.createElement('input');
-  input.setAttribute('type', 'text');
-  input.setAttribute('name', 'expiration-date-year');
-  input.setAttribute('data-encrypted-input', 'expiration-date-year');
-  input.setAttribute('value', '2020');
-
-  form.appendChild(input);
+  var form =
+      '<form method="post" action="#" id="test-form">' +
+      '<input type="text" name="card-number" data-encrypted-input="card-number" value="' + DEFAULT_CREDIT_CARD + '"/>' +
+      '<input type="text" name="cvv-number" data-encrypted-input="cvv-number" value="' + DEFAULT_CVV + '"/>' +
+      '<input type="text" name="expiration-date-month" value="10"/>' +
+      '<input type="text" name="expiration-date-year" value="2020"/>' +
+      '<input type="submit" name="submit-button" value="Click"/>' +
+      '</form>';
 
   return form;
 }
