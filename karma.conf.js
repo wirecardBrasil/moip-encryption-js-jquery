@@ -12,7 +12,8 @@ module.exports = function(config) {
             'lib/jquery-2.1.0.min.js',
             'lib/jasmine-jquery.js',
             'lib/jsencrypt.min.js',
-            'src/**/*.js',
+            'src/build/development_environment.js',
+            'src/*.js',
             'spec/**/*.js'
         ],
 
