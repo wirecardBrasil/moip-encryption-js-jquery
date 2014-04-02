@@ -1,9 +1,6 @@
 module.exports = function(config) {
     config.set({
 
-        // base path, that will be used to resolve files and exclude
-        //basePath: 'src/',
-
         // frameworks to use
         frameworks: ['jasmine'],
 
@@ -14,7 +11,8 @@ module.exports = function(config) {
             'lib/jsencrypt.min.js',
             'src/build/development_environment.js',
             'src/*.js',
-            'spec/**/*.js'
+            'spec/helpers/*.js',
+            'spec/*.js'
         ],
 
         // list of files to exclude

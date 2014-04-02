@@ -1,4 +1,3 @@
-// TODO [fireball] : montar JSON da api do moip para envio direto ou pro servidor do lojista
 // TODO [fireball] : no caso de envio pro lojista tem que usar jsonp
 // TODO [fireball] : implementar testes
 
@@ -7,40 +6,16 @@ Moip.create = function (options) {
 };
 
 Moip.FormEncryptor = function (options) {
-  self = this;
-  self.version = Moip.version;
-  self.publicKey = options.publicKey;
+
+  this.version = Moip.version;
+  this.publicKey = options.publicKey;
 
   var hiddenFields = [];
   var encryptor = new JSEncrypt({ default_key_size: 2048 });
-  encryptor.setPublicKey(self.publicKey);
+  encryptor.setPublicKey(this.publicKey);
 
-  var findForm = function (object) {
-    if (window.jQuery && object instanceof jQuery) {
-      return object[0];
-    } else if (object.nodeType && object.nodeType === 1) {
-      return object;
-    } else {
-      return document.getElementById(object);
-    }
-  };
-
-  var findInputs = function(form) {
-    var inputs = [];
-    var children = form.children;
-
-    for (var i = 0; i < children.length; i++) {
-      var input = children[i];
-
-      if (input.nodeType === 1 && input.attributes['data-encrypted-input']) {
-        inputs.push(input);
-      } else if (input.children && input.children.length > 0) {
-        inputs.concat(findInputs(input));
-      }
-    }
-
-    return inputs;
-  };
+  var formExtractor = new Moip.FormExtractor();
+  var jsonBuilder = new Moip.JsonBuilder();
 
   var cleanHidden = function (form) {
 
@@ -96,7 +71,7 @@ Moip.FormEncryptor = function (options) {
   };
 
   var prepareForm = function (form) {
-    var inputs = findInputs(form);
+    var inputs = formExtractor.extractInputs(form);
 
     cleanHidden(form);
 
@@ -114,12 +89,16 @@ Moip.FormEncryptor = function (options) {
     }
   };
 
-  self.onSubmit = function (form, callback) {
+  this.onSubmit = function (form, callback) {
 
-    form = findForm(form);
+    form = formExtractor.findForm(form);
 
     var encryptionCallback = function (e) {
       prepareForm(form);
+
+      var jsonPayment = jsonBuilder.build(form);
+      console.log(JSON.stringify(jsonPayment));
+
       return (!!callback) ? callback(e) : e;
     };
 

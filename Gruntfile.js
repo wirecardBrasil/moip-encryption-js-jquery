@@ -9,19 +9,19 @@ module.exports = function (grunt) {
     },
     concat: {
       development: {
-        src: ['src/build/file_begin.js', 'src/build/development_environment.js', 'src/json_builder.js', 'src/form_encryptor.js', 'src/build/file_end.js'],
+        src: ['src/build/file_begin.js', 'src/build/development_environment.js', 'src/*.js', 'src/build/file_end.js'],
         dest: 'dist/development/<%= pkg.name %>.js'
       },
       homolog: {
-        src: ['src/build/file_begin.js', 'src/build/homolog_environment.js', 'src/json_builder.js', 'src/form_encryptor.js', 'src/build/file_end.js'],
+        src: ['src/build/file_begin.js', 'src/build/homolog_environment.js', 'src/*.js', 'src/build/file_end.js'],
         dest: 'dist/homolog/<%= pkg.name %>.js'
       },
       sandbox: {
-        src: ['src/build/file_begin.js', 'src/build/sandbox_environment.js', 'src/json_builder.js', 'src/form_encryptor.js', 'src/build/file_end.js'],
+        src: ['src/build/file_begin.js', 'src/build/sandbox_environment.js', 'src/*.js', 'src/build/file_end.js'],
         dest: 'dist/sandbox/<%= pkg.name %>.js'
       },
       production: {
-        src: ['src/build/file_begin.js', 'src/build/production_environment.js', 'src/json_builder.js', 'src/form_encryptor.js', 'src/build/file_end.js'],
+        src: ['src/build/file_begin.js', 'src/build/production_environment.js', 'src/*.js', 'src/build/file_end.js'],
         dest: 'dist/production/<%= pkg.name %>.js'
       },
       options: {
@@ -32,7 +32,8 @@ module.exports = function (grunt) {
     jasmine: {
       src: ['src/build/development_environment.js', 'src/*.js'],
       options: {
-        specs: 'spec/**/*.js',
+        specs: 'spec/*.js',
+        helpers: 'spec/helpers/*.js',
         vendor: ['lib/jquery-2.1.0.min.js', 'lib/jasmine-jquery.js', 'lib/jsencrypt.min.js'],
         keepRunner: true
       }

@@ -1,4 +1,4 @@
-/*! moip.js - version: 1.0.0 - 01/04/2014 */
+/*! moip.js - version: 1.0.0 - 02/04/2014 */
 (function () {
 
 var VERSION = '1.0.0';
@@ -9,7 +9,6 @@ var Moip = {
   targetUrl: TARGET_URL
 };
 
-
 // TODO [fireball] : montar JSON da api do moip para envio direto ou pro servidor do lojista
 // TODO [fireball] : no caso de envio pro lojista tem que usar jsonp
 // TODO [fireball] : implementar testes
@@ -19,40 +18,15 @@ Moip.create = function (options) {
 };
 
 Moip.FormEncryptor = function (options) {
-  self = this;
-  self.version = Moip.version;
-  self.publicKey = options.publicKey;
+
+  this.version = Moip.version;
+  this.publicKey = options.publicKey;
 
   var hiddenFields = [];
   var encryptor = new JSEncrypt({ default_key_size: 2048 });
-  encryptor.setPublicKey(self.publicKey);
+  encryptor.setPublicKey(this.publicKey);
 
-  var findForm = function (object) {
-    if (window.jQuery && object instanceof jQuery) {
-      return object[0];
-    } else if (object.nodeType && object.nodeType === 1) {
-      return object;
-    } else {
-      return document.getElementById(object);
-    }
-  };
-
-  var findInputs = function(form) {
-    var inputs = [];
-    var children = form.children;
-
-    for (var i = 0; i < children.length; i++) {
-      var input = children[i];
-
-      if (input.nodeType === 1 && input.attributes['data-encrypted-input']) {
-        inputs.push(input);
-      } else if (input.children && input.children.length > 0) {
-        inputs.concat(findInputs(input));
-      }
-    }
-
-    return inputs;
-  };
+  var formExtractor = new Moip.FormExtractor();
 
   var cleanHidden = function (form) {
 
@@ -108,7 +82,7 @@ Moip.FormEncryptor = function (options) {
   };
 
   var prepareForm = function (form) {
-    var inputs = findInputs(form);
+    var inputs = formExtractor.extractInputs(form);
 
     cleanHidden(form);
 
@@ -126,9 +100,9 @@ Moip.FormEncryptor = function (options) {
     }
   };
 
-  self.onSubmit = function (form, callback) {
+  this.onSubmit = function (form, callback) {
 
-    form = findForm(form);
+    form = formExtractor.findForm(form);
 
     var encryptionCallback = function (e) {
       prepareForm(form);
@@ -140,5 +114,94 @@ Moip.FormEncryptor = function (options) {
 };
 
 window.Moip = Moip;
+
+Moip.FormExtractor = function () {
+
+  this.findForm = function (form) {
+    if (window.jQuery && form instanceof jQuery) {
+      return form[0];
+    } else if (form.nodeType && form.nodeType === 1) {
+      return form;
+    }
+
+    return document.getElementById(form);
+  };
+
+  this.extractInputs = function (form) {
+    var inputs = [];
+    var children = form.children;
+
+    for (var i = 0; i < children.length; i++) {
+      var input = children[i];
+
+      if (input.nodeType === 1 && (input.attributes['data-encrypted-input'] || input.attributes['data-input'])) {
+        inputs.push(input);
+      } else if (input.children && input.children.length > 0) {
+        inputs.concat(findInputs(input));
+      }
+    }
+
+    return inputs;
+  };
+};
+
+Moip.JsonBuilder = function (form) {
+
+  var myForm = form;
+  var formExtractor = new Moip.FormExtractor();
+
+  var processAttributeName = function (name) {
+
+    var multilevelAttributeRegex = /\[([a-zA-Z0-9]+)\]/;
+    var items = name.split(multilevelAttributeRegex);
+    var result = [];
+
+    if (items) {
+      for (var i = 0; i < items.length; i++) {
+        if (items[i]) {
+          result.push(items[i]);
+        }
+      }
+    }
+
+    return result;
+  };
+
+  var setProperty = function (obj, keyPath, value) {
+    var lastKeyIndex = keyPath.length-1;
+    for (var i = 0; i < lastKeyIndex; ++ i) {
+      var key = keyPath[i];
+      if (!(key in obj)) {
+        obj[key] = {};
+      }
+
+      obj = obj[key];
+    }
+    obj[keyPath[lastKeyIndex]] = value;
+  };
+
+  var buildJson = function (inputs) {
+    var result = {};
+
+    for (var i = 0; i < inputs.length; i++) {
+      var input = inputs[i];
+
+      if (input.hasAttribute('data-input')) {
+        setProperty(result, processAttributeName(input.getAttribute('data-input')), input.value);
+      } else if (input.getAttribute('type') === 'hidden') {
+        setProperty(result, processAttributeName(input.getAttribute('data-encrypted-input')), input.value);
+      }
+    }
+
+    return result;
+  };
+
+  this.build = function () {
+    // atenção nessa linha com o this.form
+    var formToConvert = formExtractor.findForm(myForm);
+    var inputs = formExtractor.extractInputs(formToConvert);
+    return buildJson(inputs);
+  };
+};
 
 })();
