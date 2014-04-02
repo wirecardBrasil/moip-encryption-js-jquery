@@ -20,7 +20,7 @@ module.exports = function(config) {
         ],
 
         // test results reporter to use
-        reporters: ['progress', 'coverage'],
+        reporters: ['story', 'coverage'],
 
         preprocessors: {
           'src/*.js': ['coverage']
