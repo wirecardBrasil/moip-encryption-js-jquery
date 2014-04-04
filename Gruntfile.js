@@ -34,7 +34,7 @@ module.exports = function (grunt) {
       options: {
         specs: 'spec/*.js',
         helpers: 'spec/helpers/*.js',
-        vendor: ['lib/jquery-2.1.0.min.js', 'lib/jasmine-jquery.js', 'lib/jsencrypt.min.js'],
+        vendor: ['lib/sinon.js', 'lib/jasmine-sinon.js', 'lib/jquery-2.1.0.min.js', 'lib/jasmine-jquery.js', 'lib/jsencrypt.min.js'],
         keepRunner: true
       }
     },

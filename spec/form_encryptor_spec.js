@@ -12,7 +12,7 @@ describe("Moip.FormEncryptor", function () {
 
   it("should encrypt form using jquery", function () {
 
-    this.moip.onSubmit($('#test-form'));
+    this.moip.onSubmit('ORD-XOM711VZRHL6', $('#test-form'));
     $('#test-form').submit();
 
     expect($('input[type="hidden"][name="fundingInstrument[creditCard][number]"]')).toExist();
@@ -24,7 +24,7 @@ describe("Moip.FormEncryptor", function () {
 
   it("should encrypt form using element id", function () {
 
-    this.moip.onSubmit('test-form');
+    this.moip.onSubmit('ORD-XOM711VZRHL6', 'test-form');
     $('#test-form').submit();
 
     expect($('input[type="hidden"][name="fundingInstrument[creditCard][number]"]')).toExist();

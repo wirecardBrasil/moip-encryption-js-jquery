@@ -1,4 +1,4 @@
-/*! moip.js - version: 1.0.0 - 02/04/2014 */
+/*! moip.js - version: 1.0.0 - 04/04/2014 */
 (function () {
 
 var VERSION = '1.0.0';
@@ -9,9 +9,7 @@ var Moip = {
   targetUrl: TARGET_URL
 };
 
-// TODO [fireball] : montar JSON da api do moip para envio direto ou pro servidor do lojista
 // TODO [fireball] : no caso de envio pro lojista tem que usar jsonp
-// TODO [fireball] : implementar testes
 
 Moip.create = function (options) {
   return new Moip.FormEncryptor(options);
@@ -19,7 +17,6 @@ Moip.create = function (options) {
 
 Moip.FormEncryptor = function (options) {
 
-  this.version = Moip.version;
   this.publicKey = options.publicKey;
 
   var hiddenFields = [];
@@ -27,6 +24,8 @@ Moip.FormEncryptor = function (options) {
   encryptor.setPublicKey(this.publicKey);
 
   var formExtractor = new Moip.FormExtractor();
+  var jsonBuilder = new Moip.JsonBuilder();
+  var paymentSender = new Moip.PaymentSender(Moip.targetUrl);
 
   var cleanHidden = function (form) {
 
@@ -100,13 +99,15 @@ Moip.FormEncryptor = function (options) {
     }
   };
 
-  this.onSubmit = function (form, callback) {
+  this.onSubmit = function (id, form, callback) {
 
     form = formExtractor.findForm(form);
 
     var encryptionCallback = function (e) {
       prepareForm(form);
-      return (!!callback) ? callback(e) : e;
+
+      var jsonPayment = jsonBuilder.build(form);
+      paymentSender.postPayment(id, jsonPayment, callback);
     };
 
     attachCallback(form, encryptionCallback);
@@ -145,9 +146,8 @@ Moip.FormExtractor = function () {
   };
 };
 
-Moip.JsonBuilder = function (form) {
+Moip.JsonBuilder = function () {
 
-  var myForm = form;
   var formExtractor = new Moip.FormExtractor();
 
   var processAttributeName = function (name) {
@@ -196,12 +196,56 @@ Moip.JsonBuilder = function (form) {
     return result;
   };
 
-  this.build = function () {
-    // atenção nessa linha com o this.form
-    var formToConvert = formExtractor.findForm(myForm);
+  this.build = function (form) {
+    var formToConvert = formExtractor.findForm(form);
     var inputs = formExtractor.extractInputs(formToConvert);
     return buildJson(inputs);
   };
+};
+
+Moip.PaymentSender = function(baseUrl) {
+
+    var DONE = 4;
+
+    var self = this;
+    self.baseUrl = baseUrl;
+
+    var isOrderId = function(id) {
+        return (/ORD-[a-zA-Z0-9]{12}/).test(id);
+    };
+
+    var isMultiOrderId = function(id) {
+        return (/MOR-[a-zA-Z0-9]{12}/).test(id);
+    };
+
+    var buildUrl = function(id) {
+        if (isOrderId(id)) {
+            return self.baseUrl + '/orders/' + id + '/payments';
+        } else if (isMultiOrderId(id)) {
+            return self.baseUrl + '/multiorders/' + id + '/multipayments';
+        }
+
+        throw 'Unknown id [' + id + '],  doesn\'t belong to any order or multiorder.';
+    };
+
+    var doPost = function(url, paymentObject, callback) {
+        var xmlHttp = new XMLHttpRequest();
+
+        xmlHttp.onreadystatechange = function() {
+          if (xmlHttp.readyState === DONE && callback) {
+            callback(xmlHttp.responseText);
+          }
+        };
+
+        xmlHttp.open('post', url, true);
+        xmlHttp.setRequestHeader('Content-Type', 'application/json');
+        xmlHttp.send(JSON.stringify(paymentObject));
+    };
+
+    this.postPayment = function(id, paymentObject, callback) {
+        var resourceUrl = buildUrl(id);
+        doPost(resourceUrl, paymentObject, callback);
+    };
 };
 
 })();

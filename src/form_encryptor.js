@@ -1,5 +1,4 @@
 // TODO [fireball] : no caso de envio pro lojista tem que usar jsonp
-// TODO [fireball] : implementar testes
 
 Moip.create = function (options) {
   return new Moip.FormEncryptor(options);
@@ -7,7 +6,6 @@ Moip.create = function (options) {
 
 Moip.FormEncryptor = function (options) {
 
-  this.version = Moip.version;
   this.publicKey = options.publicKey;
 
   var hiddenFields = [];
@@ -16,6 +14,7 @@ Moip.FormEncryptor = function (options) {
 
   var formExtractor = new Moip.FormExtractor();
   var jsonBuilder = new Moip.JsonBuilder();
+  var paymentSender = new Moip.PaymentSender(Moip.targetUrl);
 
   var cleanHidden = function (form) {
 
@@ -89,7 +88,7 @@ Moip.FormEncryptor = function (options) {
     }
   };
 
-  this.onSubmit = function (form, callback) {
+  this.onSubmit = function (id, form, callback) {
 
     form = formExtractor.findForm(form);
 
@@ -97,9 +96,7 @@ Moip.FormEncryptor = function (options) {
       prepareForm(form);
 
       var jsonPayment = jsonBuilder.build(form);
-      console.log(JSON.stringify(jsonPayment));
-
-      return (!!callback) ? callback(e) : e;
+      paymentSender.postPayment(id, jsonPayment, callback);
     };
 
     attachCallback(form, encryptionCallback);

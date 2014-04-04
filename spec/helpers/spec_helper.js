@@ -45,3 +45,7 @@ function encryptedForm() {
 
   return form;
 }
+
+function defaultPaymentResponse() {
+ return '{"id":"PAY-EVSFR4SN0DO3","status":"CANCELLED","amount":{"fees":1185,"refunds":0,"liquid":9935,"currency":"BRL","total":11120},"installmentCount":2,"fundingInstrument":{"creditCard":{"brand":"VISA","first6":"407302","last4":"0002"},"method":"CREDIT_CARD"},"fees":[{"type":"TRANSACTION","amount":862},{"type":"PRE_PAYMENT","amount":323}],"events":[{"createdAt":"2014-04-03T15:51:11-0300","type":"PAYMENT.CANCELLED"},{"createdAt":"2014-04-03T15:51:09-0300","type":"PAYMENT.CREATED"}],"_links":{"order":{"title":"ORD-XOM711VZRHL6","href":"https://test.moip.com.br/v2/orders/ORD-XOM711VZRHL6"},"self":{"href":"https://test.moip.com.br/v2/payments/PAY-EVSFR4SN0DO3"}},"updatedAt":"2014-04-03T15:51:11-0300","createdAt":"2014-04-03T15:51:09-0300","blocks":[]}';
+}

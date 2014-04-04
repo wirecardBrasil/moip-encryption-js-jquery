@@ -11,6 +11,8 @@
     "karma-story-reporter": "~0.2.2",
     "karma-coverage": "~0.1",
     "karma-phantomjs-launcher": "~0.1.2",
-    "grunt-karma": "~0.8.0"
+    "grunt-karma": "~0.8.0",
+    "sinon": "~1.9.1",
+    "karma-sinon": "~1.0.3"
   }
 }
