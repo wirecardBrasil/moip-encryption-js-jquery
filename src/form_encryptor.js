@@ -1,7 +1,11 @@
 // TODO [fireball] : no caso de envio pro lojista tem que usar jsonp
 
 Moip.create = function (options) {
-  return new Moip.FormEncryptor(options);
+
+  var formEncryptor = new Moip.FormEncryptor(options);
+  var paymentSender = new Moip.PaymentSender(this.targetUrl);
+
+  return { onSubmit: formEncryptor.onSubmit, postPayment: paymentSender.postPayment };
 };
 
 Moip.FormEncryptor = function (options) {
