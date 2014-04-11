@@ -20,7 +20,7 @@ Moip.FormExtractor = function () {
       if (input.nodeType === 1 && (input.attributes['data-encrypted-input'] || input.attributes['data-input'])) {
         inputs.push(input);
       } else if (input.children && input.children.length > 0) {
-        inputs.concat(findInputs(input));
+        inputs.concat(this.extractInputs(input));
       }
     }
 
