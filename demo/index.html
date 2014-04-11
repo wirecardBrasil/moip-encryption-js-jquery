@@ -138,8 +138,7 @@
       </fieldset>
     </form>
 
-    <div style="display: none" id="public-key">
------BEGIN PUBLIC KEY-----
+    <div style="display: none" id="public-key">-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsXkulsKdAQLMH/zjzTLf
 0lrbgulfb6ZShEtRpmDnyX93EQqPdez7LyptvQBeTC+0pN57rNcWen9ApdsIMsNr
 YHjNQf/kI4Ka7Xnlx0U/v7bW1D8teDoD5glBTXLjU8hRi7qlOpupiPx4ldSnK9Jj
@@ -147,8 +146,7 @@ tYApWuZMiCpWh/YRAlNW/N+ffm7ulq6H2atmgd+OFB2SghpbRJkqJiLaNJW8UkaR
 oXLHkF5WJD/RPrCxsZztYJQThxLX5gBgZ12YG5+7G26Ad/mWkPqF0GLSkd1gcnbP
 vF9Nw3ckKaIvh4Q4Vp3XI1hLvX41lg9CBxPPHkiJwM1M1coF9xsMP7kpJ2eujMBd
 mwIDAQAB
------END PUBLIC KEY-----
-    </div>
+-----END PUBLIC KEY-----</div>
 
     <script type="text/javascript" src="../lib/jquery-2.1.0.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
@@ -159,7 +157,7 @@ mwIDAQAB
 
       window.addEventListener('load', function () {
 
-        var publicKey = document.getElementById('public-key').nodeValue
+        var publicKey = document.getElementById('public-key').innerHTML
         var moip = Moip.create({ publicKey: publicKey });
         var result;
 

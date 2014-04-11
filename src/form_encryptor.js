@@ -3,6 +3,8 @@
 Moip.create = function (options) {
 
   var formEncryptor = new Moip.FormEncryptor(options);
+
+  // TODO [fireball] : tem que alterar pro envio direto de json criptografar os dados.
   var paymentSender = new Moip.PaymentSender(this.targetUrl);
 
   return { onSubmit: formEncryptor.onSubmit, postPayment: paymentSender.postPayment };
