@@ -38,7 +38,7 @@ Moip.PaymentSender = function(token, baseUrl) {
         }
 
         if (validJSON) {
-          callback(JSON.stringify(validJSON));
+          callback(JSON.stringify(validJSON, null, 4));
         } else {
           throw 'JSONP call returned invalid or empty JSON';
         }
