@@ -1,4 +1,4 @@
-// TODO [fireball] : no caso de envio pro lojista tem que usar jsonp
+// TODO [fireball] : incluir caso de uso para envio direto para o lojista
 
 Moip.create = function (options) {
 
@@ -13,6 +13,7 @@ Moip.create = function (options) {
 Moip.FormEncryptor = function (options) {
 
   this.publicKey = options.publicKey;
+  this.token = options.token;
 
   var hiddenFields = [];
   var encryptor = new JSEncrypt({ default_key_size: 2048 });
@@ -20,12 +21,12 @@ Moip.FormEncryptor = function (options) {
 
   var formExtractor = new Moip.FormExtractor();
   var jsonBuilder = new Moip.JsonBuilder();
-  var paymentSender = new Moip.PaymentSender(Moip.targetUrl);
+  var paymentSender = new Moip.PaymentSender(this.token, Moip.targetUrl);
 
   var cleanHidden = function (form) {
 
-    for (var i = 0; i < hiddenFields.length; i++) {
-      form.removeChild(hiddenFields[i]);
+    while (hiddenFields.length > 0) {
+      try { form.removeChild(hiddenFields[0]); } catch (e) {}
       hiddenFields.shift();
     }
   };
@@ -52,18 +53,21 @@ Moip.FormEncryptor = function (options) {
 
     for (var i = 0; i < inputs.length; i++) {
       var input = inputs[i];
-      var inputName = input.getAttribute('data-encrypted-input');
 
-      var encryptedValue = encrypt(input.value);
-      input.removeAttribute('name');
+      if (input.attributes['data-encrypted-input']) {
+        var inputName = input.getAttribute('data-encrypted-input');
 
-      var hiddenInput = createInput('input', {
-        value: encryptedValue,
-        type: 'hidden',
-        name: inputName
-      });
+        var encryptedValue = encrypt(input.value);
+        input.removeAttribute('name');
 
-      hiddenFields.push(hiddenInput);
+        var hiddenInput = createInput('input', {
+          value: encryptedValue,
+          type: 'hidden',
+          name: inputName
+        });
+
+        hiddenFields.push(hiddenInput);
+      }
     }
 
     return hiddenFields;
@@ -103,6 +107,12 @@ Moip.FormEncryptor = function (options) {
 
       var jsonPayment = jsonBuilder.build(form);
       paymentSender.postPayment(id, jsonPayment, callback);
+
+      if (window.jQuery) {
+        e.preventDefault();
+      } else {
+        return false;
+      }
     };
 
     attachCallback(form, encryptionCallback);

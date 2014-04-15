@@ -41,7 +41,7 @@ Moip.JsonBuilder = function () {
       if (input.hasAttribute('data-input')) {
         setProperty(result, processAttributeName(input.getAttribute('data-input')), input.value);
       } else if (input.getAttribute('type') === 'hidden') {
-        setProperty(result, processAttributeName(input.getAttribute('data-encrypted-input')), input.value);
+        setProperty(result, processAttributeName(input.getAttribute('name')), input.value);
       }
     }
 
@@ -50,7 +50,7 @@ Moip.JsonBuilder = function () {
 
   this.build = function (form) {
     var formToConvert = formExtractor.findForm(form);
-    var inputs = formExtractor.extractInputs(formToConvert);
+    var inputs = formExtractor.extractInputs(formToConvert, true);
     return buildJson(inputs);
   };
 };

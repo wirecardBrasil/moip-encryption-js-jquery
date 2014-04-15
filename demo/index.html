@@ -11,6 +11,7 @@
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css">
   </head>
   <body>
 
@@ -73,7 +74,7 @@
           <div class="form-group">
             <label class="col-md-4 control-label" for="holder-full-name">Nome</label>
             <div class="col-md-4">
-            <input id="holder-full-name" name="holder-full-name" type="text" placeholder="" class="form-control input-md" data-input="fundingInstrument[creditCard][holder][fullName]">
+            <input id="holder-full-name" name="holder-full-name" type="text" placeholder="" class="form-control input-md" data-input="fundingInstrument[creditCard][holder][fullname]">
 
             </div>
           </div>
@@ -82,12 +83,12 @@
           <div class="form-group">
             <label class="col-md-4 control-label" for="holder-birthdate">Data de Nascimento</label>
             <div class="col-md-4">
-            <input id="holder-birthdate" name="holder-birthdate" type="text" placeholder="" class="form-control input-md" data-input="fundingInstrument[creditCard][holder][birthDate]">
+            <input id="holder-birthdate" name="holder-birthdate" type="text" placeholder="" class="form-control input-md" data-input="fundingInstrument[creditCard][holder][birthdate]">
 
             </div>
           </div>
 
-          <input type="hidden" name="tax-document-type" data-input="fundingInstrument[creditCard][holder][taxDocument][type]"/>
+          <input type="hidden" name="tax-document-type" data-input="fundingInstrument[creditCard][holder][taxDocument][type]" value="CPF"/>
           <!-- Text input-->
           <div class="form-group">
             <label class="col-md-4 control-label" for="tax-document-number">CPF</label>
@@ -138,31 +139,40 @@
       </fieldset>
     </form>
 
+    <div id="payment-created" class="col-md-10 col-md-offset-1" style="display: none">
+      <pre id="payment-created-content" class="prettyprint">
+      </pre>
+    </div>
     <div style="display: none" id="public-key">-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsXkulsKdAQLMH/zjzTLf
-0lrbgulfb6ZShEtRpmDnyX93EQqPdez7LyptvQBeTC+0pN57rNcWen9ApdsIMsNr
-YHjNQf/kI4Ka7Xnlx0U/v7bW1D8teDoD5glBTXLjU8hRi7qlOpupiPx4ldSnK9Jj
-tYApWuZMiCpWh/YRAlNW/N+ffm7ulq6H2atmgd+OFB2SghpbRJkqJiLaNJW8UkaR
-oXLHkF5WJD/RPrCxsZztYJQThxLX5gBgZ12YG5+7G26Ad/mWkPqF0GLSkd1gcnbP
-vF9Nw3ckKaIvh4Q4Vp3XI1hLvX41lg9CBxPPHkiJwM1M1coF9xsMP7kpJ2eujMBd
-mwIDAQAB
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtGFVOXbEmXRYcoe3dNPQ
+tI8mAokTQ6rmyrByw3i1hUYzzcgBGTAItQFHstGrZLLrlJc4utZE0/wZz6RaVOuI
+nBg+2HO5XAUkmJTLVLZEbGgBEMDqrYuv0XX9ALgvWnQdPWZP+6H6ZHuqE5n4dyeL
+Y2jlL4arF0ru+Ideduj2FpZk1YbCFD80z50rSGO9h66Ev3AqCljhBhSExpn5T0fH
+PBamwLAQr0y2VbtOmRPQW9iMGD1vs8wZSr7NMBOp4w4ytMdoo+NPsFfIs20Nli7v
+vEgMVGq9l5UiOiSCdLO1LToSZpDNbOMgkDjJSdFGHlDJIsg5UZasHFxryqdO9G6w
+nQIDAQAB
 -----END PUBLIC KEY-----</div>
 
+    <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
     <script type="text/javascript" src="../lib/jquery-2.1.0.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../lib/jsencrypt.min.js"></script>
-    <script type="text/javascript" src="../dist/development/moip.js"></script>
+    <script type="text/javascript" src="../dist/homolog/moip.js"></script>
     <script type="text/javascript">
 
       window.addEventListener('load', function () {
 
-        var publicKey = document.getElementById('public-key').innerHTML
-        var moip = Moip.create({ publicKey: publicKey });
+        $('#payment-created-content').each(function(i, e) { hljs.highlightBlock(e) });
+
+        var publicKey = $('#public-key').html();
+        var moip = Moip.create({ token: '7XJO1WUA7BMIVZTOVB90YNJHJNPCNXHD', publicKey: publicKey });
         var result;
 
-        moip.onSubmit('ORD-7QK84Z58085C', 'test-form', function (data) {
-          result = data;
+        moip.onSubmit('ORD-1GVWGIR2A6VW', 'test-form', function (data) {
+          $('#payment-created').hide();
+          $('#payment-created-content').text(data);
+          $('#payment-created').show();
         });
       }, false);
     </script>

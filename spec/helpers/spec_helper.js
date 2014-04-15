@@ -38,8 +38,8 @@ function encryptedForm() {
   var form = defaultForm();
 
   var encryptedInputs =
-      '<input type="hidden" name="card-number" data-encrypted-input="fundingInstrument[creditCard][number]" value="PROTECTED"/>' +
-      '<input type="hidden" name="cvv-number" data-encrypted-input="fundingInstrument[creditCard][cvc]" value="PROTECTED"/>';
+      '<input type="hidden" name="fundingInstrument[creditCard][number]" value="PROTECTED"/>' +
+      '<input type="hidden" name="fundingInstrument[creditCard][cvc]" value="PROTECTED"/>';
 
   form = [form.slice(0, form.indexOf('</form>')), encryptedInputs, form.slice(form.indexOf('</form>'))].join('');
 

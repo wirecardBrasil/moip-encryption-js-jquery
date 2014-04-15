@@ -1,4 +1,4 @@
-/*! moip.js - version: 1.0.0 - 11/04/2014 */
+/*! moip.js - version: 1.0.0 - 15/04/2014 */
 (function () {
 
 var VERSION = '1.0.0';
@@ -9,11 +9,13 @@ var Moip = {
   targetUrl: TARGET_URL
 };
 
-// TODO [fireball] : no caso de envio pro lojista tem que usar jsonp
+// TODO [fireball] : incluir caso de uso para envio direto para o lojista
 
 Moip.create = function (options) {
 
   var formEncryptor = new Moip.FormEncryptor(options);
+
+  // TODO [fireball] : tem que alterar pro envio direto de json criptografar os dados.
   var paymentSender = new Moip.PaymentSender(this.targetUrl);
 
   return { onSubmit: formEncryptor.onSubmit, postPayment: paymentSender.postPayment };
@@ -22,6 +24,7 @@ Moip.create = function (options) {
 Moip.FormEncryptor = function (options) {
 
   this.publicKey = options.publicKey;
+  this.token = options.token;
 
   var hiddenFields = [];
   var encryptor = new JSEncrypt({ default_key_size: 2048 });
@@ -29,12 +32,12 @@ Moip.FormEncryptor = function (options) {
 
   var formExtractor = new Moip.FormExtractor();
   var jsonBuilder = new Moip.JsonBuilder();
-  var paymentSender = new Moip.PaymentSender(Moip.targetUrl);
+  var paymentSender = new Moip.PaymentSender(this.token, Moip.targetUrl);
 
   var cleanHidden = function (form) {
 
-    for (var i = 0; i < hiddenFields.length; i++) {
-      form.removeChild(hiddenFields[i]);
+    while (hiddenFields.length > 0) {
+      try { form.removeChild(hiddenFields[0]); } catch (e) {}
       hiddenFields.shift();
     }
   };
@@ -61,18 +64,21 @@ Moip.FormEncryptor = function (options) {
 
     for (var i = 0; i < inputs.length; i++) {
       var input = inputs[i];
-      var inputName = input.getAttribute('data-encrypted-input');
 
-      var encryptedValue = encrypt(input.value);
-      input.removeAttribute('name');
+      if (input.attributes['data-encrypted-input']) {
+        var inputName = input.getAttribute('data-encrypted-input');
 
-      var hiddenInput = createInput('input', {
-        value: encryptedValue,
-        type: 'hidden',
-        name: inputName
-      });
+        var encryptedValue = encrypt(input.value);
+        input.removeAttribute('name');
 
-      hiddenFields.push(hiddenInput);
+        var hiddenInput = createInput('input', {
+          value: encryptedValue,
+          type: 'hidden',
+          name: inputName
+        });
+
+        hiddenFields.push(hiddenInput);
+      }
     }
 
     return hiddenFields;
@@ -112,6 +118,12 @@ Moip.FormEncryptor = function (options) {
 
       var jsonPayment = jsonBuilder.build(form);
       paymentSender.postPayment(id, jsonPayment, callback);
+
+      if (window.jQuery) {
+        e.preventDefault();
+      } else {
+        return false;
+      }
     };
 
     attachCallback(form, encryptionCallback);
@@ -132,7 +144,8 @@ Moip.FormExtractor = function () {
     return document.getElementById(form);
   };
 
-  this.extractInputs = function (form) {
+  this.extractInputs = function (form, includeHidden) {
+    var extractHidden = includeHidden || false;
     var inputs = [];
     var children = form.children;
 
@@ -141,8 +154,10 @@ Moip.FormExtractor = function () {
 
       if (input.nodeType === 1 && (input.attributes['data-encrypted-input'] || input.attributes['data-input'])) {
         inputs.push(input);
+      } else if (input.getAttribute('type') === 'hidden' && extractHidden) {
+        inputs.push(input);
       } else if (input.children && input.children.length > 0) {
-        inputs.concat(this.extractInputs(input));
+        inputs = inputs.concat(this.extractInputs(input));
       }
     }
 
@@ -193,7 +208,7 @@ Moip.JsonBuilder = function () {
       if (input.hasAttribute('data-input')) {
         setProperty(result, processAttributeName(input.getAttribute('data-input')), input.value);
       } else if (input.getAttribute('type') === 'hidden') {
-        setProperty(result, processAttributeName(input.getAttribute('data-encrypted-input')), input.value);
+        setProperty(result, processAttributeName(input.getAttribute('name')), input.value);
       }
     }
 
@@ -202,17 +217,18 @@ Moip.JsonBuilder = function () {
 
   this.build = function (form) {
     var formToConvert = formExtractor.findForm(form);
-    var inputs = formExtractor.extractInputs(formToConvert);
+    var inputs = formExtractor.extractInputs(formToConvert, true);
     return buildJson(inputs);
   };
 };
 
-Moip.PaymentSender = function(baseUrl) {
+Moip.PaymentSender = function(token, baseUrl) {
 
   var DONE = 4;
 
   var self = this;
   self.baseUrl = baseUrl;
+  self.token = token;
 
   var jsonp = {
     callbackCounter: 0,
@@ -246,7 +262,7 @@ Moip.PaymentSender = function(baseUrl) {
         }
 
         if (validJSON) {
-          callback(validJSON);
+          callback(JSON.stringify(validJSON));
         } else {
           throw 'JSONP call returned invalid or empty JSON';
         }
@@ -255,29 +271,18 @@ Moip.PaymentSender = function(baseUrl) {
   };
 
   var isOrderId = function(id) {
-    return (/ORD-[a-zA-Z0-9]{12}/).test(id);
+    return (/^ORD-[a-zA-Z0-9]{12}$/).test(id);
   };
 
   var isMultiOrderId = function(id) {
-    return (/MOR-[a-zA-Z0-9]{12}/).test(id);
-  };
-
-  var serialize = function(obj, prefix) {
-    var result = [];
-
-    for(var property in obj) {
-      var key = prefix ? prefix + '[' + property + ']' : property, value = obj[property];
-      result.push(typeof value == 'object' ? serialize(value, key) : encodeURIComponent(key) + '=' + encodeURIComponent(value));
-    }
-
-    return result.join('&');
+    return (/^MOR-[a-zA-Z0-9]{12}$/).test(id);
   };
 
   var buildUrl = function(id, payment) {
     if (isOrderId(id)) {
-      return self.baseUrl + '/orders/' + id + '/payments/jsonp?payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
+      return self.baseUrl + '/orders/jsonp/' + id + '/payments?token=' + self.token + '&payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
     } else if (isMultiOrderId(id)) {
-      return self.baseUrl + '/multiorders/' + id + '/multipayments/jsonp?payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
+      return self.baseUrl + '/multiorders/jsonp/' + id + '/multipayments?token=' + self.token + '&payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
     }
 
     throw 'Unknown id [' + id + '],  doesn\'t belong to any order or multiorder.';
@@ -286,18 +291,6 @@ Moip.PaymentSender = function(baseUrl) {
   var doPost = function(url, paymentObject, callback) {
     var container = jsonp.fetch(url, callback);
     document.getElementsByTagName('body')[0].removeChild(container);
-
-//    var xmlHttp = new XMLHttpRequest();
-//
-//    xmlHttp.onreadystatechange = function() {
-//      if (xmlHttp.readyState === DONE && callback) {
-//        callback(xmlHttp.responseText);
-//      }
-//    };
-//
-//    xmlHttp.open('post', url, true);
-//    xmlHttp.setRequestHeader('Content-Type', 'application/json');
-//    xmlHttp.send(JSON.stringify(paymentObject));
   };
 
   this.postPayment = function(id, paymentObject, callback) {

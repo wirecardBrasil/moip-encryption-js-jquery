@@ -10,7 +10,8 @@ Moip.FormExtractor = function () {
     return document.getElementById(form);
   };
 
-  this.extractInputs = function (form) {
+  this.extractInputs = function (form, includeHidden) {
+    var extractHidden = includeHidden || false;
     var inputs = [];
     var children = form.children;
 
@@ -19,8 +20,10 @@ Moip.FormExtractor = function () {
 
       if (input.nodeType === 1 && (input.attributes['data-encrypted-input'] || input.attributes['data-input'])) {
         inputs.push(input);
+      } else if (input.getAttribute('type') === 'hidden' && extractHidden) {
+        inputs.push(input);
       } else if (input.children && input.children.length > 0) {
-        inputs.concat(this.extractInputs(input));
+        inputs = inputs.concat(this.extractInputs(input));
       }
     }
 

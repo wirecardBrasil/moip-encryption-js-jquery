@@ -1,9 +1,10 @@
-Moip.PaymentSender = function(baseUrl) {
+Moip.PaymentSender = function(token, baseUrl) {
 
   var DONE = 4;
 
   var self = this;
   self.baseUrl = baseUrl;
+  self.token = token;
 
   var jsonp = {
     callbackCounter: 0,
@@ -37,7 +38,7 @@ Moip.PaymentSender = function(baseUrl) {
         }
 
         if (validJSON) {
-          callback(validJSON);
+          callback(JSON.stringify(validJSON));
         } else {
           throw 'JSONP call returned invalid or empty JSON';
         }
@@ -46,29 +47,18 @@ Moip.PaymentSender = function(baseUrl) {
   };
 
   var isOrderId = function(id) {
-    return (/ORD-[a-zA-Z0-9]{12}/).test(id);
+    return (/^ORD-[a-zA-Z0-9]{12}$/).test(id);
   };
 
   var isMultiOrderId = function(id) {
-    return (/MOR-[a-zA-Z0-9]{12}/).test(id);
-  };
-
-  var serialize = function(obj, prefix) {
-    var result = [];
-
-    for(var property in obj) {
-      var key = prefix ? prefix + '[' + property + ']' : property, value = obj[property];
-      result.push(typeof value == 'object' ? serialize(value, key) : encodeURIComponent(key) + '=' + encodeURIComponent(value));
-    }
-
-    return result.join('&');
+    return (/^MOR-[a-zA-Z0-9]{12}$/).test(id);
   };
 
   var buildUrl = function(id, payment) {
     if (isOrderId(id)) {
-      return self.baseUrl + '/orders/' + id + '/payments/jsonp?payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
+      return self.baseUrl + '/orders/jsonp/' + id + '/payments?token=' + self.token + '&payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
     } else if (isMultiOrderId(id)) {
-      return self.baseUrl + '/multiorders/' + id + '/multipayments/jsonp?payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
+      return self.baseUrl + '/multiorders/jsonp/' + id + '/multipayments?token=' + self.token + '&payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
     }
 
     throw 'Unknown id [' + id + '],  doesn\'t belong to any order or multiorder.';
@@ -77,18 +67,6 @@ Moip.PaymentSender = function(baseUrl) {
   var doPost = function(url, paymentObject, callback) {
     var container = jsonp.fetch(url, callback);
     document.getElementsByTagName('body')[0].removeChild(container);
-
-//    var xmlHttp = new XMLHttpRequest();
-//
-//    xmlHttp.onreadystatechange = function() {
-//      if (xmlHttp.readyState === DONE && callback) {
-//        callback(xmlHttp.responseText);
-//      }
-//    };
-//
-//    xmlHttp.open('post', url, true);
-//    xmlHttp.setRequestHeader('Content-Type', 'application/json');
-//    xmlHttp.send(JSON.stringify(paymentObject));
   };
 
   this.postPayment = function(id, paymentObject, callback) {
