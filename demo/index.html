@@ -15,6 +15,33 @@
   </head>
   <body>
 
+    <div class="col-md-10 col-md-offset-1">
+      <h3>Configuração</h3>
+
+      <div class="form-group col-md-7">
+        <label for="public-key">Chave pública</label>
+        <textarea id="public-key" placeholder="" class="form-control" rows="10">-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtGFVOXbEmXRYcoe3dNPQ
+tI8mAokTQ6rmyrByw3i1hUYzzcgBGTAItQFHstGrZLLrlJc4utZE0/wZz6RaVOuI
+nBg+2HO5XAUkmJTLVLZEbGgBEMDqrYuv0XX9ALgvWnQdPWZP+6H6ZHuqE5n4dyeL
+Y2jlL4arF0ru+Ideduj2FpZk1YbCFD80z50rSGO9h66Ev3AqCljhBhSExpn5T0fH
+PBamwLAQr0y2VbtOmRPQW9iMGD1vs8wZSr7NMBOp4w4ytMdoo+NPsFfIs20Nli7v
+vEgMVGq9l5UiOiSCdLO1LToSZpDNbOMgkDjJSdFGHlDJIsg5UZasHFxryqdO9G6w
+nQIDAQAB
+-----END PUBLIC KEY-----</textarea>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="token">Token</label>
+        <input id="token" type="text" placeholder="" class="form-control" value="7XJO1WUA7BMIVZTOVB90YNJHJNPCNXHD"/>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="order-id">Order a ser cobrado</label>
+        <input id="order-id" type="text" placeholder="" class="form-control" value="ORD-1GVWGIR2A6VW"/>
+      </div>
+    </div>
+
     <form class="form-horizontal" id="test-form" action="#">
       <fieldset class="col-md-10 col-md-offset-1">
 
@@ -140,18 +167,10 @@
     </form>
 
     <div id="payment-created" class="col-md-10 col-md-offset-1" style="display: none">
+      <h3>Resultado</h3>
       <pre id="payment-created-content" class="prettyprint">
       </pre>
     </div>
-    <div style="display: none" id="public-key">-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtGFVOXbEmXRYcoe3dNPQ
-tI8mAokTQ6rmyrByw3i1hUYzzcgBGTAItQFHstGrZLLrlJc4utZE0/wZz6RaVOuI
-nBg+2HO5XAUkmJTLVLZEbGgBEMDqrYuv0XX9ALgvWnQdPWZP+6H6ZHuqE5n4dyeL
-Y2jlL4arF0ru+Ideduj2FpZk1YbCFD80z50rSGO9h66Ev3AqCljhBhSExpn5T0fH
-PBamwLAQr0y2VbtOmRPQW9iMGD1vs8wZSr7NMBOp4w4ytMdoo+NPsFfIs20Nli7v
-vEgMVGq9l5UiOiSCdLO1LToSZpDNbOMgkDjJSdFGHlDJIsg5UZasHFxryqdO9G6w
-nQIDAQAB
------END PUBLIC KEY-----</div>
 
     <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
     <script type="text/javascript" src="../lib/jquery-2.1.0.min.js"></script>
@@ -166,10 +185,10 @@ nQIDAQAB
         $('#payment-created-content').each(function(i, e) { hljs.highlightBlock(e) });
 
         var publicKey = $('#public-key').html();
-        var moip = Moip.create({ token: '7XJO1WUA7BMIVZTOVB90YNJHJNPCNXHD', publicKey: publicKey });
-        var result;
+        var token = $('#token').val();
+        var moip = Moip.create({ token: token, publicKey: publicKey });
 
-        moip.onSubmit('ORD-1GVWGIR2A6VW', 'test-form', function (data) {
+        moip.onSubmit($('#order-id').val(), 'test-form', function (data) {
           $('#payment-created').hide();
           $('#payment-created-content').text(data);
           $('#payment-created').show();
