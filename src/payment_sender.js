@@ -1,10 +1,9 @@
-Moip.PaymentSender = function(token, baseUrl) {
+Moip.PaymentSender = function(baseUrl) {
 
   var DONE = 4;
 
   var self = this;
   self.baseUrl = baseUrl;
-  self.token = token;
 
   var jsonp = {
     callbackCounter: 0,
@@ -56,9 +55,9 @@ Moip.PaymentSender = function(token, baseUrl) {
 
   var buildUrl = function(id, payment) {
     if (isOrderId(id)) {
-      return self.baseUrl + '/orders/jsonp/' + id + '/payments?token=' + self.token + '&payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
+      return self.baseUrl + '/orders/jsonp/' + id + '/payments?payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
     } else if (isMultiOrderId(id)) {
-      return self.baseUrl + '/multiorders/jsonp/' + id + '/multipayments?token=' + self.token + '&payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
+      return self.baseUrl + '/multiorders/jsonp/' + id + '/multipayments?payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
     }
 
     throw 'Unknown id [' + id + '],  doesn\'t belong to any order or multiorder.';

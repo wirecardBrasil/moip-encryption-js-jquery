@@ -13,7 +13,6 @@ Moip.create = function (options) {
 Moip.FormEncryptor = function (options) {
 
   this.publicKey = options.publicKey;
-  this.token = options.token;
 
   var hiddenFields = [];
   var encryptor = new JSEncrypt({ default_key_size: 2048 });
@@ -21,7 +20,7 @@ Moip.FormEncryptor = function (options) {
 
   var formExtractor = new Moip.FormExtractor();
   var jsonBuilder = new Moip.JsonBuilder();
-  var paymentSender = new Moip.PaymentSender(this.token, Moip.targetUrl);
+  var paymentSender = new Moip.PaymentSender(Moip.targetUrl);
 
   var cleanHidden = function (form) {
 

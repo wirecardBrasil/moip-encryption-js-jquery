@@ -32,11 +32,6 @@ nQIDAQAB
       </div>
 
       <div class="form-group col-md-4">
-        <label for="token">Token</label>
-        <input id="token" type="text" placeholder="" class="form-control" value="7XJO1WUA7BMIVZTOVB90YNJHJNPCNXHD"/>
-      </div>
-
-      <div class="form-group col-md-4">
         <label for="order-id">Order a ser cobrado</label>
         <input id="order-id" type="text" placeholder="" class="form-control" value="ORD-1GVWGIR2A6VW"/>
       </div>
@@ -185,8 +180,12 @@ nQIDAQAB
         $('#payment-created-content').each(function(i, e) { hljs.highlightBlock(e) });
 
         var publicKey = $('#public-key').html();
-        var token = $('#token').val();
-        var moip = Moip.create({ token: token, publicKey: publicKey });
+        var moip = Moip.create({ publicKey: publicKey });
+
+        $('#submit-button').click(function (e) {
+          publicKey = $('#public-key').html();
+          moip = Moip.create({ publicKey: publicKey });
+        });
 
         moip.onSubmit($('#order-id').val(), 'test-form', function (data) {
           $('#payment-created').hide();

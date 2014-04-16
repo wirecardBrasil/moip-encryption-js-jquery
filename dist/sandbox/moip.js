@@ -1,4 +1,4 @@
-/*! moip.js - version: 1.0.0 - 15/04/2014 */
+/*! moip.js - version: 1.0.0 - 16/04/2014 */
 (function () {
 
 var VERSION = '1.0.0';
@@ -24,7 +24,6 @@ Moip.create = function (options) {
 Moip.FormEncryptor = function (options) {
 
   this.publicKey = options.publicKey;
-  this.token = options.token;
 
   var hiddenFields = [];
   var encryptor = new JSEncrypt({ default_key_size: 2048 });
@@ -32,7 +31,7 @@ Moip.FormEncryptor = function (options) {
 
   var formExtractor = new Moip.FormExtractor();
   var jsonBuilder = new Moip.JsonBuilder();
-  var paymentSender = new Moip.PaymentSender(this.token, Moip.targetUrl);
+  var paymentSender = new Moip.PaymentSender(Moip.targetUrl);
 
   var cleanHidden = function (form) {
 
@@ -222,13 +221,12 @@ Moip.JsonBuilder = function () {
   };
 };
 
-Moip.PaymentSender = function(token, baseUrl) {
+Moip.PaymentSender = function(baseUrl) {
 
   var DONE = 4;
 
   var self = this;
   self.baseUrl = baseUrl;
-  self.token = token;
 
   var jsonp = {
     callbackCounter: 0,
@@ -280,9 +278,9 @@ Moip.PaymentSender = function(token, baseUrl) {
 
   var buildUrl = function(id, payment) {
     if (isOrderId(id)) {
-      return self.baseUrl + '/orders/jsonp/' + id + '/payments?token=' + self.token + '&payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
+      return self.baseUrl + '/orders/jsonp/' + id + '/payments?payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
     } else if (isMultiOrderId(id)) {
-      return self.baseUrl + '/multiorders/jsonp/' + id + '/multipayments?token=' + self.token + '&payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
+      return self.baseUrl + '/multiorders/jsonp/' + id + '/multipayments?payment=' + encodeURIComponent(JSON.stringify(payment)) + '&callback=JSONPCallback';
     }
 
     throw 'Unknown id [' + id + '],  doesn\'t belong to any order or multiorder.';
