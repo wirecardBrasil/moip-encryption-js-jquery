@@ -175,23 +175,29 @@ nQIDAQAB
     <script type="text/javascript" src="../dist/homolog/moip.js"></script>
     <script type="text/javascript">
 
-      window.addEventListener('load', function () {
+      var moip;
+      function setupMoip() {
 
-        $('#payment-created-content').each(function(i, e) { hljs.highlightBlock(e) });
+        console.log($('#order-id').val());
 
-        var publicKey = $('#public-key').html();
-        var moip = Moip.create({ publicKey: publicKey });
-
-        $('#submit-button').click(function (e) {
-          publicKey = $('#public-key').html();
-          moip = Moip.create({ publicKey: publicKey });
-        });
-
+        moip.publicKey = $('#public-key').html();
         moip.onSubmit($('#order-id').val(), 'test-form', function (data) {
           $('#payment-created').hide();
           $('#payment-created-content').text(data);
           $('#payment-created').show();
         });
+      }
+
+      window.addEventListener('load', function () {
+        var publicKey = $('#public-key').html();
+        moip = Moip.create({ publicKey: publicKey });
+
+        $('#payment-created-content').each(function(i, e) { hljs.highlightBlock(e) });
+
+        $('#submit-button').click(function (e) {
+          setupMoip();
+        });
+
       }, false);
     </script>
   </body>

@@ -87,9 +87,20 @@ Moip.FormEncryptor = function (options) {
     injectInputs(form, encryptedInputs);
   };
 
-  var attachCallback = function (form, callback) {
+  var detachMe = function (event) {
     if (window.jQuery) {
-      window.jQuery(form).submit(callback);
+      return; // nothing to do, jquery events are triggered only one time
+    } else if (event.target.removeEventListener) {
+      event.target.removeEventListener(event.type, arguments.callee);
+    } else if (event.target.detachEvent) {
+      event.target.detachEvent('on' + event.type, arguments.callee);
+    }
+  };
+
+  var attachCallback = function (form, callback) {
+
+    if (window.jQuery) {
+      window.jQuery(form).one('submit', callback);
     } else if (form.addEventListener) {
       form.addEventListener('submit', callback, false);
     } else if (form.attachEvent) {
@@ -112,6 +123,8 @@ Moip.FormEncryptor = function (options) {
       } else {
         return false;
       }
+
+      detachMe(e);
     };
 
     attachCallback(form, encryptionCallback);
