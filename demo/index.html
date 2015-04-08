@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+    <title>Moip Js Encrypt Demo</title>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="../dist/moip-js-1.0.0.min.js"></script>
+  </head>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $("#encrypt").click(function() {
+          Moip.publicKey = $("#public_key").val();
+
+          var number = $("#number").val();
+          var cvc = $("#cvc").val();
+          var expirationMonth = $("#month").val();
+          var expirationYear = $("#year").val();
+
+          var cc = Moip.CreditCard();
+          cc.number = number;
+          cc.cvc = cvc;
+          cc.expirationMonth = expirationMonth;
+          cc.expirationYear = expirationYear;
+
+          $("#encrypted_value").val(cc.hash());
+        });
+    });
+  </script>
+
+  <form>
+    <input type="text" placeholder="Credit card number" id="number" value="4012001037141112" />
+    <input type="text" placeholder="CVC" id="cvc" value="123" />
+    <input type="text" placeholder="Month" id="month" value="12" />
+    <input type="text" placeholder="Year" id="year" value="18" />
+    <textarea id="public_key">
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsXkulsKdAQLMH/zjzTLf
+0lrbgulfb6ZShEtRpmDnyX93EQqPdez7LyptvQBeTC+0pN57rNcWen9ApdsIMsNr
+YHjNQf/kI4Ka7Xnlx0U/v7bW1D8teDoD5glBTXLjU8hRi7qlOpupiPx4ldSnK9Jj
+tYApWuZMiCpWh/YRAlNW/N+ffm7ulq6H2atmgd+OFB2SghpbRJkqJiLaNJW8UkaR
+oXLHkF5WJD/RPrCxsZztYJQThxLX5gBgZ12YG5+7G26Ad/mWkPqF0GLSkd1gcnbP
+vF9Nw3ckKaIvh4Q4Vp3XI1hLvX41lg9CBxPPHkiJwM1M1coF9xsMP7kpJ2eujMBd
+mwIDAQAB
+-----END PUBLIC KEY-----
+    </textarea>
+    <textarea id="encrypted_value"></textarea>
+    <input type="button" value="encrypt" id="encrypt" />
+  </form>
+</html>
