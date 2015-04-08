@@ -15,16 +15,21 @@ describe("CreditCard", function() {
   cc.expirationMonth = "05";
   cc.expirationYear = "18";
 
-  it("succesfully generates hash", function() {
-    Moip.publicKey = DEFAULT_PUBLIC_KEY;
-
-    var hash = cc.hash();
-    expect(hash).not.toBeUndefined();
-    expect(hash).not.toBeNull();
+  describe(".hash", function() {
+  
+    it("succesfully generates hash", function() {
+      Moip.publicKey = DEFAULT_PUBLIC_KEY;
+    
+      var hash = cc.hash();
+      expect(hash).not.toBeUndefined();
+      expect(hash).not.toBeNull();
+    });
+    
+    it("returns null when public key set", function() {
+      var hash = cc.hash();
+      expect(hash).not.toBeNull();
+    });
+  
   });
-
-  it("returns null when public key set", function() {
-    var hash = cc.hash();
-    expect(hash).not.toBeNull();
-  });
+  
 });

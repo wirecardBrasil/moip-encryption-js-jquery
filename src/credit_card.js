@@ -1,12 +1,12 @@
 (function() {
-var VERSION = '1.0.0';
 
-var Moip = {
-  version: VERSION,
-  publicKey: null,
-};
+ var Moip = window.Moip || {};
+ window.Moip = Moip;
+ 
+ Moip.publicKey = null;
 
-Moip.CreditCard = function() {
+ Moip.CreditCard = function() {
+
   var hash = function() {
     if (!Moip.publicKey) {
       return null;
@@ -21,9 +21,11 @@ Moip.CreditCard = function() {
     toEncrypt += "expirationYear=" + this.expirationYear;
 
     return encryptor.encrypt(toEncrypt);
-  }
+  };
+  
   return { number: null, cvc: null, hash: hash };
-}
+
+ };
 
 window.Moip = Moip;
 })();
