@@ -1,29 +1,74 @@
-(function() {
-var VERSION = '1.0.0';
+(function(window) {
 
-var Moip = {
-  version: VERSION,
-  publicKey: null,
-};
+ var Moip = window.Moip || {};
+ window.Moip = Moip;
+ 
+ function CreditCard(params) {
+    this.number = params.number;
+    this.cvc = params.cvc;
+    this.expMonth = params.expMonth;
+    this.expYear = params.expYear;
+    this.pubKey = params.pubKey;
+ }
 
-Moip.CreditCard = function() {
-  var hash = function() {
-    if (!Moip.publicKey) {
+ CreditCard.prototype = {
+
+  hash : function() {
+    if (!this.pubKey || !this.number || !this.cvc || !this.expMonth || !this.expYear) {
       return null;
     }
 
     var encryptor = new JSEncrypt({default_key_size: 2048});
-    encryptor.setPublicKey(Moip.publicKey);
+    encryptor.setPublicKey(this.pubKey);
 
     var toEncrypt = "number=" + this.number + "&";
     toEncrypt += "cvc=" + this.cvc + "&";
-    toEncrypt += "expirationMonth=" + this.expirationMonth + "&";
-    toEncrypt += "expirationYear=" + this.expirationYear;
+    toEncrypt += "expirationMonth=" + this.expMonth + "&";
+    toEncrypt += "expirationYear=" + this.expYear;
 
     return encryptor.encrypt(toEncrypt);
-  }
-  return { number: null, cvc: null, hash: hash };
-}
+  },
+  
+  isValid : function(){
+    if (!this.pubKey || !this.number || !this.cvc || !this.expMonth || !this.expYear) {
+        return false;
+    }
+    var numberValid = Moip.Validator.isValid(this.number);
+    var cvcValid = Moip.Validator.isSecurityCodeValid(this.number, this.cvc);
+    var expValid = Moip.Validator.isExpiryDateValid(this.expMonth, this.expYear);
+    return numberValid && cvcValid && expValid;
+  },
+  
+  cardType : function(){
+    type =  Moip.Validator.cardType(this.number);
+    if(!type){
+        return null;
+    }
+    return type.brand;
+  },
 
-window.Moip = Moip;
-})();
+  _setPubKey : function(key){
+    this.pubKey = key;
+  },
+  
+  _setNumber : function(number){
+    this.number = number;
+  },
+  
+  _setCvc : function(cvc){
+    this.cvc = cvc;
+  },
+  
+  _setExpMonth : function(expMonth){
+    this.expMonth = expMonth;
+  },
+  
+  _setExpYear : function(expYear){
+    this.expYear = expYear;
+  }
+  
+ };
+ 
+ Moip.CreditCard = CreditCard;
+
+})(window);
