@@ -1,5 +1,26 @@
 # Moip JS
 
+## Build do projeto
+
+### Testes unitários
+``` javascript
+%> grunt
+```
+
+### Build
+``` javascript
+%> grunt build
+```
+
+### Release (bump version & upload)
+``` javascript
+%> grunt release:minor
+```
+* Requer permissão push no repo github.
+* Requer chaves s3 como variáveis de ambiente
+* export AWS_ACCESS_KEY='xyz'
+* export AWS_SECRET_KEY='abc'
+
 ## O que é o Moip JS?
 
 É uma biblioteca javascript para auxiliar a integração com a API Moip.
@@ -11,21 +32,21 @@ Não. Basta referenciar a URL [http://assets.moip.com.br/integration/moip.min.js
 ```html
 <script type="text/javascript">
 $(document).ready(function() {
-    $("#encrypt").click(function() {
-      Moip.publicKey = $("#public_key").val();
+        $("#encrypt").click(function() {
 
-      var number = $("#number").val();
-      var cvc = $("#cvc").val();
-      var expirationMonth = $("#month").val();
-      var expirationYear = $("#year").val();
+          var cc = Moip.CreditCard({
+            number  : $("#number").val(),
+            cvc     : $("#cvc").val(),
+            expMonth: $("#month").val(),
+            expYear : $("#year").val(),
+            pubKey  : $("#public_key").val()
+          });
 
-      var cc = Moip.CreditCard();
-      cc.number = number;
-      cc.cvc = cvc;
-      cc.expirationMonth = expirationMonth;
-      cc.expirationYear = expirationYear;
-
-      $("#encrypted_value").val(cc.hash());
+          if( cc.isValid()){
+            $("#encrypted_value").val(cc.hash());
+            $("#card_brand").val(cc.cardType());
+          }
+        });
     });
 });
 </script>
@@ -46,6 +67,7 @@ $(document).ready(function() {
     -----END PUBLIC KEY-----
     </textarea>
     <textarea id="encrypted_value"></textarea>
+    <input type="text" placeholder="Card Type" id="card_type"/>
     <input type="button" value="encrypt" id="encrypt" />
 </form>
 ```
@@ -56,34 +78,32 @@ Para todas as validações é retornado um boolean se a condição é valida ou 
 
 ### Validando apenas o número de cartão
 ``` javascript
-Moip.CreditCard.isValid("4111111111111111");    //return true
-Moip.CreditCard.isValid("4111 1111-1111.1111"); //return true
-Moip.CreditCard.isValid("1919191919191919");    //return false
-Moip.CreditCard.isValid("41111");               //return false
+Moip.Validator.isValid("4111111111111111");    //return true
+Moip.Validator.isValid("4111 1111-1111.1111"); //return true
+Moip.Validator.isValid("1919191919191919");    //return false
+Moip.Validator.isValid("41111");               //return false
 ```
 Possíveis retornos:
 * true ou false
 
 ### Validando cartão com código de segurança
 ``` javascript
-Moip.CreditCard.isSecurityCodeValid("5105105105105100", "123");    //return true
-Moip.CreditCard.isSecurityCodeValid("5105105105105100", "12");     //return false
+Moip.Validator.isSecurityCodeValid("5105105105105100", "123");    //return true
+Moip.Validator.isSecurityCodeValid("5105105105105100", "12");     //return false
 ```
 Possíveis retornos:
 * true ou false
 
 ### Identificando a bandeira de um cartão
 ``` javascript
-Moip.CreditCard.cardType("5105105105105100");    //return [Object]MASTERCARD
-Moip.CreditCard.cardType("4111111111111111");    //return [Object]VISA
-Moip.CreditCard.cardType("341111111111111");     //return [Object]AMEX
-moip.creditCard.cardType("30569309025904");      //return [Object]DINERS
-Moip.CreditCard.cardType("3841001111222233334"); //return [Object]HIPERCARD
-Moip.CreditCard.cardType("4514160123456789");    //return [Object]ELO
-Moip.CreditCard.cardType("9191919191919191");    //return [Object]null
-
-card = Moip.CreditCard.cardType("5105105105105100");
-cardIs = card.brand; // MASTERCARD
+Moip.Validator.cardType("5105105105105100");    //return [Object]MASTERCARD
+Moip.Validator.cardType("4111111111111111");    //return [Object]VISA
+Moip.Validator.cardType("341111111111111");     //return [Object]AMEX
+moip.Validator.cardType("30569309025904");      //return [Object]DINERS
+Moip.Validator.cardType("3841001111222233334"); //return [Object]HIPERCARD
+Moip.Valditor.cardType("4514160123456789");    //return [Object]ELO
+Moip.Valditor.cardType("6370950000000005");    //return [Object]HIPER
+Moip.Validator.cardType("9191919191919191");    //return [Object]null
 ```
 Possíveis retornos:
 Object: [brand]
@@ -97,32 +117,12 @@ Object: [brand]
 
 ### Verificado se a data de expiração do cartão
 ``` javascript
-Moip.CreditCard.isExpiryDateValid("10", "2020");    //return true
-Moip.CreditCard.isExpiryDateValid("10", "2000");    //return false
+Moip.Validator.isExpiryDateValid("10", "2020");    //return true
+Moip.Validator.isExpiryDateValid("10", "2000");    //return false
 
 //Usando objeto Date
 var now = new Date();
-var isExpiryDateValid = moip.creditCard.isExpiryDateValid(now.getMonth()+1+"", now.getYear()+1900+""); // return true
+var isExpiryDateValid = Moip.Validator.isExpiryDateValid(now.getMonth()+1+"", now.getYear()+1900+""); // return true
 ```
 Possíveis retornos:
 * true ou false
-
-## Build do projeto
-
-### Testes unitários
-``` javascript
-%> grunt
-```
-
-### Build
-``` javascript
-%> grunt build
-```
-
-### Release (bump version & upload)
-Disponibilizar as chaves s3 como variáveis de ambiente
-* export AWS_ACCESS_KEY='xyz'
-* export AWS_SECRET_KEY='abc'
-``` javascript
-%> grunt release:minor
-```

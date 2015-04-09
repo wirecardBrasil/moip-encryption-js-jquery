@@ -14,20 +14,24 @@
   <script type="text/javascript">
     $(document).ready(function() {
         $("#encrypt").click(function() {
-          Moip.publicKey = $("#public_key").val();
 
-          var number = $("#number").val();
-          var cvc = $("#cvc").val();
-          var expirationMonth = $("#month").val();
-          var expirationYear = $("#year").val();
+          var cc = new Moip.CreditCard({
+            number  : $("#number").val(),
+            cvc     : $("#cvc").val(),
+            expMonth: $("#month").val(),
+            expYear : $("#year").val(),
+            pubKey  : $("#public_key").val()
+          });
 
-          var cc = Moip.CreditCard();
-          cc.number = number;
-          cc.cvc = cvc;
-          cc.expirationMonth = expirationMonth;
-          cc.expirationYear = expirationYear;
-
-          $("#encrypted_value").val(cc.hash());
+          if( cc.isValid()){
+            $("#encrypted_value").val(cc.hash());
+            $("#card_type").val(cc.cardType());
+          }
+          else{
+            $("#encrypted_value").val('');
+            $("#card_type").val('');
+            alert('Invalid credit card. Verify parameters: number, cvc, expiration Month, expiration Year');
+          }
         });
     });
   </script>
@@ -49,6 +53,7 @@ mwIDAQAB
 -----END PUBLIC KEY-----
     </textarea>
     <textarea id="encrypted_value"></textarea>
+    <input type="text" placeholder="Card Type" id="card_type"/>
     <input type="button" value="encrypt" id="encrypt" />
   </form>
 </html>

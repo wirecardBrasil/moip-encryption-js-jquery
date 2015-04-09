@@ -125,13 +125,13 @@
         },
 
         isSecurityCodeValid: function(creditCardNumber, csc) {
-            var type = Moip.Validator.cardType(creditCardNumber),
-                digits;
-
-            digits = (type.brand === "AMEX") ? 4 : 3;
-
+            var type = Moip.Validator.cardType(creditCardNumber);
+            if (!type){
+              return false;
+            }
+            
+            var digits = (type.brand === "AMEX") ? 4 : 3;
             var regExp = new RegExp('[0-9]{' + digits + '}');
-
             return (csc.length === digits && regExp.test(csc));
         },
 

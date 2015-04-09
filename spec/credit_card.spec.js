@@ -9,27 +9,108 @@ var DEFAULT_PUBLIC_KEY = '-----BEGIN PUBLIC KEY-----' +
 '-----END PUBLIC KEY-----';
 
 describe("CreditCard", function() {
-  var cc = Moip.CreditCard()
-  cc.number = "4012001037141112";
-  cc.cvc = "123";
-  cc.expirationMonth = "05";
-  cc.expirationYear = "18";
 
+  buildValidCard = function(){
+    var cc = new Moip.CreditCard({
+       number  : "4012001037141112",
+       cvc     : "123",
+       expMonth: "05",
+       expYear : "18",
+       pubKey  : DEFAULT_PUBLIC_KEY
+    });
+    return cc;
+  }
+ 
   describe(".hash", function() {
   
-    it("succesfully generates hash", function() {
-      Moip.publicKey = DEFAULT_PUBLIC_KEY;
-    
+    it("succesfully generates hash if all properties are given", function() {
+      var cc = buildValidCard();
       var hash = cc.hash();
       expect(hash).not.toBeUndefined();
       expect(hash).not.toBeNull();
     });
     
-    it("returns null when public key set", function() {
-      var hash = cc.hash();
-      expect(hash).not.toBeNull();
+    it("does not generate a hash if any property is missing", function() {
+      var cc = buildValidCard();
+      cc._setPubKey(null);
+      expect(cc.hash()).toBeNull();
+      
+      cc = buildValidCard();
+      cc._setNumber(null);
+      expect(cc.hash()).toBeNull();
+      
+      cc = buildValidCard();
+      cc._setCvc(null);
+      expect(cc.hash()).toBeNull();
+      
+      cc = buildValidCard();
+      cc._setExpMonth(null);
+      expect(cc.hash()).toBeNull();
+
+      cc = buildValidCard();
+      cc._setExpYear(null);
+      expect(cc.hash()).toBeNull();
+    });
+  });
+  
+  describe(".isValid", function() {
+    it("accepts a valid card", function() {
+      var cc = buildValidCard();
+      expect(cc.isValid()).toEqual(true);
     });
   
+    it("does NOT accept a card with an invalid number", function() {
+     cc = buildValidCard();
+     cc._setNumber("222222222222");
+     expect(cc.isValid()).toBe(false);
+    });
+  
+    it("does NOT accept a card with a past expiration date", function() {
+      cc = buildValidCard();
+      cc._setExpYear("2014")
+      expect(cc.isValid()).toBe(false);
+    });
+
+    it("does NOT accept a card if any property is missing", function() {
+      cc = buildValidCard();
+      cc._setNumber(null);
+      expect(cc.isValid()).toBe(false);
+
+      cc = buildValidCard();
+      cc._setCvc(null);
+      expect(cc.isValid()).toBe(false);
+
+      cc = buildValidCard();
+      cc._setExpMonth(null);
+      expect(cc.isValid()).toBe(false);
+
+      cc = buildValidCard();
+      cc._setExpYear(null);
+      expect(cc.isValid()).toBe(false);
+    });
+  });
+  
+  describe(".cardType", function() {
+    it("identifies the cardType", function() {
+      var cc = buildValidCard();
+      expect(cc.cardType()).toEqual('VISA');
+    });
+    
+    it("does NOT identify the cardType if number is missing", function() {
+      var cc = buildValidCard();
+      cc._setNumber(null);
+      expect(cc.cardType()).toBeNull();
+    });
+  });
+  
+  describe("property accessors", function() {
+    it("provides access to all properties", function() {
+      var cc = buildValidCard();
+      expect(cc.number).toEqual('4012001037141112');
+      expect(cc.cvc).toEqual('123');
+      expect(cc.expMonth).toEqual('05');
+      expect(cc.expYear).toEqual('18');
+    });
   });
   
 });

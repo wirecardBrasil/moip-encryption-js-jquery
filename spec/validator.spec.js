@@ -102,6 +102,12 @@ describe("Validator", function() {
         var card = Moip.Validator.cardType("4514160123456789")
         var expected = {brand : 'ELO'}
         expect(card).toEqual(expected);
+      });6370950000000005
+      
+      it("recognizes HIPER", function(){
+        var card = Moip.Validator.cardType("6370950000000005")
+        var expected = {brand : 'HIPER'}
+        expect(card).toEqual(expected);
       });
     });
         
@@ -133,6 +139,12 @@ describe("Validator", function() {
       it("recognizes ELO", function(){
         var card = Moip.Validator.cardType("451416", true)
         var expected = {brand : 'ELO'}
+        expect(card).toEqual(expected);
+      });
+      
+      it("recognizes HIPER", function(){
+        var card = Moip.Validator.cardType("637095", true)
+        var expected = {brand : 'HIPER'}
         expect(card).toEqual(expected);
       });
     });
