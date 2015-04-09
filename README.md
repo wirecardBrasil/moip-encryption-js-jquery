@@ -26,7 +26,9 @@
 É uma biblioteca javascript para auxiliar a integração com a API Moip.
 
 ## É preciso instalar?
-Não. Basta referenciar a URL [http://assets.moip.com.br/integration/moip.min.js].
+Não. O arquivo javascript é públicado em [http://assets.moip.com.br/integration].
+A versão mais recente é [http://assets.moip.com.br/integration/moip.min.js].
+Porém, é recomendado que um release especifico seja referenciado, por exemplo [http://assets.moip.com.br/integration/moip-2.0.0.min.js].
 
 ## Criptografar um cartão de crédito
 ```html
@@ -44,7 +46,12 @@ $(document).ready(function() {
 
           if( cc.isValid()){
             $("#encrypted_value").val(cc.hash());
-            $("#card_brand").val(cc.cardType());
+            $("#card_type").val(cc.cardType());
+          }
+          else {
+            $("#encrypted_value").val('');
+            $("#card_type").val('');
+            alert('Invalid credit card. Verify parameters: number, cvc, expiration Month, expiration Year');
           }
         });
     });
