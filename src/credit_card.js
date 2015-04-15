@@ -4,7 +4,7 @@
  window.Moip = Moip;
  
  function CreditCard(params) {
-    this.number = params.number;
+    this.number = Moip.Validator.normalizeCardNumber(params.number);
     this.cvc = params.cvc;
     this.expMonth = params.expMonth;
     this.expYear = params.expYear;

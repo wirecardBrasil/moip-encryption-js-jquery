@@ -2,14 +2,6 @@
     var Moip = window.Moip || {};
     window.Moip = Moip;
 
-    function normalizeCardNumber(cardNumber) {
-
-        // converts it's value to a string
-        cardNumber += '';
-
-        return cardNumber.replace(/[\s+|\.|\-]/g, '');
-    }
-
     function Validator() {
         if ( !( this instanceof Validator ) ) {
             return new Validator();
@@ -25,11 +17,17 @@
         _hiperBins : ["637095", "637612", "637599", "637609", "637568"],
         _hipercardBins: ["606282"],
 
+        normalizeCardNumber: function(creditCardNumber) {
+          if(! creditCardNumber){
+            return creditCardNumber;
+          }
+          creditCardNumber += '';
+          return creditCardNumber.replace(/[\s+|\.|\-]/g, '');
+        },
+
         isValid: function(creditCardNumber) {
-            var cardType = Validator.prototype.cardType(creditCardNumber);
-
-            creditCardNumber = normalizeCardNumber(creditCardNumber);
-
+            var cardNumber = this.normalizeCardNumber(creditCardNumber);
+            var cardType = Validator.prototype.cardType(cardNumber);
             if (!cardType){
                 return false;
             } else if (cardType.brand === "HIPERCARD") {
@@ -37,12 +35,12 @@
             } else {
                 // Luhn algorithm: http://en.wikipedia.org/wiki/Luhn_algorithm
                 var checksum = 0;
-                for (var i=(2-(creditCardNumber.length % 2)); i<=creditCardNumber.length; i+=2) {
-                    checksum += parseInt(creditCardNumber.charAt(i-1), 10);
+                for (var i=(2-(cardNumber.length % 2)); i<=cardNumber.length; i+=2) {
+                    checksum += parseInt(cardNumber.charAt(i-1), 10);
                 }
                 // Analyze odd digits in even length strings or even digits in odd length strings.
-                for (i=(creditCardNumber.length % 2) + 1; i<creditCardNumber.length; i+=2) {
-                    var digit = parseInt(creditCardNumber.charAt(i-1), 10) * 2;
+                for (i=(cardNumber.length % 2) + 1; i<cardNumber.length; i+=2) {
+                    var digit = parseInt(cardNumber.charAt(i-1), 10) * 2;
                     if (digit < 10) { checksum += digit; } else { checksum += (digit-9); }
                 }
                 if ((checksum % 10) === 0) {
@@ -55,6 +53,7 @@
 
         cardType: function(creditCardNumber, loose) {
             var that = this;
+            var cardNumber = this.normalizeCardNumber(creditCardNumber);
             var brands = {
                     VISA:       { matches: function(cardNum){ return /^4\d{15}$/.test(cardNum); } },
                     MASTERCARD: { matches: function(cardNum){ return /^5[1-5]\d{14}$/.test(cardNum); } },
@@ -103,23 +102,20 @@
 
                 };
 
-            creditCardNumber = normalizeCardNumber(creditCardNumber);
-
             if (loose) {
                 brands = looseBrands;
             }
 
-
             // order is mandatory:
             // a) VISA is identified by the broad prefix '4', shadowing more specific ELO prefixes
             // b) HIPERCARD has precendence over DINERS for prefix 3841 (loose check)
-            if (brands.ELO.matches(creditCardNumber))          { return {brand:'ELO'}; }
-            if (brands.HIPER.matches(creditCardNumber))        { return {brand:'HIPER'}; }
-            if (brands.VISA.matches(creditCardNumber))         { return {brand:'VISA'}; }
-            if (brands.MASTERCARD.matches(creditCardNumber))   { return {brand:'MASTERCARD'}; }
-            if (brands.AMEX.matches(creditCardNumber))         { return {brand:'AMEX'}; }
-            if (brands.HIPERCARD.matches(creditCardNumber))    { return {brand:'HIPERCARD'}; }
-            if (brands.DINERS.matches(creditCardNumber))       { return {brand:'DINERS'}; }
+            if (brands.ELO.matches(cardNumber))          { return {brand:'ELO'}; }
+            if (brands.HIPER.matches(cardNumber))        { return {brand:'HIPER'}; }
+            if (brands.VISA.matches(cardNumber))         { return {brand:'VISA'}; }
+            if (brands.MASTERCARD.matches(cardNumber))   { return {brand:'MASTERCARD'}; }
+            if (brands.AMEX.matches(cardNumber))         { return {brand:'AMEX'}; }
+            if (brands.HIPERCARD.matches(cardNumber))    { return {brand:'HIPERCARD'}; }
+            if (brands.DINERS.matches(cardNumber))                { return {brand:'DINERS'}; }
 
             return null;
         },
