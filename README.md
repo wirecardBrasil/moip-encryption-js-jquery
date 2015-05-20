@@ -1,4 +1,4 @@
-# Moip JS
+# Moip v2 SDK JavaScript
 
 ## Build do projeto
 
@@ -16,10 +16,6 @@
 ``` javascript
 %> grunt release:minor
 ```
-* Requer permissão push no repo github.
-* Requer chaves s3 como variáveis de ambiente
-* export AWS_ACCESS_KEY='xyz'
-* export AWS_SECRET_KEY='abc'
 
 ## O que é o Moip JS?
 
