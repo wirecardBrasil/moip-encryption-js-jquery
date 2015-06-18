@@ -49,10 +49,10 @@ $(document).ready(function() {
 });
 </script>
 <form>
-    <input type="text" placeholder="Credit card number" id="number" value="4012001037141112" />
-    <input type="text" placeholder="CVC" id="cvc" value="123" />
-    <input type="text" placeholder="Month" id="month" value="12" />
-    <input type="text" placeholder="Year" id="year" value="18" />
+    <input type="text" placeholder="Credit card number" id="cc_number" value="4012001037141112" />
+    <input type="text" placeholder="CVC" id="cc_cvc" value="123" />
+    <input type="text" placeholder="Month" id="cc_exp_month" value="12" />
+    <input type="text" placeholder="Year" id="cc_exp_year" value="18" />
     <textarea id="public_key">
     -----BEGIN PUBLIC KEY-----
     MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsXkulsKdAQLMH/zjzTLf
