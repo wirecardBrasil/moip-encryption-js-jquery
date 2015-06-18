@@ -30,24 +30,23 @@ Porém, é recomendado que um release especifico seja referenciado, por exemplo 
 ```html
 <script type="text/javascript">
 $(document).ready(function() {
-        $("#encrypt").click(function() {
+        $("#pay_cc").click(function() {
 
           var cc = Moip.CreditCard({
-            number  : $("#number").val(),
-            cvc     : $("#cvc").val(),
-            expMonth: $("#month").val(),
-            expYear : $("#year").val(),
+            number  : $("#cc_number").val(),
+            cvc     : $("#cc_cvc").val(),
+            expMonth: $("#cc_exp_month").val(),
+            expYear : $("#cc_exp_year").val(),
             pubKey  : $("#public_key").val()
           });
 
           if( cc.isValid()){
-            $("#encrypted_value").val(cc.hash());
-            $("#card_type").val(cc.cardType());
+            $("#hash").val(cc.hash());
           }
           else {
-            $("#encrypted_value").val('');
-            $("#card_type").val('');
+            $("#hash").val('');
             alert('Invalid credit card. Verify parameters: number, cvc, expiration Month, expiration Year');
+            return false; // Don't submit the form
           }
         });
     });
