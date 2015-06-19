@@ -31,7 +31,7 @@ Porém, é recomendado que um release especifico seja referenciado, por exemplo 
 <script type="text/javascript">
 $(document).ready(function() {
   $("#pay_cc").click(function() {
-    var cc = Moip.CreditCard({
+    var cc = new Moip.CreditCard({
       number  : $("#cc_number").val(),
       cvc     : $("#cc_cvc").val(),
       expMonth: $("#cc_exp_month").val(),
