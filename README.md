@@ -1,5 +1,9 @@
 # Moip v2 SDK JavaScript
 
+## Exemplo
+
+Veja nossa página de exemplo utilizando o JavaScript de criptografia de cartão [clicando aqui](http://moip.github.io/moip-sdk-js/).
+
 ## Build do projeto
 
 ### Testes unitários
@@ -22,9 +26,9 @@
 É uma biblioteca javascript para auxiliar a integração com a API Moip.
 
 ## É preciso instalar?
-Não. O arquivo javascript é públicado em [http://assets.moip.com.br/integration].
-A versão mais recente é [http://assets.moip.com.br/integration/moip.min.js].
-Porém, é recomendado que um release especifico seja referenciado, por exemplo [http://assets.moip.com.br/integration/moip-2.0.0.min.js].
+Não. O arquivo javascript é públicado em [http://assets.moip.com.br/v2].
+A versão mais recente é [http://assets.moip.com.br/v2/moip.min.js].
+Porém, é recomendado que um release especifico seja referenciado, por exemplo [http://assets.moip.com.br/v2/moip-2.0.0.min.js].
 
 ## Criptografar um cartão de crédito
 ```html
