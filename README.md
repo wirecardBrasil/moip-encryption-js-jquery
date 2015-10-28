@@ -115,7 +115,7 @@ Object: [brand]
  * ELO
  * HIPER
 
-### Verificado se a data de expiração do cartão
+### Verificando a data de expiração do cartão
 ``` javascript
 Moip.Validator.isExpiryDateValid("10", "2020");    //return true
 Moip.Validator.isExpiryDateValid("10", "2000");    //return false
