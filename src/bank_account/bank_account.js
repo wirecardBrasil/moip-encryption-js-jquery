@@ -21,6 +21,8 @@
       case "001":
         return Moip.BancoDoBrasilValidator.isValid(this);
         break;
+      default:
+        return Moip.DefaultBankValidator.isValid(this);
     }
   },
 
