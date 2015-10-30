@@ -9,9 +9,9 @@ module.exports = function (grunt) {
     },
             
     jasmine: {
-      src: "src/*.js",
+      src: "src/**/*.js",
       options: {
-        specs: "spec/*.js",
+        specs: "spec/**/*.js",
         helpers: "spec/helpers/*.js",
         vendor: ["lib/jsencrypt.min.js"],
       }

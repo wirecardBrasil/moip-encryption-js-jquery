@@ -27,12 +27,12 @@
           validator = Moip.DefaultBankValidator;
       }
 
-      var errors = new Array();
+      var errors = [];
       if(!validator.agencyNumberIsValid(this.agencyNumber)){
-        errors.push({ description: "Agência inválida", code: "AGENCY_NUMBER" })
+        errors.push({ description: "Agência inválida", code: "AGENCY_NUMBER" });
       }
 
-      if(errors.length == 0) {
+      if(errors.length === 0) {
         callbacks.valid();
       } else {
         callbacks.invalid({ errors: errors });
