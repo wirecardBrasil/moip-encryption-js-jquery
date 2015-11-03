@@ -22,7 +22,11 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
         <!-- Moip.js -->
     <!--script type="text/javascript" src="//assets.moip.com.br/integration/moip.min.js"></script-->
+    <script type="text/javascript" src="../src/bank_account/generic_bank_account_validator.js"></script>
+    <script type="text/javascript" src="../src/bank_account/common_bank_account_validator.js"></script>
+    <script type="text/javascript" src="../src/bank_account/itau_validator.js"></script>
     <script type="text/javascript" src="../src/bank_account/banco_do_brasil_validator.js"></script>
+    <script type="text/javascript" src="../src/bank_account/bradesco_validator.js"></script>
     <script type="text/javascript" src="../src/bank_account/bank_account.js"></script>
     
     <!-- Latest compiled and minified JavaScript -->
@@ -47,7 +51,7 @@
             $("#success_message").fadeOut();
             var errors = "";
             for(i in data.errors){
-              errors += data.errors[i].description + "<br/>";
+              errors += "- " + data.errors[i].description + "<br/>";
             }
             $("#error_message").removeClass('hide').fadeIn('slow');
             $("#error_message").html("Ocorreram os seguintes erros:<br/>"+errors);
@@ -77,59 +81,75 @@
    
         <form class="form-signin">
 
-          <label>Banco</label>
-          <select id="bank_number" class="form-control">
-            <option value=""></option>
-            <option value="001">BANCO DO BRASIL S.A.</option>
-            <option value="237">BANCO BRADESCO S.A.</option>
-            <option value="341">BANCO ITAÚ S.A.</option>
-            <option value="104">CAIXA ECONOMICA FEDERAL</option>
-            <option value="033">BANCO SANTANDER BANESPA S.A.</option>
-            <option value="399">HSBC BANK BRASIL S.A. - BANCO MULTIPLO</option>
-            <option value="151">BANCO NOSSA CAIXA S.A.</option>
-            <option value="745">BANCO CITIBANK S.A.</option>
-            <option value="-------------------">-------------------</option>
-            <option value="356">BANCO ABN AMRO REAL S.A.</option>
-            <option value="409">UNIBANCO-UNIAO DE BANCOS BRASILEIROS S.A.</option>
-            <option value="041">BANCO DO ESTADO DO RIO GRANDE DO SUL S.A.</option>
-            <option value="027">BANCO DO ESTADO DE SANTA CATARINA S.A.</option>
-            <option value="389">BANCO MERCANTIL DO BRASIL S.A.</option>
-            <option value="004">BANCO DO NORDESTE DO BRASIL S.A.</option>
-            <option value="021">BANCO DO ESTADO DO ESPIRITO SANTO S.A.</option>
-            <option value="422">BANCO SAFRA S.A.</option>
-            <option value="003">BANCO DA AMAZONIA S.A.</option>
-            <option value="047">BANCO DO ESTADO DE SERGIPE S.A.</option>
-            <option value="070">BRB - BANCO DE BRASILIA S.A.</option>
-            <option value="655">BANCO VOTORANTIM S.A.</option>
-            <option value="208">BANCO UBS PACTUAL S.A.</option>
-            <option value="107">BANCO BBM S/A</option>
-            <option value="025">BANCO ALFA S.A.</option>
-            <option value="263">BANCO CACIQUE S.A.</option>
-            <option value="229">BANCO CRUZEIRO DO SUL S.A.</option>
-            <option value="252">BANCO FININVEST S.A.</option>
-            <option value="063">BANCO IBI S.A. - BANCO MÚLTIPLO</option>
-            <option value="479">BANCO ITAUBANK S.A.</option>
-            <option value="623">BANCO PANAMERICANO S.A.</option>
-            <option value="633">BANCO RENDIMENTO S.A.</option>
-            <option value="749">BANCO SIMPLES S.A.</option>
-            <option value="215">BANCO COMERCIAL E DE INVESTIMENTO SUDAMERIS S.A.</option>
-            <option value="756">BANCO COOPERATIVO DO BRASIL S.A. - BANCOOB</option>
-            <option value="748">BANCO COOPERATIVO SICREDI S.A.</option>
-            <option value="065">BANCO LEMON S.A.</option>
-            <option value="069">BPN BRASIL BANCO MÚLTIPLO S.A.</option>
-            <option value="719">BANCO INTERNACIONAL DO FUNCHAL (BRASIL) S.A.</option>
-            <option value="318">BANCO BMG S A</option>
-          </select>
+          <div class="row">
+            <div class="col-md-12">
+
+              <label>Banco</label>
+              <select id="bank_number" class="form-control">
+                <option value=""></option>
+                <option value="001">BANCO DO BRASIL S.A.</option>
+                <option value="237">BANCO BRADESCO S.A.</option>
+                <option value="341">BANCO ITAÚ S.A.</option>
+                <option value="104">CAIXA ECONOMICA FEDERAL</option>
+                <option value="033">BANCO SANTANDER BANESPA S.A.</option>
+                <option value="399">HSBC BANK BRASIL S.A. - BANCO MULTIPLO</option>
+                <option value="151">BANCO NOSSA CAIXA S.A.</option>
+                <option value="745">BANCO CITIBANK S.A.</option>
+                <option value="-------------------">-------------------</option>
+                <option value="356">BANCO ABN AMRO REAL S.A.</option>
+                <option value="409">UNIBANCO-UNIAO DE BANCOS BRASILEIROS S.A.</option>
+                <option value="041">BANCO DO ESTADO DO RIO GRANDE DO SUL S.A.</option>
+                <option value="027">BANCO DO ESTADO DE SANTA CATARINA S.A.</option>
+                <option value="389">BANCO MERCANTIL DO BRASIL S.A.</option>
+                <option value="004">BANCO DO NORDESTE DO BRASIL S.A.</option>
+                <option value="021">BANCO DO ESTADO DO ESPIRITO SANTO S.A.</option>
+                <option value="422">BANCO SAFRA S.A.</option>
+                <option value="003">BANCO DA AMAZONIA S.A.</option>
+                <option value="047">BANCO DO ESTADO DE SERGIPE S.A.</option>
+                <option value="070">BRB - BANCO DE BRASILIA S.A.</option>
+                <option value="655">BANCO VOTORANTIM S.A.</option>
+                <option value="208">BANCO UBS PACTUAL S.A.</option>
+                <option value="107">BANCO BBM S/A</option>
+                <option value="025">BANCO ALFA S.A.</option>
+                <option value="263">BANCO CACIQUE S.A.</option>
+                <option value="229">BANCO CRUZEIRO DO SUL S.A.</option>
+                <option value="252">BANCO FININVEST S.A.</option>
+                <option value="063">BANCO IBI S.A. - BANCO MÚLTIPLO</option>
+                <option value="479">BANCO ITAUBANK S.A.</option>
+                <option value="623">BANCO PANAMERICANO S.A.</option>
+                <option value="633">BANCO RENDIMENTO S.A.</option>
+                <option value="749">BANCO SIMPLES S.A.</option>
+                <option value="215">BANCO COMERCIAL E DE INVESTIMENTO SUDAMERIS S.A.</option>
+                <option value="756">BANCO COOPERATIVO DO BRASIL S.A. - BANCOOB</option>
+                <option value="748">BANCO COOPERATIVO SICREDI S.A.</option>
+                <option value="065">BANCO LEMON S.A.</option>
+                <option value="069">BPN BRASIL BANCO MÚLTIPLO S.A.</option>
+                <option value="719">BANCO INTERNACIONAL DO FUNCHAL (BRASIL) S.A.</option>
+                <option value="318">BANCO BMG S A</option>
+              </select>
+            </div>
+          </div>
+
           <br/>
 
-          <label>Agência</label>
-          <input type="text" id="agency_number" placeholder="agência" value="0170" class="form-control"/>
-          </br>
+          <div class="row">
+            <div class="col-md-5">
+              <label>Agência</label>
+              <input type="text" id="agency_number" placeholder="Exemplo: 0170" class="form-control" maxlength="5"/>
+            </div>
+            <div class="col-md-4">
+              <label>Dígito</label>
+              <input type="text" id="agency_check_number" placeholder="Exemplo: 8" class="form-control" maxlength="2"/>
+            </div>
+          </div>
+
+          <br/>
 
           <input type="button" value="Validate" id="validate_bank_account" class="btn btn-lg btn-primary btn-block"/>
 
         </form>
 
+      </div>
     </div>
     <div class="col-md-4"></div>
   </body>

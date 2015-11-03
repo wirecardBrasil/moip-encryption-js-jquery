@@ -2,13 +2,13 @@
   var Moip = window.Moip || {};
   window.Moip = Moip;
 
-  function BancoDoBrasilValidator() {
-    if ( !( this instanceof BancoDoBrasilValidator ) ) {
-      return new BancoDoBrasilValidator();
+  function BradescoValidator() {
+    if ( !( this instanceof BradescoValidator ) ) {
+      return new BradescoValidator();
     }
   }
 
-  BancoDoBrasilValidator.prototype = {
+  BradescoValidator.prototype = {
     agencyNumberIsValid: function(agencyNumber) {
       return Moip.CommonBankAccountValidator.agencyNumberIsValid(agencyNumber);
     },
@@ -18,6 +18,6 @@
     }
   };
 
-  Moip.BancoDoBrasilValidator = BancoDoBrasilValidator();
+  Moip.BradescoValidator = BradescoValidator();
 
 })(window);
