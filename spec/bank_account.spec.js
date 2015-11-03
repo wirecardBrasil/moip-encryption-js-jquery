@@ -34,7 +34,7 @@ describe("BankAccount", function() {
       expect(callbacks.invalid).not.toHaveBeenCalled();  
     });
 
-    it("accepts a invalid bank account", function() {
+    it("does NOT accept a invalid bank account", function() {
       var callbacks = {
         valid: jasmine.createSpy(),
         invalid: jasmine.createSpy(),
@@ -43,6 +43,58 @@ describe("BankAccount", function() {
       expect(callbacks.invalid).toHaveBeenCalled();
       expect(callbacks.valid).not.toHaveBeenCalled();  
     });
+  });
+
+  describe("validate agency", function(){
+
+    it("accepts a agency starts with zero", function() {
+      var callbacks = {
+        valid: jasmine.createSpy(),
+        invalid: jasmine.createSpy(),
+      };
+      var validBankAccount = buildValidBankAccount();
+      validBankAccount.agencyNumber = "0170";
+      validBankAccount.validate(callbacks);
+      expect(callbacks.valid).toHaveBeenCalled();
+      expect(callbacks.invalid).not.toHaveBeenCalled();
+    });
+
+    it("does NOT accept agency with letters", function() {
+      var callbacks = {
+        valid: jasmine.createSpy(),
+        invalid: jasmine.createSpy(),
+      };
+      var validBankAccount = buildValidBankAccount();
+      validBankAccount.agencyNumber = "AAAA";
+      validBankAccount.validate(callbacks);
+      expect(callbacks.invalid).toHaveBeenCalled();
+      expect(callbacks.valid).not.toHaveBeenCalled();
+    });
+
+    it("does NOT accept agency equal zero", function() {
+      var callbacks = {
+        valid: jasmine.createSpy(),
+        invalid: jasmine.createSpy(),
+      };
+      var validBankAccount = buildValidBankAccount();
+      validBankAccount.agencyNumber = "0000";
+      validBankAccount.validate(callbacks);
+      expect(callbacks.invalid).toHaveBeenCalled();
+      expect(callbacks.valid).not.toHaveBeenCalled();
+    });
+
+    it("does NOT accept agency less than four numbers", function() {
+      var callbacks = {
+        valid: jasmine.createSpy(),
+        invalid: jasmine.createSpy(),
+      };
+      var validBankAccount = buildValidBankAccount();
+      validBankAccount.agencyNumber = "170";
+      validBankAccount.validate(callbacks);
+      expect(callbacks.invalid).toHaveBeenCalled();
+      expect(callbacks.valid).not.toHaveBeenCalled();
+    });
+
   });
 
 });

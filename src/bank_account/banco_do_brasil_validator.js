@@ -9,9 +9,8 @@
   }
 
   BancoDoBrasilValidator.prototype = {
-
     agencyNumberIsValid: function(agencyNumber) {
-      return agencyNumber.length == 4;
+      return /^(?!0000)([0-9]{4})$/.test(agencyNumber);
     }
   };
 
