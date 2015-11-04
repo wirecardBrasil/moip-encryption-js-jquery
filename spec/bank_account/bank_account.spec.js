@@ -1,6 +1,8 @@
 describe("BankAccount", function() {
 
   var callbacks;
+  var validBankAccount;
+  var invalidBankAccount;
 
   beforeEach(function() { 
     callbacks = {

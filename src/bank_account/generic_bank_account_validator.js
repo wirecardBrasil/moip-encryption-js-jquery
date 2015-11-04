@@ -15,6 +15,10 @@
 
     agencyCheckNumberIsValid: function(agencyCheckNumber) {
       return /^[a-zA-Z0-9]{0,2}$/.test(agencyCheckNumber);
+    },
+
+    bankNumberIsValid : function (bankNumber) {
+      return /^([0-9-A-Za-x]{3,5})$/.test(bankNumber);
     }
   };
 

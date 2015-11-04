@@ -1,6 +1,7 @@
 describe("GenericBankAccountValidator", function() {
 
   var callbacks;
+  var validBankAccount;
 
   beforeEach(function() { 
     callbacks = {
@@ -40,19 +41,22 @@ describe("GenericBankAccountValidator", function() {
     it("does NOT accept agency with letters", function() {
       validBankAccount.agencyNumber = "AAAA";
       validBankAccount.validate(callbacks);
-      expect(callbacks.invalid).toHaveBeenCalled();
+      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'AGENCY_NUMBER' }] };
+      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency equal zero", function() {
       validBankAccount.agencyNumber = "0";
       validBankAccount.validate(callbacks);
-      expect(callbacks.invalid).toHaveBeenCalled();
+      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'AGENCY_NUMBER' }] };
+      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency with six numbers", function() {
       validBankAccount.agencyNumber = "197817";
       validBankAccount.validate(callbacks);
-      expect(callbacks.invalid).toHaveBeenCalled();
+      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'AGENCY_NUMBER' }] };
+      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
   });

@@ -9,11 +9,38 @@ module.exports = function (grunt) {
     },
             
     jasmine: {
-      src: "src/**/*.js",
       options: {
+        src: "src/**/*.js",
         specs: "spec/**/*.js",
         helpers: "spec/helpers/*.js",
         vendor: ["lib/jsencrypt.min.js"],
+      },
+      coverage: {
+        src: '<%= jasmine.options.src %>',
+        options: {
+          specs: '<%= jasmine.options.specs %>',
+          template: require('grunt-template-jasmine-istanbul'),
+          templateOptions: {
+            coverage: 'cov/coverage.json',
+            report: [
+              {
+                type: 'html',
+                options: {
+                  dir: 'cov/html'
+                }
+              },
+              {
+                type: 'cobertura',
+                options: {
+                  dir: 'cov/cobertura'
+                }
+              },
+              {
+                type: 'text-summary'
+              }
+            ]
+          }
+        }
       }
     },
 

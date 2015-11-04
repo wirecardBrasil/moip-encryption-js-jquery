@@ -1,6 +1,7 @@
 describe("BancoDoBrasilValidator", function() {
 
   var callbacks;
+  var validBankAccount;
 
   beforeEach(function() { 
     callbacks = {
@@ -19,17 +20,17 @@ describe("BancoDoBrasilValidator", function() {
 
   describe("validate agency check number", function(){
 
-    it("accepts a valid agency check empty", function() {
+    it("does NOT accept agency check empty", function() {
       validBankAccount.agencyCheckNumber = "";
       validBankAccount.validate(callbacks);
       expect(callbacks.invalid).toHaveBeenCalled();
     });
 
-    it("does NOT accept agency greater than one digits", function() {
+    it("does NOT accept agency check greater than one digits", function() {
       validBankAccount.agencyCheckNumber = "12";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'AGENCY_CHECK_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalled();
+      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'AGENCY_CHECK_NUMBER' }] };
+      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
   });

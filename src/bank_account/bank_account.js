@@ -15,25 +15,21 @@
 
     validate : function (callbacks){
 
+      var errors = [];
       var validator;
+      var validators = {
+        "001": Moip.BancoDoBrasilValidator,
+        "237": Moip.BradescoValidator,
+        "341": Moip.ItauValidator
+      };
 
-      switch(this.bankNumber){
-        case "001":
-          validator = Moip.BancoDoBrasilValidator;
-          break;
-        case "237":
-          validator = Moip.BradescoValidator;
-          break;
-        case "341":
-          validator = Moip.ItauValidator;
-          break;
-        default:
-          validator = Moip.GenericBankAccountValidator;
+      if (validators[this.bankNumber]) {
+        validator = validators[this.bankNumber];
+      } else {
+        validator = Moip.GenericBankAccountValidator;
       }
 
-      var errors = [];
-
-      if(!this.bankNumberIsValid(this.bankNumber)){
+      if(!Moip.GenericBankAccountValidator.bankNumberIsValid(this.bankNumber)){
         errors.push({ description: "Banco inválido", code: "BANK_NUMBER" });
       }
 
@@ -50,10 +46,6 @@
       } else {
         callbacks.invalid({ errors: errors });
       }
-    },
-
-    bankNumberIsValid : function (bankNumber) {
-      return /^(?!000)([0-9]{3})$/.test(bankNumber);
     }
   
   };

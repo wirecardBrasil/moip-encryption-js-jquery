@@ -1,6 +1,7 @@
 describe("CommonBankAccountValidator", function() {
 
   var callbacks;
+  var validBankAccount;
 
   beforeEach(function() { 
     callbacks = {
@@ -35,19 +36,22 @@ describe("CommonBankAccountValidator", function() {
     it("does NOT accept agency equal zero", function() {
       validBankAccount.agencyNumber = "0000";
       validBankAccount.validate(callbacks);
-      expect(callbacks.invalid).toHaveBeenCalled();
+      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'AGENCY_NUMBER' }] };
+      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency less than four numbers", function() {
       validBankAccount.agencyNumber = "170";
       validBankAccount.validate(callbacks);
-      expect(callbacks.invalid).toHaveBeenCalled();
+      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'AGENCY_NUMBER' }] };
+      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency greater than four numbers", function() {
       validBankAccount.agencyNumber = "11708";
       validBankAccount.validate(callbacks);
-      expect(callbacks.invalid).toHaveBeenCalled();
+      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'AGENCY_NUMBER' }] };
+      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
   });
@@ -78,11 +82,11 @@ describe("CommonBankAccountValidator", function() {
       expect(callbacks.valid).toHaveBeenCalled();
     });
 
-    it("does NOT accept agency greater than one digits", function() {
+    it("does NOT accept agency check greater than one digits", function() {
       validBankAccount.agencyCheckNumber = "12";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'AGENCY_CHECK_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalled();
+      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'AGENCY_CHECK_NUMBER' }] };
+      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
   });
