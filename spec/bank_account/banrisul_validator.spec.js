@@ -1,4 +1,4 @@
-describe("BradescoValidator", function() {
+describe("BanrisulValidator", function() {
 
   var callbacks;
   var validBankAccount;
@@ -10,32 +10,32 @@ describe("BradescoValidator", function() {
     };
 
     validBankAccount = new Moip.BankAccount({
-      bankNumber         : "237",
+      bankNumber         : "041",
       agencyNumber       : "1584",
-      agencyCheckNumber  : "9",
-      accountNumber      : "0210169",
+      agencyCheckNumber  : "",
+      accountNumber      : "1234567890",
       accountCheckNumber : "6"
     });
   });
 
-  describe("validate agency check number", function(){
+  describe("validate account number", function(){
 
     it("accepts a valid bank account", function() {
       validBankAccount.validate(callbacks);
       expect(callbacks.valid).toHaveBeenCalled();
     });
 
-    it("does NOT accept agency check empty", function() {
-      validBankAccount.agencyCheckNumber = "";
+    it("does NOT accept account less than ten digits", function() {
+      validBankAccount.accountNumber = "123456789";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'AGENCY_CHECK_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'ACCOUNT_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
-    it("does NOT accept agency check greater than one digits", function() {
-      validBankAccount.agencyCheckNumber = "12";
+    it("does NOT accept account greater than ten digits", function() {
+      validBankAccount.accountNumber = "12345678901";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'AGENCY_CHECK_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'ACCOUNT_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 

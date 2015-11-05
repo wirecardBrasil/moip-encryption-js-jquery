@@ -15,6 +15,14 @@
 
     agencyCheckNumberIsValid: function(agencyCheckNumber) {
       return /^[a-zA-Z0-9]{0,1}$/.test(agencyCheckNumber);
+    },
+
+    accountNumberIsValid: function(accountNumber) {
+      return /^[0-9]{1,12}$/.test(accountNumber) && parseInt(accountNumber) > 0;
+    },
+
+    accountCheckNumberIsValid: function(accountCheckNumber) {
+      return /^[a-zA-Z0-9]{1}$/.test(accountCheckNumber);
     }
   };
 

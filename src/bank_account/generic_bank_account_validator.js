@@ -9,6 +9,10 @@
   }
 
   GenericBankAccountValidator.prototype = {
+    bankNumberIsValid : function (bankNumber) {
+      return /^([0-9-A-Za-x]{3,5})$/.test(bankNumber);
+    },
+
     agencyNumberIsValid: function(agencyNumber) {
       return /^[0-9]{1,5}$/.test(agencyNumber) && parseInt(agencyNumber) > 0;
     },
@@ -17,8 +21,12 @@
       return /^[a-zA-Z0-9]{0,2}$/.test(agencyCheckNumber);
     },
 
-    bankNumberIsValid : function (bankNumber) {
-      return /^([0-9-A-Za-x]{3,5})$/.test(bankNumber);
+    accountNumberIsValid: function(accountNumber) {
+      return /^[0-9]{1,12}$/.test(accountNumber) && parseInt(accountNumber) > 0;
+    },
+
+    accountCheckNumberIsValid: function(accountCheckNumber) {
+      return /^[a-zA-Z0-9]{0,2}$/.test(accountCheckNumber);
     }
   };
 

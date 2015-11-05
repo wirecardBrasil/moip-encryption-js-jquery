@@ -20,10 +20,16 @@ describe("BancoDoBrasilValidator", function() {
 
   describe("validate agency check number", function(){
 
+    it("accepts a valid bank account", function() {
+      validBankAccount.validate(callbacks);
+      expect(callbacks.valid).toHaveBeenCalled();
+    });
+
     it("does NOT accept agency check empty", function() {
       validBankAccount.agencyCheckNumber = "";
       validBankAccount.validate(callbacks);
-      expect(callbacks.invalid).toHaveBeenCalled();
+      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'AGENCY_CHECK_NUMBER' }] };
+      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency check greater than one digits", function() {

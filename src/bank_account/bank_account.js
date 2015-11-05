@@ -20,7 +20,11 @@
       var validators = {
         "001": Moip.BancoDoBrasilValidator,
         "237": Moip.BradescoValidator,
-        "341": Moip.ItauValidator
+        "341": Moip.ItauValidator,
+        "033": Moip.SantanderValidator,
+        "041": Moip.BanrisulValidator,
+        "075": Moip.CitibankValidator,
+        "399": Moip.HSBCValidator
       };
 
       if (validators[this.bankNumber]) {
@@ -39,6 +43,14 @@
       
       if(!validator.agencyCheckNumberIsValid(this.agencyCheckNumber)){
         errors.push({ description: "Dígito da agência inválido", code: "AGENCY_CHECK_NUMBER" });
+      }
+
+      if(!validator.accountNumberIsValid(this.accountNumber)){
+        errors.push({ description: "Conta corrente inválida", code: "ACCOUNT_NUMBER" });
+      }
+      
+      if(!validator.accountCheckNumberIsValid(this.accountCheckNumber)){
+        errors.push({ description: "Dígito da conta corrente inválido", code: "ACCOUNT_CHECK_NUMBER" });
       }
 
       if(errors.length === 0) {

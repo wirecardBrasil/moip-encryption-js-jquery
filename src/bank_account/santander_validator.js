@@ -2,23 +2,23 @@
   var Moip = window.Moip || {};
   window.Moip = Moip;
 
-  function BancoDoBrasilValidator() {
-    if ( !( this instanceof BancoDoBrasilValidator ) ) {
-      return new BancoDoBrasilValidator();
+  function SantanderValidator() {
+    if ( !( this instanceof SantanderValidator ) ) {
+      return new SantanderValidator();
     }
   }
 
-  BancoDoBrasilValidator.prototype = {
+  SantanderValidator.prototype = {
     agencyNumberIsValid: function(agencyNumber) {
       return Moip.CommonBankAccountValidator.agencyNumberIsValid(agencyNumber);
     },
 
     agencyCheckNumberIsValid: function(agencyCheckNumber) {
-      return agencyCheckNumber.length == 1 && Moip.CommonBankAccountValidator.agencyCheckNumberIsValid(agencyCheckNumber);
+      return Moip.CommonBankAccountValidator.agencyCheckNumberIsValid(agencyCheckNumber);
     },
 
     accountNumberIsValid: function(accountNumber) {
-      return accountNumber.length == 9 && Moip.CommonBankAccountValidator.accountNumberIsValid(accountNumber);
+      return accountNumber.length == 12 && Moip.CommonBankAccountValidator.accountNumberIsValid(accountNumber);
     },
 
     accountCheckNumberIsValid: function(accountCheckNumber) {
@@ -26,6 +26,6 @@
     }
   };
 
-  Moip.BancoDoBrasilValidator = BancoDoBrasilValidator();
+  Moip.SantanderValidator = SantanderValidator();
 
 })(window);

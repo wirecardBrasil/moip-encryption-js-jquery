@@ -14,7 +14,7 @@ describe("BankAccount", function() {
       bankNumber         : "001",
       agencyNumber       : "1584",
       agencyCheckNumber  : "9",
-      accountNumber      : "00210169",
+      accountNumber      : "002101691",
       accountCheckNumber : "6"
     });
 

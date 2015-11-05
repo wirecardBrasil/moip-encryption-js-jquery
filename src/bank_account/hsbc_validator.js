@@ -2,13 +2,13 @@
   var Moip = window.Moip || {};
   window.Moip = Moip;
 
-  function ItauValidator() {
-    if ( !( this instanceof ItauValidator ) ) {
-      return new ItauValidator();
+  function HSBCValidator() {
+    if ( !( this instanceof HSBCValidator ) ) {
+      return new HSBCValidator();
     }
   }
 
-  ItauValidator.prototype = {
+  HSBCValidator.prototype = {
     agencyNumberIsValid: function(agencyNumber) {
       return Moip.CommonBankAccountValidator.agencyNumberIsValid(agencyNumber);
     },
@@ -18,14 +18,14 @@
     },
 
     accountNumberIsValid: function(accountNumber) {
-      return accountNumber.length == 5 && Moip.CommonBankAccountValidator.accountNumberIsValid(accountNumber);
+      return accountNumber.length == 11 && Moip.CommonBankAccountValidator.accountNumberIsValid(accountNumber);
     },
 
     accountCheckNumberIsValid: function(accountCheckNumber) {
-      return Moip.CommonBankAccountValidator.accountCheckNumberIsValid(accountCheckNumber);
+      return accountCheckNumber.length == 2 && Moip.GenericBankAccountValidator.accountCheckNumberIsValid(accountCheckNumber);
     }
   };
 
-  Moip.ItauValidator = ItauValidator();
+  Moip.HSBCValidator = HSBCValidator();
 
 })(window);

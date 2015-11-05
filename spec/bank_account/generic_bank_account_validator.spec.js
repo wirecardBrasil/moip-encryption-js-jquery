@@ -96,7 +96,85 @@ describe("GenericBankAccountValidator", function() {
     it("does NOT accept agency greater than two digits", function() {
       validBankAccount.agencyCheckNumber = "123";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'AGENCY_CHECK_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'AGENCY_CHECK_NUMBER' }] };
+      expect(callbacks.invalid).toHaveBeenCalled();
+    });
+
+  });
+
+  describe("validate account", function(){
+
+    it("accepts a valid account number", function() {
+      validBankAccount.accountNumber = "123456789012";
+      validBankAccount.validate(callbacks);
+      expect(callbacks.valid).toHaveBeenCalled();
+    });
+
+    it("accepts account with one number", function() {
+      validBankAccount.accountNumber = "8";
+      validBankAccount.validate(callbacks);
+      expect(callbacks.valid).toHaveBeenCalled();
+    });
+
+    it("does NOT accept account with letters", function() {
+      validBankAccount.accountNumber = "AAAAA";
+      validBankAccount.validate(callbacks);
+      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'ACCOUNT_NUMBER' }] };
+      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+    });
+
+    it("does NOT accept account equal zero", function() {
+      validBankAccount.accountNumber = "0";
+      validBankAccount.validate(callbacks);
+      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'ACCOUNT_NUMBER' }] };
+      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+    });
+
+    it("does NOT accept account greater than twelve numbers", function() {
+      validBankAccount.accountNumber = "1234567890123";
+      validBankAccount.validate(callbacks);
+      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'ACCOUNT_NUMBER' }] };
+      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+    });
+
+  });
+
+  describe("validate account check number", function(){
+
+    it("accepts a valid account check number", function() {
+      validBankAccount.accountCheckNumber = "9";
+      validBankAccount.validate(callbacks);
+      expect(callbacks.valid).toHaveBeenCalled();
+    });
+
+    it("accepts a valid account check with letters", function() {
+      validBankAccount.accountCheckNumber = "A";
+      validBankAccount.validate(callbacks);
+      expect(callbacks.valid).toHaveBeenCalled();
+    });
+
+    it("accepts a valid account check empty", function() {
+      validBankAccount.accountCheckNumber = "";
+      validBankAccount.validate(callbacks);
+      expect(callbacks.valid).toHaveBeenCalled();
+    });
+
+    it("accepts a valid account check equal zero", function() {
+      validBankAccount.accountCheckNumber = "0";
+      validBankAccount.validate(callbacks);
+      expect(callbacks.valid).toHaveBeenCalled();
+    });
+
+    it("accepts a valid account check with two digits", function() {
+      validBankAccount.accountCheckNumber = "22";
+      validBankAccount.validate(callbacks);
+      expect(callbacks.valid).toHaveBeenCalled();
+    });
+
+    it("does NOT accept account greater than two digits", function() {
+      validBankAccount.accountCheckNumber = "123";
+      validBankAccount.validate(callbacks);
+      var expectedParams = {errors: [{ description: 'Dígito da conta corrente inválida', code: 'ACCOUNT_CHECK_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalled();
     });
 
