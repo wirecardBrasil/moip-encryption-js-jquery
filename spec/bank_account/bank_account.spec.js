@@ -51,7 +51,7 @@ describe("BankAccount", function() {
     it("does NOT accept a invalid bank number", function() {
       validBankAccount.bankNumber = "1";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Banco inválido', code: 'BANK_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Banco inválido', code: 'INVALID_BANK_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
       expect(callbacks.valid).not.toHaveBeenCalled();
     });

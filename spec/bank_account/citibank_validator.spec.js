@@ -28,14 +28,14 @@ describe("CitibankValidator", function() {
     it("does NOT accept account less than eight digits", function() {
       validBankAccount.accountNumber = "1234567";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'ACCOUNT_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account greater than eight digits", function() {
       validBankAccount.accountNumber = "123456789";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'ACCOUNT_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 

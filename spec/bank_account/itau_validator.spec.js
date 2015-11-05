@@ -28,14 +28,14 @@ describe("ItauValidator", function() {
     it("does NOT accept account less than five digits", function() {
       validBankAccount.accountNumber = "1234";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'ACCOUNT_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account greater than five digits", function() {
       validBankAccount.accountNumber = "123456";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'ACCOUNT_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 

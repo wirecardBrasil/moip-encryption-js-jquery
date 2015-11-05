@@ -34,23 +34,23 @@
       }
 
       if(!Moip.GenericBankAccountValidator.bankNumberIsValid(this.bankNumber)){
-        errors.push({ description: "Banco inválido", code: "BANK_NUMBER" });
+        errors.push({ description: "Banco inválido", code: "INVALID_BANK_NUMBER" });
       }
 
       if(!validator.agencyNumberIsValid(this.agencyNumber)){
-        errors.push({ description: "Agência inválida", code: "AGENCY_NUMBER" });
+        errors.push({ description: "Agência inválida", code: "INVALID_AGENCY_NUMBER" });
       }
       
       if(!validator.agencyCheckNumberIsValid(this.agencyCheckNumber)){
-        errors.push({ description: "Dígito da agência inválido", code: "AGENCY_CHECK_NUMBER" });
+        errors.push({ description: "Dígito da agência inválido", code: "INVALID_AGENCY_CHECK_NUMBER" });
       }
 
       if(!validator.accountNumberIsValid(this.accountNumber)){
-        errors.push({ description: "Conta corrente inválida", code: "ACCOUNT_NUMBER" });
+        errors.push({ description: "Conta corrente inválida", code: "INVALID_ACCOUNT_NUMBER" });
       }
       
       if(!validator.accountCheckNumberIsValid(this.accountCheckNumber)){
-        errors.push({ description: "Dígito da conta corrente inválido", code: "ACCOUNT_CHECK_NUMBER" });
+        errors.push({ description: "Dígito da conta corrente inválido", code: "INVALID_ACCOUNT_CHECK_NUMBER" });
       }
 
       if(errors.length === 0) {

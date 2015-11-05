@@ -28,14 +28,14 @@ describe("BradescoValidator", function() {
     it("does NOT accept agency check empty", function() {
       validBankAccount.agencyCheckNumber = "";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'AGENCY_CHECK_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'INVALID_AGENCY_CHECK_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency check greater than one digits", function() {
       validBankAccount.agencyCheckNumber = "12";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'AGENCY_CHECK_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'INVALID_AGENCY_CHECK_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 

@@ -41,21 +41,21 @@ describe("GenericBankAccountValidator", function() {
     it("does NOT accept agency with letters", function() {
       validBankAccount.agencyNumber = "AAAA";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'AGENCY_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'INVALID_AGENCY_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency equal zero", function() {
       validBankAccount.agencyNumber = "0";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'AGENCY_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'INVALID_AGENCY_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency with six numbers", function() {
       validBankAccount.agencyNumber = "197817";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'AGENCY_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'INVALID_AGENCY_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
@@ -96,7 +96,7 @@ describe("GenericBankAccountValidator", function() {
     it("does NOT accept agency greater than two digits", function() {
       validBankAccount.agencyCheckNumber = "123";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'AGENCY_CHECK_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'INVALID_AGENCY_CHECK_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalled();
     });
 
@@ -119,21 +119,21 @@ describe("GenericBankAccountValidator", function() {
     it("does NOT accept account with letters", function() {
       validBankAccount.accountNumber = "AAAAA";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'ACCOUNT_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account equal zero", function() {
       validBankAccount.accountNumber = "0";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'ACCOUNT_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account greater than twelve numbers", function() {
       validBankAccount.accountNumber = "1234567890123";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'ACCOUNT_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
@@ -174,7 +174,7 @@ describe("GenericBankAccountValidator", function() {
     it("does NOT accept account greater than two digits", function() {
       validBankAccount.accountCheckNumber = "123";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Dígito da conta corrente inválida', code: 'ACCOUNT_CHECK_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Dígito da conta corrente inválida', code: 'INVALID_ACCOUNT_CHECK_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalled();
     });
 

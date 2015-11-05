@@ -28,28 +28,28 @@ describe("HSBCValidator", function() {
     it("does NOT accept account less than eleven digits", function() {
       validBankAccount.accountNumber = "1234567890";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'ACCOUNT_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account greater than eleven digits", function() {
       validBankAccount.accountNumber = "123456789012";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'ACCOUNT_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account check less than two digits", function() {
       validBankAccount.accountCheckNumber = "1";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Dígito da conta corrente inválido', code: 'ACCOUNT_CHECK_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Dígito da conta corrente inválido', code: 'INVALID_ACCOUNT_CHECK_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account check greater than two digits", function() {
       validBankAccount.accountCheckNumber = "123";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Dígito da conta corrente inválido', code: 'ACCOUNT_CHECK_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'Dígito da conta corrente inválido', code: 'INVALID_ACCOUNT_CHECK_NUMBER' }] };
       expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
   });
