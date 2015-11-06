@@ -97,7 +97,7 @@ describe("GenericBankAccountValidator", function() {
       validBankAccount.agencyCheckNumber = "123";
       validBankAccount.validate(callbacks);
       var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'INVALID_AGENCY_CHECK_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalled();
+      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
   });
@@ -174,8 +174,8 @@ describe("GenericBankAccountValidator", function() {
     it("does NOT accept account greater than two digits", function() {
       validBankAccount.accountCheckNumber = "123";
       validBankAccount.validate(callbacks);
-      var expectedParams = {errors: [{ description: 'Dígito da conta corrente inválida', code: 'INVALID_ACCOUNT_CHECK_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalled();
+      var expectedParams = {errors: [{ description: 'Dígito da conta corrente inválido', code: 'INVALID_ACCOUNT_CHECK_NUMBER' }] };
+      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
   });
