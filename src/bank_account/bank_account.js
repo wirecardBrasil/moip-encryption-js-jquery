@@ -1,19 +1,16 @@
 (function(window) {
-
   var Moip = window.Moip || {};
   window.Moip = Moip;
 
-  function BankAccount(params) {
-    this.bankNumber = params.bankNumber;
-    this.agencyNumber = params.agencyNumber;
-    this.agencyCheckNumber = params.agencyCheckNumber;
-    this.accountNumber = params.accountNumber;
-    this.accountCheckNumber = params.accountCheckNumber;
+  function BankAccount() {
+    if ( !( this instanceof BankAccount ) ) {
+      return new BankAccount();
+    }
   }
 
   BankAccount.prototype = {
 
-    validate : function (callbacks){
+    validate : function (params){
 
       var errors = [];
       var validator;
@@ -27,41 +24,41 @@
         "399": Moip.HSBCValidator
       };
 
-      if (validators[this.bankNumber]) {
-        validator = validators[this.bankNumber];
+      if (validators[params.bankNumber]) {
+        validator = validators[params.bankNumber];
       } else {
         validator = Moip.GenericBankAccountValidator;
       }
 
-      if(!Moip.GenericBankAccountValidator.bankNumberIsValid(this.bankNumber)){
+      if(!Moip.GenericBankAccountValidator.bankNumberIsValid(params.bankNumber)){
         errors.push({ description: "Banco inválido", code: "INVALID_BANK_NUMBER" });
       }
 
-      if(!validator.agencyNumberIsValid(this.agencyNumber)){
+      if(!validator.agencyNumberIsValid(params.agencyNumber)){
         errors.push({ description: "Agência inválida", code: "INVALID_AGENCY_NUMBER" });
       }
       
-      if(!validator.agencyCheckNumberIsValid(this.agencyCheckNumber)){
+      if(!validator.agencyCheckNumberIsValid(params.agencyCheckNumber)){
         errors.push({ description: "Dígito da agência inválido", code: "INVALID_AGENCY_CHECK_NUMBER" });
       }
 
-      if(!validator.accountNumberIsValid(this.accountNumber)){
+      if(!validator.accountNumberIsValid(params.accountNumber)){
         errors.push({ description: "Conta corrente inválida", code: "INVALID_ACCOUNT_NUMBER" });
       }
       
-      if(!validator.accountCheckNumberIsValid(this.accountCheckNumber)){
+      if(!validator.accountCheckNumberIsValid(params.accountCheckNumber)){
         errors.push({ description: "Dígito da conta corrente inválido", code: "INVALID_ACCOUNT_CHECK_NUMBER" });
       }
 
       if(errors.length === 0) {
-        callbacks.valid();
+        params.valid();
       } else {
-        callbacks.invalid({ errors: errors });
+        params.invalid({ errors: errors });
       }
     }
   
   };
 
-  Moip.BankAccount = BankAccount;
+  Moip.BankAccount = BankAccount();
 
 })(window);

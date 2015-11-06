@@ -1,42 +1,38 @@
 describe("BancoDoBrasilValidator", function() {
 
-  var callbacks;
-  var validBankAccount;
+  var validBankAccountParams;
 
   beforeEach(function() { 
-    callbacks = {
-      valid: jasmine.createSpy(),
-      invalid: jasmine.createSpy(),
-    };
-
-    validBankAccount = new Moip.BankAccount({
+    validBankAccountParams = {
       bankNumber         : "001",
       agencyNumber       : "1584",
       agencyCheckNumber  : "9",
       accountNumber      : "002101695",
-      accountCheckNumber : "6"
-    });
+      accountCheckNumber : "6",
+      valid: jasmine.createSpy(),
+      invalid: jasmine.createSpy()
+    };
   });
 
   describe("validate agency check number", function(){
 
     it("accepts a valid bank account", function() {
-      validBankAccount.validate(callbacks);
-      expect(callbacks.valid).toHaveBeenCalled();
+      Moip.BankAccount.validate(validBankAccountParams);
+      expect(validBankAccountParams.valid).toHaveBeenCalled();
     });
 
     it("does NOT accept agency check empty", function() {
-      validBankAccount.agencyCheckNumber = "";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.agencyCheckNumber = "";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'INVALID_AGENCY_CHECK_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency check greater than one digits", function() {
-      validBankAccount.agencyCheckNumber = "12";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.agencyCheckNumber = "12";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'INVALID_AGENCY_CHECK_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
   });

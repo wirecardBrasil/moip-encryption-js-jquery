@@ -148,13 +148,12 @@ Lista de códigos/números dos bancos: [http://www.codigobanco.com].
 <script type="text/javascript">
   $(document).ready(function() {
     $("#validate_bank_account").click(function() {
-      var bankAccount = new Moip.BankAccount({
+      Moip.BankAccount.validate({
         bankNumber         : $("#bank_number").val(),
         agencyNumber       : $("#agency_number").val(),
         agencyCheckNumber  : $("#agency_check_number").val(),
         accountNumber      : $("#account_number").val(),
-        accountCheckNumber : $("#account_check_number").val()
-      }).validate({
+        accountCheckNumber : $("#account_check_number").val(),
         valid: function() {
           alert("Conta bancária válida")
         },
@@ -170,7 +169,7 @@ Lista de códigos/números dos bancos: [http://www.codigobanco.com].
   });
 </script>
 <form>
-  <select id="bank_number" class="form-control">
+  <select id="bank_number">
     <option value="001">BANCO DO BRASIL S.A.</option>
     <option value="237">BANCO BRADESCO S.A.</option>
     <option value="341">BANCO ITAÚ S.A.</option>

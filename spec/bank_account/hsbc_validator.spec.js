@@ -1,56 +1,53 @@
 describe("HSBCValidator", function() {
 
-  var callbacks;
+  var validBankAccountParams;
   var validBankAccount;
 
   beforeEach(function() { 
-    callbacks = {
-      valid: jasmine.createSpy(),
-      invalid: jasmine.createSpy(),
-    };
-
-    validBankAccount = new Moip.BankAccount({
+    validBankAccountParams = {
       bankNumber         : "399",
       agencyNumber       : "1584",
       agencyCheckNumber  : "",
       accountNumber      : "12345678901",
-      accountCheckNumber : "98"
-    });
+      accountCheckNumber : "98",
+      valid: jasmine.createSpy(),
+      invalid: jasmine.createSpy(),
+    };
   });
 
   describe("validate agency check number", function(){
 
     it("accepts a valid bank account", function() {
-      validBankAccount.validate(callbacks);
-      expect(callbacks.valid).toHaveBeenCalled();
+      Moip.BankAccount.validate(validBankAccountParams);
+      expect(validBankAccountParams.valid).toHaveBeenCalled();
     });
 
     it("does NOT accept account less than eleven digits", function() {
-      validBankAccount.accountNumber = "1234567890";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.accountNumber = "1234567890";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account greater than eleven digits", function() {
-      validBankAccount.accountNumber = "123456789012";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.accountNumber = "123456789012";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account check less than two digits", function() {
-      validBankAccount.accountCheckNumber = "1";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.accountCheckNumber = "1";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Dígito da conta corrente inválido', code: 'INVALID_ACCOUNT_CHECK_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account check greater than two digits", function() {
-      validBankAccount.accountCheckNumber = "123";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.accountCheckNumber = "123";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Dígito da conta corrente inválido', code: 'INVALID_ACCOUNT_CHECK_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
   });
 

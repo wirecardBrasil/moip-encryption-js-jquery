@@ -1,57 +1,53 @@
 describe("CommonBankAccountValidator", function() {
 
-  var callbacks;
-  var validBankAccount;
+  var validBankAccountParams;
 
   beforeEach(function() { 
-    callbacks = {
-      valid: jasmine.createSpy(),
-      invalid: jasmine.createSpy(),
-    };
-
-    validBankAccount = new Moip.BankAccount({
+    validBankAccountParams = {
       bankNumber         : "033",
       agencyNumber       : "1584",
       agencyCheckNumber  : "",
       accountNumber      : "123456789012",
-      accountCheckNumber : "6"
-    });
+      accountCheckNumber : "6",
+      valid: jasmine.createSpy(),
+      invalid: jasmine.createSpy()
+    };
   });
 
   describe("validate agency", function(){
 
     it("accepts a valid agency number", function() {
-      validBankAccount.agencyNumber = "0170";
-      validBankAccount.validate(callbacks);
-      expect(callbacks.valid).toHaveBeenCalled();
+      validBankAccountParams.agencyNumber = "0170";
+      Moip.BankAccount.validate(validBankAccountParams);
+      expect(validBankAccountParams.valid).toHaveBeenCalled();
     });
 
     it("does NOT accept agency with letters", function() {
-      validBankAccount.agencyNumber = "AAAA";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.agencyNumber = "AAAA";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Agência inválida', code: 'INVALID_AGENCY_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency equal zero", function() {
-      validBankAccount.agencyNumber = "0000";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.agencyNumber = "0000";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Agência inválida', code: 'INVALID_AGENCY_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency less than four numbers", function() {
-      validBankAccount.agencyNumber = "170";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.agencyNumber = "170";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Agência inválida', code: 'INVALID_AGENCY_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency greater than four numbers", function() {
-      validBankAccount.agencyNumber = "11708";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.agencyNumber = "11708";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Agência inválida', code: 'INVALID_AGENCY_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
   });
@@ -59,34 +55,34 @@ describe("CommonBankAccountValidator", function() {
   describe("validate agency check number", function(){
 
     it("accepts a valid agency check number", function() {
-      validBankAccount.agencyCheckNumber = "9";
-      validBankAccount.validate(callbacks);
-      expect(callbacks.valid).toHaveBeenCalled();
+      validBankAccountParams.agencyCheckNumber = "9";
+      Moip.BankAccount.validate(validBankAccountParams);
+      expect(validBankAccountParams.valid).toHaveBeenCalled();
     });
 
     it("accepts a valid agency check with letters", function() {
-      validBankAccount.agencyCheckNumber = "A";
-      validBankAccount.validate(callbacks);
-      expect(callbacks.valid).toHaveBeenCalled();
+      validBankAccountParams.agencyCheckNumber = "A";
+      Moip.BankAccount.validate(validBankAccountParams);
+      expect(validBankAccountParams.valid).toHaveBeenCalled();
     });
 
     it("accepts a valid agency check empty", function() {
-      validBankAccount.agencyCheckNumber = "";
-      validBankAccount.validate(callbacks);
-      expect(callbacks.valid).toHaveBeenCalled();
+      validBankAccountParams.agencyCheckNumber = "";
+      Moip.BankAccount.validate(validBankAccountParams);
+      expect(validBankAccountParams.valid).toHaveBeenCalled();
     });
 
     it("accepts a valid agency check equal zero", function() {
-      validBankAccount.agencyCheckNumber = "0";
-      validBankAccount.validate(callbacks);
-      expect(callbacks.valid).toHaveBeenCalled();
+      validBankAccountParams.agencyCheckNumber = "0";
+      Moip.BankAccount.validate(validBankAccountParams);
+      expect(validBankAccountParams.valid).toHaveBeenCalled();
     });
 
     it("does NOT accept agency check greater than one digits", function() {
-      validBankAccount.agencyCheckNumber = "12";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.agencyCheckNumber = "12";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'INVALID_AGENCY_CHECK_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
   });
@@ -94,37 +90,37 @@ describe("CommonBankAccountValidator", function() {
   describe("validate account", function(){
 
     it("accepts a valid account number", function() {
-      validBankAccount.accountNumber = "123456789012";
-      validBankAccount.validate(callbacks);
-      expect(callbacks.valid).toHaveBeenCalled();
+      validBankAccountParams.accountNumber = "123456789012";
+      Moip.BankAccount.validate(validBankAccountParams);
+      expect(validBankAccountParams.valid).toHaveBeenCalled();
     });
 
     it("does NOT accept account with letters", function() {
-      validBankAccount.accountNumber = "AAAAA";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.accountNumber = "AAAAA";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account equal zero", function() {
-      validBankAccount.accountNumber = "000000000000";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.accountNumber = "000000000000";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account less than five numbers", function() {
-      validBankAccount.accountNumber = "1234567890123";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.accountNumber = "1234567890123";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account greater than twelve numbers", function() {
-      validBankAccount.accountNumber = "1234567890123";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.accountNumber = "1234567890123";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
   });
@@ -132,28 +128,35 @@ describe("CommonBankAccountValidator", function() {
   describe("validate account check number", function(){
 
     it("accepts a valid account check number", function() {
-      validBankAccount.accountCheckNumber = "9";
-      validBankAccount.validate(callbacks);
-      expect(callbacks.valid).toHaveBeenCalled();
+      validBankAccountParams.accountCheckNumber = "9";
+      Moip.BankAccount.validate(validBankAccountParams);
+      expect(validBankAccountParams.valid).toHaveBeenCalled();
     });
 
     it("accepts a valid account check with letters", function() {
-      validBankAccount.accountCheckNumber = "A";
-      validBankAccount.validate(callbacks);
-      expect(callbacks.valid).toHaveBeenCalled();
+      validBankAccountParams.accountCheckNumber = "A";
+      Moip.BankAccount.validate(validBankAccountParams);
+      expect(validBankAccountParams.valid).toHaveBeenCalled();
     });
 
     it("accepts a valid account check equal zero", function() {
-      validBankAccount.accountCheckNumber = "0";
-      validBankAccount.validate(callbacks);
-      expect(callbacks.valid).toHaveBeenCalled();
+      validBankAccountParams.accountCheckNumber = "0";
+      Moip.BankAccount.validate(validBankAccountParams);
+      expect(validBankAccountParams.valid).toHaveBeenCalled();
+    });
+
+    it("does NOT accept account check empty", function() {
+      validBankAccountParams.accountCheckNumber = "";
+      Moip.BankAccount.validate(validBankAccountParams);
+      var expectedParams = {errors: [{ description: 'Dígito da conta corrente inválido', code: 'INVALID_ACCOUNT_CHECK_NUMBER' }] };
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account check greater than one digits", function() {
-      validBankAccount.accountCheckNumber = "12";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.accountCheckNumber = "12";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Dígito da conta corrente inválido', code: 'INVALID_ACCOUNT_CHECK_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
   });
