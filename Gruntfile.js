@@ -46,7 +46,7 @@ module.exports = function (grunt) {
 
     concat: {
       dist: {
-        src: ["lib/jsencrypt.min.js", "src/*.js"],
+        src: ["lib/jsencrypt.min.js", "src/**/*.js"],
         dest: 'build/<%= pkg.name %>.js',
       },
       options: {
@@ -68,9 +68,12 @@ module.exports = function (grunt) {
     copy: {
       version: {
         src: 'build/<%= pkg.name %>.min.js',
-        dest: 'build/<%= pkg.name %>-<%= pkg.version %>.min.js',
-        dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.min.js'
+        dest: 'build/<%= pkg.name %>-<%= pkg.version %>.min.js'
       },
+      dist: {
+        src: 'build/<%= pkg.name %>.min.js',
+        dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.min.js'
+      }
     },
     
     bump: {
@@ -136,7 +139,7 @@ module.exports = function (grunt) {
   // Public tasks
   //**********************
   grunt.registerTask('default', ['jshint','jasmine'] );
-  grunt.registerTask('build', ['default', 'concat', 'uglify', 'copy:version']);
+  grunt.registerTask('build', ['default', 'concat', 'uglify', 'copy:version', 'copy:dist']);
   
   //**********************
   // Final task (publish lib)
