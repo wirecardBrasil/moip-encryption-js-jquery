@@ -9,17 +9,44 @@ module.exports = function (grunt) {
     },
             
     jasmine: {
-      src: "src/*.js",
       options: {
-        specs: "spec/*.js",
+        src: "src/**/*.js",
+        specs: "spec/**/*.js",
         helpers: "spec/helpers/*.js",
         vendor: ["lib/jsencrypt.min.js"],
+      },
+      coverage: {
+        src: '<%= jasmine.options.src %>',
+        options: {
+          specs: '<%= jasmine.options.specs %>',
+          template: require('grunt-template-jasmine-istanbul'),
+          templateOptions: {
+            coverage: 'cov/coverage.json',
+            report: [
+              {
+                type: 'html',
+                options: {
+                  dir: 'cov/html'
+                }
+              },
+              {
+                type: 'cobertura',
+                options: {
+                  dir: 'cov/cobertura'
+                }
+              },
+              {
+                type: 'text-summary'
+              }
+            ]
+          }
+        }
       }
     },
 
     concat: {
       dist: {
-        src: ["lib/jsencrypt.min.js", "src/*.js"],
+        src: ["lib/jsencrypt.min.js", "src/**/*.js"],
         dest: 'build/<%= pkg.name %>.js',
       },
       options: {
@@ -41,8 +68,12 @@ module.exports = function (grunt) {
     copy: {
       version: {
         src: 'build/<%= pkg.name %>.min.js',
-        dest: 'build/<%= pkg.name %>-<%= pkg.version %>.min.js',
+        dest: 'build/<%= pkg.name %>-<%= pkg.version %>.min.js'
       },
+      dist: {
+        src: 'build/<%= pkg.name %>.min.js',
+        dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.min.js'
+      }
     },
     
     bump: {
@@ -108,7 +139,7 @@ module.exports = function (grunt) {
   // Public tasks
   //**********************
   grunt.registerTask('default', ['jshint','jasmine'] );
-  grunt.registerTask('build', ['default', 'concat', 'uglify', 'copy:version']);
+  grunt.registerTask('build', ['default', 'concat', 'uglify', 'copy:version', 'copy:dist']);
   
   //**********************
   // Final task (publish lib)

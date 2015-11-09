@@ -115,7 +115,7 @@ Object: [brand]
  * ELO
  * HIPER
 
-### Verificado se a data de expiração do cartão
+### Verificando a data de expiração do cartão
 ``` javascript
 Moip.Validator.isExpiryDateValid("10", "2020");    //return true
 Moip.Validator.isExpiryDateValid("10", "2000");    //return false
@@ -126,3 +126,65 @@ var isExpiryDateValid = Moip.Validator.isExpiryDateValid(now.getMonth()+1+"", no
 ```
 Possíveis retornos:
 * true ou false
+
+### Validação de conta bancária
+A validação da conta bancária é realizada sobre as regras de cada um dos seguintes bancos: Itaú, Bradesco, Banco do Brasil, Santander, Citibank, HSBC e Banrisul. Para os outros bancos é realizada uma validação padrão: 
+ * Agência de 1 até 5 números
+ * Dígito da agência de 0 a 2 caracteres
+ * Conta corrente de 1 até 12 números
+ * Dígito da conta corrente de 0 a 2 caracteres
+
+Possíveis códigos de erro:
+ * INVALID_BANK_NUMBER
+ * INVALID_AGENCY_NUMBER
+ * INVALID_AGENCY_CHECK_NUMBER
+ * INVALID_ACCOUNT_NUMBER
+ * INVALID_ACCOUNT_CHECK_NUMBER
+
+Observação: a validação do dígito da conta corrente não é realizada através de cálculos.
+
+Lista de códigos/números dos bancos: [http://www.codigobanco.com].
+```html
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#validate_bank_account").click(function() {
+      Moip.BankAccount.validate({
+        bankNumber         : $("#bank_number").val(),
+        agencyNumber       : $("#agency_number").val(),
+        agencyCheckNumber  : $("#agency_check_number").val(),
+        accountNumber      : $("#account_number").val(),
+        accountCheckNumber : $("#account_check_number").val(),
+        valid: function() {
+          alert("Conta bancária válida")
+        },
+        invalid: function(data) {
+          var errors = "";
+          for(i in data.errors){
+            errors += data.errors[i].description + "-" + data.errors[i].code + ")\n";
+          }
+          alert("Conta bancária inválida: \n" + errors);
+        }
+      });
+    });
+  });
+</script>
+<form>
+  <select id="bank_number">
+    <option value="001">BANCO DO BRASIL S.A.</option>
+    <option value="237">BANCO BRADESCO S.A.</option>
+    <option value="341">BANCO ITAÚ S.A.</option>
+    <option value="104">CAIXA ECONOMICA FEDERAL</option>
+    <option value="033">BANCO SANTANDER BANESPA S.A.</option>
+    <option value="399">HSBC BANK BRASIL S.A.</option>
+    <option value="151">BANCO NOSSA CAIXA S.A.</option>
+    <option value="745">BANCO CITIBANK S.A.</option>
+  </select>
+
+  <input id="agency_number" placeholder="Agência" type="text"/>
+  <input id="agency_check_number" placeholder="Dígito da agência" type="text" />
+  <input id="account_number" placeholder="Conta corrente" type="text" />
+  <input id="account_check_number" placeholder="Dígito da conta corrente" type="text" />
+
+  <input type="button" value="Validar" id="validate_bank_account" />
+</form>
+```
