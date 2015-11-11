@@ -7,7 +7,7 @@ describe("CitibankValidator", function() {
       bankNumber         : "075",
       agencyNumber       : "1584",
       agencyCheckNumber  : "",
-      accountNumber      : "12345678",
+      accountNumber      : "1234567",
       accountCheckNumber : "6",
       valid: jasmine.createSpy(),
       invalid: jasmine.createSpy()
@@ -22,14 +22,14 @@ describe("CitibankValidator", function() {
     });
 
     it("does NOT accept account less than eight digits", function() {
-      validBankAccountParams.accountNumber = "1234567";
+      validBankAccountParams.accountNumber = "123456";
       Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account greater than eight digits", function() {
-      validBankAccountParams.accountNumber = "123456789";
+      validBankAccountParams.accountNumber = "12345678";
       Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);

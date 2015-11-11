@@ -14,7 +14,7 @@
     },
 
     agencyCheckNumberIsValid: function(agencyCheckNumber) {
-      return Moip.CommonBankAccountValidator.agencyCheckNumberIsValid(agencyCheckNumber);
+      return agencyCheckNumber.length == 2 && Moip.GenericBankAccountValidator.agencyCheckNumberIsValid(agencyCheckNumber);
     },
 
     accountNumberIsValid: function(accountNumber) {

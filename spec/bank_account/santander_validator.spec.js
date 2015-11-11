@@ -7,7 +7,7 @@ describe("SantanderValidator", function() {
       bankNumber         : "033",
       agencyNumber       : "1584",
       agencyCheckNumber  : "",
-      accountNumber      : "123456789012",
+      accountNumber      : "01789012",
       accountCheckNumber : "6",
       valid: jasmine.createSpy(),
       invalid: jasmine.createSpy()
@@ -22,14 +22,14 @@ describe("SantanderValidator", function() {
     });
 
     it("does NOT accept account less than twelve digits", function() {
-      validBankAccountParams.accountNumber = "12345678901";
+      validBankAccountParams.accountNumber = "5678901";
       Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account greater than twelve digits", function() {
-      validBankAccountParams.accountNumber = "1234567890123";
+      validBankAccountParams.accountNumber = "067890123";
       Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);

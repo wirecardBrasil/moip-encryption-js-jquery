@@ -7,7 +7,7 @@ describe("CommonBankAccountValidator", function() {
       bankNumber         : "033",
       agencyNumber       : "1584",
       agencyCheckNumber  : "",
-      accountNumber      : "123456789012",
+      accountNumber      : "12345678",
       accountCheckNumber : "6",
       valid: jasmine.createSpy(),
       invalid: jasmine.createSpy()
@@ -90,7 +90,7 @@ describe("CommonBankAccountValidator", function() {
   describe("validate account", function(){
 
     it("accepts a valid account number", function() {
-      validBankAccountParams.accountNumber = "123456789012";
+      validBankAccountParams.accountNumber = "12345678";
       Moip.BankAccount.validate(validBankAccountParams);
       expect(validBankAccountParams.valid).toHaveBeenCalled();
     });
