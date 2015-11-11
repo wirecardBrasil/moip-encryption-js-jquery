@@ -1,42 +1,39 @@
 describe("ItauValidator", function() {
 
-  var callbacks;
+  var validBankAccountParams;
   var validBankAccount;
 
   beforeEach(function() { 
-    callbacks = {
-      valid: jasmine.createSpy(),
-      invalid: jasmine.createSpy(),
-    };
-
-    validBankAccount = new Moip.BankAccount({
+    validBankAccountParams = {
       bankNumber         : "341",
       agencyNumber       : "1584",
       agencyCheckNumber  : "",
       accountNumber      : "01695",
-      accountCheckNumber : "6"
-    });
+      accountCheckNumber : "6",
+      valid: jasmine.createSpy(),
+      invalid: jasmine.createSpy()
+    };
   });
 
   describe("validate account number", function(){
 
     it("accepts a valid bank account", function() {
-      validBankAccount.validate(callbacks);
-      expect(callbacks.valid).toHaveBeenCalled();
+      Moip.BankAccount.validate(validBankAccountParams);
+      expect(validBankAccountParams.valid).toHaveBeenCalled();
     });
 
     it("does NOT accept account less than five digits", function() {
-      validBankAccount.accountNumber = "1234";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.accountNumber = "1234";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account greater than five digits", function() {
-      validBankAccount.accountNumber = "123456";
-      validBankAccount.validate(callbacks);
+      validBankAccountParams.accountNumber = "123456";
+      Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
-      expect(callbacks.invalid).toHaveBeenCalledWith(expectedParams);
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
   });
