@@ -18,7 +18,7 @@
     },
 
     accountNumberIsValid: function(accountNumber) {
-      return accountNumber.length == 10 && Moip.CommonBankAccountValidator.accountNumberIsValid(accountNumber);
+      return accountNumber.length == 9 && Moip.CommonBankAccountValidator.accountNumberIsValid(accountNumber);
     },
 
     accountCheckNumberIsValid: function(accountCheckNumber) {

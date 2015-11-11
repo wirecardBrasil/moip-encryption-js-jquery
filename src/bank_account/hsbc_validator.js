@@ -18,11 +18,11 @@
     },
 
     accountNumberIsValid: function(accountNumber) {
-      return accountNumber.length == 11 && Moip.CommonBankAccountValidator.accountNumberIsValid(accountNumber);
+      return accountNumber.length == 6 && Moip.CommonBankAccountValidator.accountNumberIsValid(accountNumber);
     },
 
     accountCheckNumberIsValid: function(accountCheckNumber) {
-      return accountCheckNumber.length == 2 && Moip.GenericBankAccountValidator.accountCheckNumberIsValid(accountCheckNumber);
+      return Moip.GenericBankAccountValidator.accountCheckNumberIsValid(accountCheckNumber);
     }
   };
 
