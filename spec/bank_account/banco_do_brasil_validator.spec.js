@@ -7,7 +7,7 @@ describe("BancoDoBrasilValidator", function() {
       bankNumber         : "001",
       agencyNumber       : "1584",
       agencyCheckNumber  : "9",
-      accountNumber      : "002101695",
+      accountNumber      : "02101695",
       accountCheckNumber : "6",
       valid: jasmine.createSpy(),
       invalid: jasmine.createSpy()

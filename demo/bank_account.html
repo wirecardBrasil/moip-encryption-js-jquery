@@ -42,13 +42,13 @@
             $("#error_message").fadeOut();
           },
           invalid: function(data) {
-            $("#success_message").fadeOut();
-            var errors = "";
+            var errors = "Ocorreram os seguintes erros:<br/>";
             for(i in data.errors){
               errors += "- " + data.errors[i].description + "<br/>";
             }
             $("#error_message").removeClass('hide').fadeIn('slow');
-            $("#error_message").html("Ocorreram os seguintes erros:<br/>"+errors);
+            $("#error_message").html(errors);
+            $("#success_message").fadeOut();
           }
         });
       });
