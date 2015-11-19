@@ -18,5 +18,10 @@
     "grunt-bump": "0.3.0",
     "grunt-aws": "0.4.0",
     "grunt-template-jasmine-istanbul": "~0.3.4"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true
+    }
   }
 }
