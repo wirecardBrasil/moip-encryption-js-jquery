@@ -23,7 +23,13 @@
 
     accountCheckNumberIsValid: function(accountCheckNumber) {
       return Moip.CommonBankAccountValidator.accountCheckNumberIsValid(accountCheckNumber);
+    },
+
+    checkNumberMatch: function(bankAccount) {
+      var accountCheckNumberCalculated = Moip.ItauCheckNumberCalculator.calculate(bankAccount.agencyNumber, bankAccount.accountNumber);
+      return accountCheckNumberCalculated === bankAccount.accountCheckNumber;
     }
+    
   };
 
   Moip.ItauValidator = ItauValidator();

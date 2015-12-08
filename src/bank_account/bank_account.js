@@ -50,6 +50,12 @@
         errors.push({ description: "Dígito da conta corrente inválido", code: "INVALID_ACCOUNT_CHECK_NUMBER" });
       }
 
+      if(validator.accountNumberIsValid(params.accountNumber) && validator.accountCheckNumberIsValid(params.accountCheckNumber)){
+        if(!validator.checkNumberMatch(params)) {
+          errors.push({ description: "Número da conta corrente não corresponde ao dígito da conta corrente", code: "CHECK_NUMBER_DONT_MATCH" });
+        }
+      }
+
       if(errors.length === 0) {
         params.valid();
       } else {
