@@ -4033,12 +4033,12 @@
 "3747042582"];
 
 $.each(bka_list, function(index, str) {
-  agency = str.substring(0, 3);
+  agency = str.substring(0, 4);
   account = str.substring(4, 9);
-  digit = str.substring(10, 11);
+  digit = str.substring(9, 10);
       calc = Moip.ItauCheckNumberCalculator.calculate(agency, account)
       if (calc != digit){
-        console.log(agency + " " + account + "-" + digit + "Calc:" + calc);
+        console.log(str + ": " + agency + " " + account + "-" + digit + "Calc:" + calc);
       }
     });
 
