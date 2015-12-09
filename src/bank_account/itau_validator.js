@@ -26,8 +26,8 @@
     },
 
     checkNumberMatch: function(bankAccount) {
-      var accountCheckNumberCalculated = Moip.ItauCheckNumberCalculator.calculate(bankAccount.agencyNumber, bankAccount.accountNumber);
-      return accountCheckNumberCalculated === bankAccount.accountCheckNumber;
+      var checkNumberCalculated = Moip.ItauCheckNumberCalculator.calculate(bankAccount.agencyNumber, bankAccount.accountNumber);
+      return checkNumberCalculated === bankAccount.accountCheckNumber;
     }
     
   };

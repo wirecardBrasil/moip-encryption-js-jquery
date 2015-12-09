@@ -1,4 +1,4 @@
-describe("ItauValidator", function() {
+describe("ItauCheckNumberCalculator", function() {
 
   var bankAccount;
 
@@ -13,8 +13,8 @@ describe("ItauValidator", function() {
   describe("validate Itaú account number", function() {
 
     it("should correctly calculate the check number", function() {
-      accountCheckNumber = Moip.ItauCheckNumberCalculator.calculate(bankAccount.agencyNumber, bankAccount.accountNumber);
-      expect(accountCheckNumber).toEqual(bankAccount.accountCheckNumber);
+      checkNumberCalculated = Moip.ItauCheckNumberCalculator.calculate(bankAccount.agencyNumber, bankAccount.accountNumber);
+      expect(checkNumberCalculated).toEqual(bankAccount.accountCheckNumber);
     });
   });
 
