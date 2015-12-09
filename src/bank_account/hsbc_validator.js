@@ -23,6 +23,10 @@
 
     accountCheckNumberIsValid: function(accountCheckNumber) {
       return Moip.GenericBankAccountValidator.accountCheckNumberIsValid(accountCheckNumber);
+    },
+
+    checkNumberMatch: function(bankAccount) {
+      return true;
     }
   };
 
