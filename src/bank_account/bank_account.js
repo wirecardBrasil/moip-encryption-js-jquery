@@ -50,9 +50,15 @@
         errors.push({ description: "Dígito da conta corrente inválido", code: "INVALID_ACCOUNT_CHECK_NUMBER" });
       }
 
+      if(validator.agencyNumberIsValid(params.agencyNumber) && validator.agencyCheckNumberIsValid(params.agencyCheckNumber)){
+        if(!validator.agencyCheckNumberMatch(params)) {
+          errors.push({ description: "Número da agência não corresponde ao dígito da agência", code: "AGENCY_CHECK_NUMBER_DONT_MATCH" });
+        }
+      }
+
       if(validator.accountNumberIsValid(params.accountNumber) && validator.accountCheckNumberIsValid(params.accountCheckNumber)){
-        if(!validator.checkNumberMatch(params)) {
-          errors.push({ description: "Número da conta corrente não corresponde ao dígito da conta corrente", code: "CHECK_NUMBER_DONT_MATCH" });
+        if(!validator.accountCheckNumberMatch(params)) {
+          errors.push({ description: "Número da conta corrente não corresponde ao dígito da conta corrente", code: "ACCOUNT_CHECK_NUMBER_DONT_MATCH" });
         }
       }
 

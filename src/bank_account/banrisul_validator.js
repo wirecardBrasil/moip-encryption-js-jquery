@@ -25,8 +25,14 @@
       return Moip.CommonBankAccountValidator.accountCheckNumberIsValid(accountCheckNumber);
     },
 
-    checkNumberMatch: function(bankAccount) {
-      return true;
+    agencyCheckNumberMatch: function(bankAccount) {
+      var checkNumberCalculated = Moip.BanrisulCheckNumberCalculator.calculateAgency(bankAccount.agencyNumber);
+      return checkNumberCalculated === bankAccount.agencyCheckNumber;
+    },
+
+    accountCheckNumberMatch: function(bankAccount) {
+      var checkNumberCalculated = Moip.BanrisulCheckNumberCalculator.calculateAccount(bankAccount.accountNumber);
+      return checkNumberCalculated === bankAccount.accountCheckNumber;
     }
   };
 

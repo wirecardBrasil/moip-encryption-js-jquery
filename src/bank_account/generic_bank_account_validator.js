@@ -29,7 +29,11 @@
       return /^[a-zA-Z0-9]{0,2}$/.test(accountCheckNumber);
     },
 
-    checkNumberMatch: function(bankAccount) {
+    agencyCheckNumberMatch: function(bankAccount) {
+      return true;
+    },
+    
+    accountCheckNumberMatch: function(bankAccount) {
       return true;
     }
   };

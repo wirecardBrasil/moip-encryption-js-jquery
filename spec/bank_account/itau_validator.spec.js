@@ -35,6 +35,13 @@ describe("ItauValidator", function() {
       expect(bankAccount.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
+    it("does NOT accept when calc account check number invalid", function() {
+      bankAccount.accountCheckNumber = "0";
+      Moip.BankAccount.validate(bankAccount);
+      var expectedParams = {errors: [{ description: 'Número da conta corrente não corresponde ao dígito da conta corrente', code: 'ACCOUNT_CHECK_NUMBER_DONT_MATCH' }] };
+      expect(bankAccount.invalid).toHaveBeenCalledWith(expectedParams);
+    });
+
   });
 
 });
