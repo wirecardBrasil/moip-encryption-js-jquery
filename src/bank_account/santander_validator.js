@@ -25,7 +25,11 @@
       return Moip.CommonBankAccountValidator.accountCheckNumberIsValid(accountCheckNumber);
     },
 
-    checkNumberMatch: function(bankAccount) {
+    agencyCheckNumberMatch: function(bankAccount) {
+      return true;
+    },
+    
+    accountCheckNumberMatch: function(bankAccount) {
       return true;
     }
   };
