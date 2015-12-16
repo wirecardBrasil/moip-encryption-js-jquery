@@ -25,11 +25,9 @@
     accountModule: function(sumSeq, accountNumber) {
       var result = 11 - (sumSeq % 11);
       if(result === 10) {
-        console.log("account == X " + accountNumber);
         return "X";
       } else {
         if (result === 11) {
-          console.log("account == 0" + accountNumber);
           return "0";
         } else {
           return result.toString();
