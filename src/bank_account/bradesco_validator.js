@@ -26,11 +26,13 @@
     },
 
     agencyCheckNumberMatch: function(bankAccount) {
-      return true;
+      var checkNumberCalculated = Moip.BradescoCheckNumberCalculator.calculateAgency(bankAccount.agencyNumber);
+      return checkNumberCalculated === bankAccount.agencyCheckNumber;
     },
     
     accountCheckNumberMatch: function(bankAccount) {
-      return true;
+      var checkNumberCalculated = Moip.BradescoCheckNumberCalculator.calculateAccount(bankAccount.accountNumber);
+      return checkNumberCalculated === bankAccount.accountCheckNumber;
     }
   };
 
