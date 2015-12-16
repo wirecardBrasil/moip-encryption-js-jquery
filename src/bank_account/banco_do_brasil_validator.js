@@ -26,11 +26,13 @@
     },
 
     agencyCheckNumberMatch: function(bankAccount) {
-      return true;
+      var checkNumberCalculated = Moip.BancoDoBrasilCheckNumberCalculator.calculateAgency(bankAccount.agencyNumber);
+      return checkNumberCalculated === bankAccount.agencyCheckNumber;
     },
-
+    
     accountCheckNumberMatch: function(bankAccount) {
-      return true;
+      var checkNumberCalculated = Moip.BancoDoBrasilCheckNumberCalculator.calculateAccount(bankAccount.accountNumber);
+      return checkNumberCalculated === bankAccount.accountCheckNumber;
     }
   };
 
