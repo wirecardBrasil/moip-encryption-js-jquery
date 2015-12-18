@@ -18,7 +18,8 @@
     },
 
     accountNumberIsValid: function(accountNumber) {
-      return accountNumber.length == 8 && Moip.CommonBankAccountValidator.accountNumberIsValid(accountNumber);
+      return accountNumber.length == this.accountNumberLength() && 
+        Moip.CommonBankAccountValidator.accountNumberIsValid(accountNumber);
     },
 
     accountCheckNumberIsValid: function(accountCheckNumber) {
@@ -33,7 +34,25 @@
     accountCheckNumberMatch: function(bankAccount) {
       var checkNumberCalculated = Moip.BancoDoBrasilCheckNumberCalculator.calculateAccount(bankAccount.accountNumber);
       return checkNumberCalculated === bankAccount.accountCheckNumber;
+    },
+
+    agencyNumberMsgError: function() {
+      var length = Moip.CommonBankAccountValidator.agencyNumberLength();
+      return Moip.CommonBankAccountValidator.agencyNumberMsgError(length);
+    },
+
+    accountNumberMsgError: function() {
+      return Moip.CommonBankAccountValidator.accountNumberMsgError(this.accountNumberLength());
+    },
+
+    agencyNumberLength: function() {
+      return Moip.CommonBankAccountValidator.agencyNumberLength();
+    },
+
+    accountNumberLength: function() {
+      return 8;
     }
+
   };
 
   Moip.BancoDoBrasilValidator = BancoDoBrasilValidator();

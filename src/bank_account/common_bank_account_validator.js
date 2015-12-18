@@ -9,6 +9,10 @@
   }
 
   CommonBankAccountValidator.prototype = {
+    agencyNumberLength: function() {
+      return 4;
+    },
+
     agencyNumberIsValid: function(agencyNumber) {
       return /^(?!0000)([0-9]{4})$/.test(agencyNumber);
     },
@@ -23,6 +27,14 @@
 
     accountCheckNumberIsValid: function(accountCheckNumber) {
       return /^[a-zA-Z0-9]{1}$/.test(accountCheckNumber);
+    },
+
+    agencyNumberMsgError: function(length) {
+      return "A agência deve conter " + length + " números. Complete com zeros a esquerda se necessário.";
+    },
+
+    accountNumberMsgError: function(length) {
+      return "A conta corrente deve conter " + length + " números. Complete com zeros a esquerda se necessário.";
     }
   };
 
