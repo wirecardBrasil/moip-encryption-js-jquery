@@ -3,11 +3,11 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     banner: '<%= pkg.name %>-<%= pkg.version %>.js',
-    
+
     jshint : {
       all: ['src/**/*.js']
     },
-            
+
     jasmine: {
       options: {
         src: "src/**/*.js",
@@ -64,7 +64,7 @@ module.exports = function (grunt) {
         dest: 'build/<%= pkg.name %>.min.js'
       }
     },
-    
+
     copy: {
       version: {
         src: 'build/<%= pkg.name %>.min.js',
@@ -75,7 +75,7 @@ module.exports = function (grunt) {
         dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.min.js'
       }
     },
-    
+
     bump: {
         options: {
           files: ['package.json'],
@@ -140,7 +140,7 @@ module.exports = function (grunt) {
   //**********************
   grunt.registerTask('default', ['jshint','jasmine'] );
   grunt.registerTask('build', ['default', 'concat', 'uglify', 'copy:version', 'copy:dist']);
-  
+
   //**********************
   // Final task (publish lib)
   //**********************
