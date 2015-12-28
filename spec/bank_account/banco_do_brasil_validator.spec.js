@@ -38,14 +38,14 @@ describe("BancoDoBrasilValidator", function() {
     it("does NOT accept when calc agency check number invalid", function() {
       validBankAccountParams.agencyCheckNumber = "3";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Número da agência não corresponde ao dígito da agência', code: 'AGENCY_CHECK_NUMBER_DONT_MATCH' }] };
+      var expectedParams = {errors: [{ description: 'Dígito da agência não corresponde ao número da agência preenchido', code: 'AGENCY_CHECK_NUMBER_DONT_MATCH' }] };
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept when calc account check number invalid", function() {
       validBankAccountParams.accountCheckNumber = "8";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Número da conta corrente não corresponde ao dígito da conta corrente', code: 'ACCOUNT_CHECK_NUMBER_DONT_MATCH' }] };
+      var expectedParams = {errors: [{ description: 'Dígito da conta não corresponde ao número da conta preenchido', code: 'ACCOUNT_CHECK_NUMBER_DONT_MATCH' }] };
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
