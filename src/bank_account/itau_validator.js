@@ -18,7 +18,8 @@
     },
 
     accountNumberIsValid: function(accountNumber) {
-      return accountNumber.length == 5 && Moip.CommonBankAccountValidator.accountNumberIsValid(accountNumber);
+      return accountNumber.length == this.accountNumberLength() && 
+        Moip.CommonBankAccountValidator.accountNumberIsValid(accountNumber);
     },
 
     accountCheckNumberIsValid: function(accountCheckNumber) {
@@ -32,6 +33,18 @@
     accountCheckNumberMatch: function(bankAccount) {
       var checkNumberCalculated = Moip.ItauCheckNumberCalculator.calculate(bankAccount.agencyNumber, bankAccount.accountNumber);
       return checkNumberCalculated === bankAccount.accountCheckNumber;
+    },
+
+    agencyNumberMsgError: function() {
+      return Moip.CommonBankAccountValidator.agencyNumberMsgError();
+    },
+
+    accountNumberMsgError: function() {
+      return Moip.CommonBankAccountValidator.accountNumberMsgError(this.accountNumberLength());
+    },
+
+    accountNumberLength: function() {
+      return 5;
     }
     
   };

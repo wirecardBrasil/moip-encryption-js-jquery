@@ -37,16 +37,11 @@
     },
 
     agencyNumberMsgError: function() {
-      var length = Moip.CommonBankAccountValidator.agencyNumberLength();
-      return Moip.CommonBankAccountValidator.agencyNumberMsgError(length);
+      return Moip.CommonBankAccountValidator.agencyNumberMsgError();
     },
 
     accountNumberMsgError: function() {
       return Moip.CommonBankAccountValidator.accountNumberMsgError(this.accountNumberLength());
-    },
-
-    agencyNumberLength: function() {
-      return Moip.CommonBankAccountValidator.agencyNumberLength();
     },
 
     accountNumberLength: function() {

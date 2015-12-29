@@ -39,11 +39,7 @@
       }
 
       if(!validator.agencyNumberIsValid(params.agencyNumber)){
-        errors.push({ 
-          description:  validator.agencyNumberMsgError(),
-          code:         "INVALID_AGENCY_NUMBER", 
-          length:       validator.agencyNumberLength() 
-        });
+        errors.push({ description: validator.agencyNumberMsgError(), code: "INVALID_AGENCY_NUMBER" });
       }
       
       if(!validator.agencyCheckNumberIsValid(params.agencyCheckNumber)){
@@ -51,11 +47,7 @@
       }
 
       if(!validator.accountNumberIsValid(params.accountNumber)){
-        errors.push({ 
-          description:  validator.accountNumberMsgError(), 
-          code:         "INVALID_ACCOUNT_NUMBER",
-          length:       validator.accountNumberLength()
-        });
+        errors.push({ description: validator.accountNumberMsgError(), code: "INVALID_ACCOUNT_NUMBER" });
       }
       
       if(!validator.accountCheckNumberIsValid(params.accountCheckNumber)){
@@ -70,7 +62,7 @@
 
       if(validator.accountNumberIsValid(params.accountNumber) && validator.accountCheckNumberIsValid(params.accountCheckNumber)){
         if(!validator.accountCheckNumberMatch(params)) {
-          errors.push({ description: "Dígito da conta não corresponde ao número da conta preenchido", code: "ACCOUNT_CHECK_NUMBER_DONT_MATCH" });
+          errors.push({ description: "Dígito da conta não corresponde ao número da conta/agência preenchido", code: "ACCOUNT_CHECK_NUMBER_DONT_MATCH" });
         }
       }
 

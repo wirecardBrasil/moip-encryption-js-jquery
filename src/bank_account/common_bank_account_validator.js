@@ -30,6 +30,9 @@
     },
 
     agencyNumberMsgError: function(length) {
+      if (length === undefined) {
+        length = this.agencyNumberLength();
+      }
       return "A agência deve conter " + length + " números. Complete com zeros a esquerda se necessário.";
     },
 

@@ -25,28 +25,40 @@ describe("CommonBankAccountValidator", function() {
     it("does NOT accept agency with letters", function() {
       validBankAccountParams.agencyNumber = "AAAA";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'INVALID_AGENCY_NUMBER' }] };
+      var expectedParams = { errors: [{ 
+        description: 'A agência deve conter 4 números. Complete com zeros a esquerda se necessário.', 
+        code: 'INVALID_AGENCY_NUMBER' 
+      }]};
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency equal zero", function() {
       validBankAccountParams.agencyNumber = "0000";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'INVALID_AGENCY_NUMBER' }] };
+      var expectedParams = { errors: [{ 
+        description: 'A agência deve conter 4 números. Complete com zeros a esquerda se necessário.', 
+        code: 'INVALID_AGENCY_NUMBER' 
+      }]};
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency less than four numbers", function() {
       validBankAccountParams.agencyNumber = "170";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'INVALID_AGENCY_NUMBER' }] };
+      var expectedParams = { errors: [{ 
+        description: 'A agência deve conter 4 números. Complete com zeros a esquerda se necessário.', 
+        code: 'INVALID_AGENCY_NUMBER' 
+      }]};
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency greater than four numbers", function() {
       validBankAccountParams.agencyNumber = "11708";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Agência inválida', code: 'INVALID_AGENCY_NUMBER' }] };
+      var expectedParams = { errors: [{ 
+        description: 'A agência deve conter 4 números. Complete com zeros a esquerda se necessário.', 
+        code: 'INVALID_AGENCY_NUMBER' 
+      }]};
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
@@ -98,28 +110,32 @@ describe("CommonBankAccountValidator", function() {
     it("does NOT accept account with letters", function() {
       validBankAccountParams.accountNumber = "AAAAA";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
+      var expectedParams = { errors: [{ 
+        description: 'A conta corrente deve conter 8 números. Complete com zeros a esquerda se necessário.', 
+        code: 'INVALID_ACCOUNT_NUMBER' 
+      }]};
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account equal zero", function() {
       validBankAccountParams.accountNumber = "000000000000";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
+      var expectedParams = { errors: [{ 
+        description: 'A conta corrente deve conter 8 números. Complete com zeros a esquerda se necessário.', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account less than five numbers", function() {
       validBankAccountParams.accountNumber = "1234567890123";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
+      var expectedParams = { errors: [{ description: 'A conta corrente deve conter 8 números. Complete com zeros a esquerda se necessário.', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account greater than twelve numbers", function() {
       validBankAccountParams.accountNumber = "1234567890123";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
+      var expectedParams = { errors: [{ description: 'A conta corrente deve conter 8 números. Complete com zeros a esquerda se necessário.', code: 'INVALID_ACCOUNT_NUMBER' }] };
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 

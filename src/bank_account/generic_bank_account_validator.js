@@ -35,6 +35,14 @@
     
     accountCheckNumberMatch: function(bankAccount) {
       return true;
+    },
+
+    agencyNumberMsgError: function(length) {
+      return "Agência inválida";
+    },
+
+    accountNumberMsgError: function(length) {
+      return "Conta corrente inválida";
     }
   };
 
