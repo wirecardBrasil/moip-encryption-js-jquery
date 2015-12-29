@@ -45,10 +45,35 @@ describe("BradescoValidator", function() {
     it("does NOT accept when calc account check number invalid", function() {
       validBankAccountParams.accountCheckNumber = "8";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Dígito da conta não corresponde ao número da conta preenchido', code: 'ACCOUNT_CHECK_NUMBER_DONT_MATCH' }] };
+      var expectedParams = {errors: [{ description: 'Dígito da conta não corresponde ao número da conta/agência preenchido', code: 'ACCOUNT_CHECK_NUMBER_DONT_MATCH' }] };
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
   });
 
+  describe("validate agency number", function(){
+
+    it("does NOT accept invalid agency", function() {
+      validBankAccountParams.agencyNumber = "123";
+      Moip.BankAccount.validate(validBankAccountParams);
+      var expectedParams = { errors: [{ 
+        description: 'A agência deve conter 4 números. Complete com zeros a esquerda se necessário.', 
+        code: 'INVALID_AGENCY_NUMBER' 
+      }]};
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
+    });
+  });
+
+  describe("validate account number", function(){
+
+    it("does NOT accept invalid account", function() {
+      validBankAccountParams.accountNumber = "123456";
+      Moip.BankAccount.validate(validBankAccountParams);
+      var expectedParams = { errors: [{ 
+        description: 'A conta corrente deve conter 7 números. Complete com zeros a esquerda se necessário.', 
+        code: 'INVALID_ACCOUNT_NUMBER' 
+      }]};
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
+    });
+  });
 });

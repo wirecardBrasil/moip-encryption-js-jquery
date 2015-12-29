@@ -24,14 +24,20 @@ describe("SantanderValidator", function() {
     it("does NOT accept account less than twelve digits", function() {
       validBankAccountParams.accountNumber = "5678901";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
+      var expectedParams = { errors: [{ 
+        description: 'A conta corrente deve conter 8 números. Complete com zeros a esquerda se necessário.', 
+        code: 'INVALID_ACCOUNT_NUMBER' 
+      }]};
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept account greater than twelve digits", function() {
       validBankAccountParams.accountNumber = "067890123";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Conta corrente inválida', code: 'INVALID_ACCOUNT_NUMBER' }] };
+      var expectedParams = { errors: [{ 
+        description: 'A conta corrente deve conter 8 números. Complete com zeros a esquerda se necessário.', 
+        code: 'INVALID_ACCOUNT_NUMBER' 
+      }]};
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
