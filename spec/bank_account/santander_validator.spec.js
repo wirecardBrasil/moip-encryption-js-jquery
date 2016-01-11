@@ -20,7 +20,7 @@ describe("SantanderValidator", function() {
       validBankAccountParams.agencyCheckNumber = "1";
       Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = { errors: [{ 
-        description: 'Dígito da agência deve ser vazio', 
+        description: 'O dígito da agência deve ser vazio', 
         code: 'INVALID_AGENCY_CHECK_NUMBER' 
       }]};
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);

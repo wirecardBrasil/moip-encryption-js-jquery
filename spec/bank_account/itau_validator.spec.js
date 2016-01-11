@@ -38,7 +38,7 @@ describe("ItauValidator", function() {
       bankAccount.agencyCheckNumber = "1";
       Moip.BankAccount.validate(bankAccount);
       var expectedParams = { errors: [{ 
-        description: 'Dígito da agência deve ser vazio', 
+        description: 'O dígito da agência deve ser vazio', 
         code: 'INVALID_AGENCY_CHECK_NUMBER' 
       }]};
       expect(bankAccount.invalid).toHaveBeenCalledWith(expectedParams);

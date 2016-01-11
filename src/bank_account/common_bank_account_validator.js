@@ -35,7 +35,7 @@
 
     agencyCheckNumberMsgError: function(length) {
       if (length === undefined || length === 0) {
-        return "Dígito da agência deve ser vazio";
+        return "O dígito da agência deve ser vazio";
       } else if (length === 1) {
         return "O dígito da agência deve conter 1 dígito";
       } else {
