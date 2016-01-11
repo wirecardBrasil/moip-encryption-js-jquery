@@ -37,6 +37,10 @@
       return Moip.CommonBankAccountValidator.agencyNumberMsgError();
     },
 
+    agencyCheckNumberMsgError: function() {
+      return Moip.CommonBankAccountValidator.agencyCheckNumberMsgError();
+    },
+
     accountNumberMsgError: function() {
       return Moip.CommonBankAccountValidator.accountNumberMsgError(this.accountNumberLength());
     },

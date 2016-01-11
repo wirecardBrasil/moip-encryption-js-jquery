@@ -32,6 +32,19 @@ describe("ItauValidator", function() {
 
   });
 
+  describe("validate agency check number", function(){
+
+    it("does NOT accept agency check number", function() {
+      bankAccount.agencyCheckNumber = "1";
+      Moip.BankAccount.validate(bankAccount);
+      var expectedParams = { errors: [{ 
+        description: 'Dígito da agência deve ser vazio', 
+        code: 'INVALID_AGENCY_CHECK_NUMBER' 
+      }]};
+      expect(bankAccount.invalid).toHaveBeenCalledWith(expectedParams);
+    });
+  });
+
   describe("validate account number", function(){
 
     it("accepts a valid bank account", function() {

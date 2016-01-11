@@ -18,7 +18,7 @@
         "341": Moip.ItauValidator,
         "033": Moip.SantanderValidator,
         "041": Moip.BanrisulValidator,
-        "075": Moip.CitibankValidator,
+        "745": Moip.CitibankValidator,
         "399": Moip.HSBCValidator
       };
 

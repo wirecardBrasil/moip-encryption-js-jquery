@@ -4,7 +4,7 @@ describe("CitibankValidator", function() {
 
   beforeEach(function() { 
     validBankAccountParams = {
-      bankNumber         : "075",
+      bankNumber         : "745",
       agencyNumber       : "1584",
       agencyCheckNumber  : "",
       accountNumber      : "1234567",
@@ -12,6 +12,32 @@ describe("CitibankValidator", function() {
       valid: jasmine.createSpy(),
       invalid: jasmine.createSpy()
     };
+  });
+
+  describe("validate agency number", function(){
+
+    it("does NOT accept invalid agency", function() {
+      validBankAccountParams.agencyNumber = "123";
+      Moip.BankAccount.validate(validBankAccountParams);
+      var expectedParams = { errors: [{ 
+        description: 'A agência deve conter 4 números. Complete com zeros a esquerda se necessário.', 
+        code: 'INVALID_AGENCY_NUMBER' 
+      }]};
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
+    });
+  });
+
+  describe("validate agency check number", function(){
+
+    it("does NOT accept agency check number", function() {
+      validBankAccountParams.agencyCheckNumber = "1";
+      Moip.BankAccount.validate(validBankAccountParams);
+      var expectedParams = { errors: [{ 
+        description: 'Dígito da agência deve ser vazio', 
+        code: 'INVALID_AGENCY_CHECK_NUMBER' 
+      }]};
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
+    });
   });
 
   describe("validate account number", function(){
@@ -41,19 +67,6 @@ describe("CitibankValidator", function() {
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
-  });
-
-  describe("validate agency number", function(){
-
-    it("does NOT accept invalid agency", function() {
-      validBankAccountParams.agencyNumber = "123";
-      Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = { errors: [{ 
-        description: 'A agência deve conter 4 números. Complete com zeros a esquerda se necessário.', 
-        code: 'INVALID_AGENCY_NUMBER' 
-      }]};
-      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
-    });
   });
 
 });
