@@ -10,10 +10,8 @@
 
   BankAccount.prototype = {
 
-    validate : function (params){
+    validator: function (bankNumber) {
 
-      var errors = [];
-      var validator;
       var validators = {
         "001": Moip.BancoDoBrasilValidator,
         "237": Moip.BradescoValidator,
@@ -24,26 +22,32 @@
         "399": Moip.HSBCValidator
       };
 
-      if (validators[params.bankNumber]) {
-        validator = validators[params.bankNumber];
+      if (validators[bankNumber]) {
+        return validators[bankNumber];
       } else {
-        validator = Moip.GenericBankAccountValidator;
+        return Moip.GenericBankAccountValidator;
       }
+    },
+
+    validate: function (params){
+
+      var errors = [];
+      var validator = this.validator(params.bankNumber);
 
       if(!Moip.GenericBankAccountValidator.bankNumberIsValid(params.bankNumber)){
         errors.push({ description: "Banco inválido", code: "INVALID_BANK_NUMBER" });
       }
 
       if(!validator.agencyNumberIsValid(params.agencyNumber)){
-        errors.push({ description: "Agência inválida", code: "INVALID_AGENCY_NUMBER" });
+        errors.push({ description: validator.agencyNumberMsgError(), code: "INVALID_AGENCY_NUMBER" });
       }
       
       if(!validator.agencyCheckNumberIsValid(params.agencyCheckNumber)){
-        errors.push({ description: "Dígito da agência inválido", code: "INVALID_AGENCY_CHECK_NUMBER" });
+        errors.push({ description: validator.agencyCheckNumberMsgError(), code: "INVALID_AGENCY_CHECK_NUMBER" });
       }
 
       if(!validator.accountNumberIsValid(params.accountNumber)){
-        errors.push({ description: "Conta corrente inválida", code: "INVALID_ACCOUNT_NUMBER" });
+        errors.push({ description: validator.accountNumberMsgError(), code: "INVALID_ACCOUNT_NUMBER" });
       }
       
       if(!validator.accountCheckNumberIsValid(params.accountCheckNumber)){
@@ -58,7 +62,7 @@
 
       if(validator.accountNumberIsValid(params.accountNumber) && validator.accountCheckNumberIsValid(params.accountCheckNumber)){
         if(!validator.accountCheckNumberMatch(params)) {
-          errors.push({ description: "Dígito da conta não corresponde ao número da conta preenchido", code: "ACCOUNT_CHECK_NUMBER_DONT_MATCH" });
+          errors.push({ description: "Dígito da conta não corresponde ao número da conta/agência preenchido", code: "ACCOUNT_CHECK_NUMBER_DONT_MATCH" });
         }
       }
 

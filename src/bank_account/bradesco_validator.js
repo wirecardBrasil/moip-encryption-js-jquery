@@ -14,11 +14,13 @@
     },
 
     agencyCheckNumberIsValid: function(agencyCheckNumber) {
-      return agencyCheckNumber.length == 1 && Moip.CommonBankAccountValidator.agencyCheckNumberIsValid(agencyCheckNumber);
+      return agencyCheckNumber.length == this.agencyCheckNumberLength() && 
+        Moip.CommonBankAccountValidator.agencyCheckNumberIsValid(agencyCheckNumber);
     },
 
     accountNumberIsValid: function(accountNumber) {
-      return accountNumber.length == 7 && Moip.CommonBankAccountValidator.accountNumberIsValid(accountNumber);
+      return accountNumber.length == this.accountNumberLength() && 
+        Moip.CommonBankAccountValidator.accountNumberIsValid(accountNumber);
     },
 
     accountCheckNumberIsValid: function(accountCheckNumber) {
@@ -33,7 +35,23 @@
     accountCheckNumberMatch: function(bankAccount) {
       var checkNumberCalculated = Moip.BradescoCheckNumberCalculator.calculateAccount(bankAccount.accountNumber);
       return checkNumberCalculated === bankAccount.accountCheckNumber;
-    }
+    },
+
+    agencyNumberMsgError: function() {
+      return Moip.CommonBankAccountValidator.agencyNumberMsgError();
+    },
+
+    agencyCheckNumberMsgError: function() {
+      return Moip.CommonBankAccountValidator.agencyCheckNumberMsgError(this.agencyCheckNumberLength());
+    },
+
+    accountNumberMsgError: function() {
+      return Moip.CommonBankAccountValidator.accountNumberMsgError(this.accountNumberLength());
+    },
+
+    agencyCheckNumberLength: function() { return 1; },
+
+    accountNumberLength: function() { return 7; }
   };
 
   Moip.BradescoValidator = BradescoValidator();
