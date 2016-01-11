@@ -52,6 +52,7 @@
     agencyCheckNumberLength: function() { return 1; },
 
     accountNumberLength: function() { return 7; }
+
   };
 
   Moip.BradescoValidator = BradescoValidator();

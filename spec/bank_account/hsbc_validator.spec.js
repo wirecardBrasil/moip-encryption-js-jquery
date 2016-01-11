@@ -70,4 +70,16 @@ describe("HSBCValidator", function() {
 
   });
 
+  describe("validate agency number", function(){
+
+    it("does NOT accept invalid agency", function() {
+      validBankAccountParams.agencyNumber = "123";
+      Moip.BankAccount.validate(validBankAccountParams);
+      var expectedParams = { errors: [{ 
+        description: 'A agência deve conter 4 números. Complete com zeros a esquerda se necessário.', 
+        code: 'INVALID_AGENCY_NUMBER' 
+      }]};
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
+    });
+  });
 });

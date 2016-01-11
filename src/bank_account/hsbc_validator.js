@@ -47,6 +47,7 @@
     },
 
     accountNumberLength: function() { return 6; }
+
   };
 
   Moip.HSBCValidator = HSBCValidator();

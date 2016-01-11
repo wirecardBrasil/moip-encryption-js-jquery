@@ -47,6 +47,7 @@
     },
 
     accountNumberLength: function() { return 8; }
+
   };
 
   Moip.SantanderValidator = SantanderValidator();

@@ -52,6 +52,7 @@
     agencyCheckNumberLength: function() { return 2; },
 
     accountNumberLength: function() { return 9; }
+
   };
 
   Moip.BanrisulValidator = BanrisulValidator();

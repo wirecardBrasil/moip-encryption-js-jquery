@@ -42,6 +42,7 @@
     },
 
     accountNumberLength: function() { return 7; }
+
   };
 
   Moip.CitibankValidator = CitibankValidator();
