@@ -10,17 +10,22 @@ describe("BancoDoBrasilCheckNumberCalculator", function() {
       accountCheckNumber  : "6"
     };
 
-    bankAccountModuleTen = {
-      agencyNumber        : "6841",
+    agencyResultTen = {
+      agencyNumber        : "1852",
       agencyCheckNumber   : "X",
     };
 
-    bankAccountResultTen = {
+    agencyResultEleven = {
+      agencyNumber        : "3494",
+      agencyCheckNumber   : "0",
+    };
+
+    accountResultTen = {
       accountNumber       : "10089934",
       accountCheckNumber  : "X"
     };
 
-    bankAccountResultEleven = {
+    accountResultEleven = {
       accountNumber       : "10089939",
       accountCheckNumber  : "0"
     };
@@ -35,8 +40,18 @@ describe("BancoDoBrasilCheckNumberCalculator", function() {
     });
 
     it("should correctly calculate the check number when module equal ten", function() {
-      checkNumberCalculated = Moip.BancoDoBrasilCheckNumberCalculator.calculateAgency(bankAccountModuleTen.agencyNumber);
-      expect(checkNumberCalculated).toEqual(bankAccountModuleTen.agencyCheckNumber);
+      checkNumberCalculated = Moip.BancoDoBrasilCheckNumberCalculator.calculateAgency(agencyResultTen.agencyNumber);
+      expect(checkNumberCalculated).toEqual(agencyResultTen.agencyCheckNumber);
+    });
+
+    it("should correctly calculate the check number when module equal ten and lowercase", function() {
+      agencyResultTen.agencyCheckNumber = "x";
+      expect(Moip.BancoDoBrasilValidator.agencyCheckNumberMatch(agencyResultTen)).toBeTruthy();
+    });
+
+    it("should correctly calculate the check number when module equal eleven", function() {
+      checkNumberCalculated = Moip.BancoDoBrasilCheckNumberCalculator.calculateAgency(agencyResultEleven.agencyNumber);
+      expect(checkNumberCalculated).toEqual(agencyResultEleven.agencyCheckNumber);
     });
 
   });
@@ -49,13 +64,18 @@ describe("BancoDoBrasilCheckNumberCalculator", function() {
     });
 
     it("should correctly calculate the check number when result equal ten", function() {
-      checkNumberCalculated = Moip.BancoDoBrasilCheckNumberCalculator.calculateAccount(bankAccountResultTen.accountNumber);
-      expect(checkNumberCalculated).toEqual(bankAccountResultTen.accountCheckNumber);
+      checkNumberCalculated = Moip.BancoDoBrasilCheckNumberCalculator.calculateAccount(accountResultTen.accountNumber);
+      expect(checkNumberCalculated).toEqual(accountResultTen.accountCheckNumber);
+    });
+
+    it("should correctly calculate the check number when result equal ten and lowercase", function() {
+      accountResultTen.accountNumber = "x";
+      expect(Moip.BancoDoBrasilCheckNumberCalculator.calculateAccount(accountResultTen.accountNumber)).toBeTruthy();
     });
 
     it("should correctly calculate the check number when result equal eleven", function() {
-      checkNumberCalculated = Moip.BancoDoBrasilCheckNumberCalculator.calculateAccount(bankAccountResultEleven.accountNumber);
-      expect(checkNumberCalculated).toEqual(bankAccountResultEleven.accountCheckNumber);
+      checkNumberCalculated = Moip.BancoDoBrasilCheckNumberCalculator.calculateAccount(accountResultEleven.accountNumber);
+      expect(checkNumberCalculated).toEqual(accountResultEleven.accountCheckNumber);
     });
   });
 

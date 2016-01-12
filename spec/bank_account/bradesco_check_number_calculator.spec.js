@@ -50,6 +50,11 @@ describe("BradescoCheckNumberCalculator", function() {
       expect(checkNumberCalculated).toEqual(bankAccountResultTen.agencyCheckNumber);
     });
 
+    it("should correctly calculate the check number when result equal ten and lowercase", function() {
+      bankAccountResultTen.agencyCheckNumber = "p";
+      expect(Moip.BradescoValidator.agencyCheckNumberMatch(bankAccountResultTen)).toBeTruthy();
+    });
+
     it("should correctly calculate the check number when result equal eleven", function() {
       checkNumberCalculated = Moip.BradescoCheckNumberCalculator.calculateAgency(bankAccountResultEleven.agencyNumber);
       expect(checkNumberCalculated).toEqual(bankAccountResultEleven.agencyCheckNumber);
@@ -72,6 +77,11 @@ describe("BradescoCheckNumberCalculator", function() {
     it("should correctly calculate the check number when module equal one", function() {
       checkNumberCalculated = Moip.BradescoCheckNumberCalculator.calculateAccount(bankAccountModuleOne.accountNumber);
       expect(checkNumberCalculated).toEqual(bankAccountModuleOne.accountCheckNumber);
+    });
+
+    it("should correctly calculate the check number when module equal one and lowercase", function() {
+      bankAccountModuleOne.accountCheckNumber = "p";
+      expect(Moip.BradescoValidator.accountCheckNumberMatch(bankAccountModuleOne)).toBeTruthy();
     });
   });
 
