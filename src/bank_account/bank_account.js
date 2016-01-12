@@ -18,7 +18,7 @@
         "341": Moip.ItauValidator,
         "033": Moip.SantanderValidator,
         "041": Moip.BanrisulValidator,
-        "075": Moip.CitibankValidator,
+        "745": Moip.CitibankValidator,
         "399": Moip.HSBCValidator
       };
 
@@ -43,7 +43,7 @@
       }
       
       if(!validator.agencyCheckNumberIsValid(params.agencyCheckNumber)){
-        errors.push({ description: "Dígito da agência inválido", code: "INVALID_AGENCY_CHECK_NUMBER" });
+        errors.push({ description: validator.agencyCheckNumberMsgError(), code: "INVALID_AGENCY_CHECK_NUMBER" });
       }
 
       if(!validator.accountNumberIsValid(params.accountNumber)){

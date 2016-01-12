@@ -24,14 +24,14 @@ describe("BradescoValidator", function() {
     it("does NOT accept agency check empty", function() {
       validBankAccountParams.agencyCheckNumber = "";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'INVALID_AGENCY_CHECK_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'O dígito da agência deve conter 1 dígito', code: 'INVALID_AGENCY_CHECK_NUMBER' }] };
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency check greater than one digits", function() {
       validBankAccountParams.agencyCheckNumber = "12";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'INVALID_AGENCY_CHECK_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'O dígito da agência deve conter 1 dígito', code: 'INVALID_AGENCY_CHECK_NUMBER' }] };
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 

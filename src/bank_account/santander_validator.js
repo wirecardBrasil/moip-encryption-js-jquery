@@ -14,7 +14,7 @@
     },
 
     agencyCheckNumberIsValid: function(agencyCheckNumber) {
-      return Moip.CommonBankAccountValidator.agencyCheckNumberIsValid(agencyCheckNumber);
+      return agencyCheckNumber === undefined || agencyCheckNumber === "";
     },
 
     accountNumberIsValid: function(accountNumber) {
@@ -38,13 +38,16 @@
       return Moip.CommonBankAccountValidator.agencyNumberMsgError();
     },
 
+    agencyCheckNumberMsgError: function() {
+      return Moip.CommonBankAccountValidator.agencyCheckNumberMsgError();
+    },
+
     accountNumberMsgError: function() {
       return Moip.CommonBankAccountValidator.accountNumberMsgError(this.accountNumberLength());
     },
 
-    accountNumberLength: function() {
-      return 8;
-    }
+    accountNumberLength: function() { return 8; }
+
   };
 
   Moip.SantanderValidator = SantanderValidator();

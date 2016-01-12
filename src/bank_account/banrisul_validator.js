@@ -41,17 +41,18 @@
       return Moip.CommonBankAccountValidator.agencyNumberMsgError();
     },
 
+    agencyCheckNumberMsgError: function() {
+      return Moip.CommonBankAccountValidator.agencyCheckNumberMsgError(this.agencyCheckNumberLength());
+    },
+
     accountNumberMsgError: function() {
       return Moip.CommonBankAccountValidator.accountNumberMsgError(this.accountNumberLength());
     },
 
-    agencyCheckNumberLength: function() {
-      return 2;
-    },
+    agencyCheckNumberLength: function() { return 2; },
 
-    accountNumberLength: function() {
-      return 9;
-    }
+    accountNumberLength: function() { return 9; }
+
   };
 
   Moip.BanrisulValidator = BanrisulValidator();

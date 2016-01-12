@@ -41,6 +41,10 @@
       return "Agência inválida";
     },
 
+    agencyCheckNumberMsgError: function() {
+      return "Dígito da agência inválido";
+    },
+
     accountNumberMsgError: function(length) {
       return "Conta corrente inválida";
     }

@@ -14,6 +14,19 @@ describe("SantanderValidator", function() {
     };
   });
 
+  describe("validate agency check number", function(){
+
+    it("does NOT accept agency check number", function() {
+      validBankAccountParams.agencyCheckNumber = "1";
+      Moip.BankAccount.validate(validBankAccountParams);
+      var expectedParams = { errors: [{ 
+        description: 'O dígito da agência deve ser vazio', 
+        code: 'INVALID_AGENCY_CHECK_NUMBER' 
+      }]};
+      expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
+    });
+  });
+
   describe("validate account number", function(){
 
     it("accepts a valid bank account", function() {

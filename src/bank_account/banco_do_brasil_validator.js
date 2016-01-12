@@ -14,7 +14,8 @@
     },
 
     agencyCheckNumberIsValid: function(agencyCheckNumber) {
-      return agencyCheckNumber.length == 1 && Moip.CommonBankAccountValidator.agencyCheckNumberIsValid(agencyCheckNumber);
+      return agencyCheckNumber.length == this.agencyCheckNumberLength() && 
+        Moip.CommonBankAccountValidator.agencyCheckNumberIsValid(agencyCheckNumber);
     },
 
     accountNumberIsValid: function(accountNumber) {
@@ -40,13 +41,17 @@
       return Moip.CommonBankAccountValidator.agencyNumberMsgError();
     },
 
+    agencyCheckNumberMsgError: function() {
+      return Moip.CommonBankAccountValidator.agencyCheckNumberMsgError(this.agencyCheckNumberLength());
+    },
+
     accountNumberMsgError: function() {
       return Moip.CommonBankAccountValidator.accountNumberMsgError(this.accountNumberLength());
     },
 
-    accountNumberLength: function() {
-      return 8;
-    }
+    agencyCheckNumberLength: function() { return 1; },
+
+    accountNumberLength: function() { return 8; }
 
   };
 

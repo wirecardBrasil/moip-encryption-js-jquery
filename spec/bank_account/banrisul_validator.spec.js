@@ -26,14 +26,14 @@ describe("BanrisulValidator", function() {
     it("does NOT accept agency check less than two digits", function() {
       validBankAccountParams.agencyCheckNumber = "1";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'INVALID_AGENCY_CHECK_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'O dígito da agência deve conter 2 números. Complete com zeros a esquerda se necessário.', code: 'INVALID_AGENCY_CHECK_NUMBER' }] };
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
     it("does NOT accept agency check greater than two digits", function() {
       validBankAccountParams.agencyCheckNumber = "123";
       Moip.BankAccount.validate(validBankAccountParams);
-      var expectedParams = {errors: [{ description: 'Dígito da agência inválido', code: 'INVALID_AGENCY_CHECK_NUMBER' }] };
+      var expectedParams = {errors: [{ description: 'O dígito da agência deve conter 2 números. Complete com zeros a esquerda se necessário.', code: 'INVALID_AGENCY_CHECK_NUMBER' }] };
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
