@@ -19,20 +19,7 @@
         seq = 9 - i;
         sumSeq += (parseInt(numbers[i]) * seq);
       }
-      return this.accountModule(sumSeq, accountNumber);
-    },
-
-    accountModule: function(sumSeq, accountNumber) {
-      var result = 11 - (sumSeq % 11);
-      if(result === 10) {
-        return "X";
-      } else {
-        if (result === 11) {
-          return "0";
-        } else {
-          return result.toString();
-        }
-      }
+      return this.module(sumSeq);
     },
 
     // Agency validation
@@ -44,15 +31,19 @@
         seq = 5 - i;
         sumSeq += (parseInt(numbers[i]) * seq);
       }
-      return this.agencyModule(sumSeq, agencyNumber);
+      return this.module(sumSeq);
     },
 
-    agencyModule: function(sumSeq, agencyNumber) {
-      var module = sumSeq % 11;
-      if(module === 10) {
+    module: function(sumSeq) {
+      var result = 11 - (sumSeq % 11);
+      if(result === 10) {
         return "X";
       } else {
-        return (11 - module).toString();
+        if (result === 11) {
+          return "0";
+        } else {
+          return result.toString();
+        }
       }
     }
 

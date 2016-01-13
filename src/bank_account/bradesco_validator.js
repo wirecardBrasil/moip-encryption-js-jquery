@@ -29,12 +29,12 @@
 
     agencyCheckNumberMatch: function(bankAccount) {
       var checkNumberCalculated = Moip.BradescoCheckNumberCalculator.calculateAgency(bankAccount.agencyNumber);
-      return checkNumberCalculated === bankAccount.agencyCheckNumber;
+      return checkNumberCalculated === bankAccount.agencyCheckNumber.toUpperCase();
     },
     
     accountCheckNumberMatch: function(bankAccount) {
       var checkNumberCalculated = Moip.BradescoCheckNumberCalculator.calculateAccount(bankAccount.accountNumber);
-      return checkNumberCalculated === bankAccount.accountCheckNumber;
+      return checkNumberCalculated === bankAccount.accountCheckNumber.toUpperCase();
     },
 
     agencyNumberMsgError: function() {
