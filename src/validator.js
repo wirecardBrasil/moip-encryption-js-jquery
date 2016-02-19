@@ -10,12 +10,35 @@
 
     Validator.prototype = {
 
-        _eloBins : ["50670","50671","50672","50673","50674","50675","50676","50900","50901","50902",
-                    "50903","50904","50905","50906","50907","401178","401179","431274","438935","451416",
-                    "457393","457631","457632","504175","506699","506770","506771","506772","506773","506774",
-                    "506775","506776","506777","506778","509080","509081","509082","509083","627780","636297"],
+        _eloBins : ["401178", "401179", "431274", "438935", "451416", "457393", "457631", "457632",
+                    "504175", "627780", "636297", "636368"],
+        _eloBinRanges : [
+            [506699, 506778],
+            [509000, 509999],
+            [650031, 650033],
+            [650035, 650051],
+            [650405, 650439],
+            [650485, 650538],
+            [650541, 650598],
+            [650700, 650718],
+            [650720, 650727],
+            [650901, 650920],
+            [651652, 651679],
+            [655000, 655019],
+            [655021, 655058]
+        ],
+
         _hiperBins : ["637095", "637612", "637599", "637609", "637568"],
         _hipercardBins: ["606282"],
+
+        _isInEloBinRanges : function(bin) {
+            var numbin = parseInt(bin);
+            for (var i = 0; i < this._eloBinRanges.length; i++) {
+                var start = this._eloBinRanges[i][0], end = this._eloBinRanges[i][1];
+                if (numbin >= start && numbin <= end) return true;
+            }
+            return false;
+        },
 
         normalizeCardNumber: function(creditCardNumber) {
           if(! creditCardNumber){
@@ -54,6 +77,9 @@
         cardType: function(creditCardNumber, loose) {
             var that = this;
             var cardNumber = this.normalizeCardNumber(creditCardNumber);
+            var getBin = function(cardNum) {
+                return cardNum.substring(0,6);
+            };
             var brands = {
                     VISA:       { matches: function(cardNum){ return /^4\d{15}$/.test(cardNum); } },
                     MASTERCARD: { matches: function(cardNum){ return /^5[1-5]\d{14}$/.test(cardNum); } },
@@ -62,18 +88,18 @@
                     HIPERCARD:  { matches: function(cardNum){
                                     return  cardNum !== null &&
                                             cardNum.length == 16 &&
-                                            that._hipercardBins.indexOf(cardNum.substring(0,6)) > -1;
+                                            that._hipercardBins.indexOf(getBin(cardNum)) > -1;
                                 } },
                     ELO:        { matches: function(cardNum){
                                     return  cardNum !== null &&
                                             cardNum.length == 16 &&
-                                            ( that._eloBins.indexOf(cardNum.substring(0,6)) > -1 ||
-                                              that._eloBins.indexOf(cardNum.substring(0,5)) > -1 );
+                                            ( that._eloBins.indexOf(getBin(cardNum)) > -1 ||
+                                              that._isInEloBinRanges(getBin(cardNum)));
                                 } },
                     HIPER:      { matches: function(cardNum){
                                     return  cardNum !== null &&
                                             cardNum.length >= 6 &&
-                                            that._hiperBins.indexOf(cardNum.substring(0,6)) > -1;
+                                            that._hiperBins.indexOf(getBin(cardNum)) > -1;
                                 } }
 
                 },
@@ -86,18 +112,18 @@
                     HIPERCARD:  { matches: function(cardNum){
                                     return  cardNum !== null &&
                                             cardNum.length >= 6 &&
-                                            that._hipercardBins.indexOf(cardNum.substring(0,6)) > -1;
+                                            that._hipercardBins.indexOf(getBin(cardNum)) > -1;
                                 } },
                     ELO:        { matches: function(cardNum){
                                     return  cardNum !== null &&
                                             cardNum.length >= 6 &&
-                                            ( that._eloBins.indexOf(cardNum.substring(0,6)) > -1 ||
-                                              that._eloBins.indexOf(cardNum.substring(0,5)) > -1 );
+                                            ( that._eloBins.indexOf(getBin(cardNum)) > -1 ||
+                                              that._isInEloBinRanges(getBin(cardNum)));
                                 } },
                     HIPER:      { matches: function(cardNum){
                                     return  cardNum !== null &&
                                             cardNum.length >= 6 &&
-                                            that._hiperBins.indexOf(cardNum.substring(0,6)) > -1;
+                                            that._hiperBins.indexOf(getBin(cardNum)) > -1;
                                 } }
 
                 };

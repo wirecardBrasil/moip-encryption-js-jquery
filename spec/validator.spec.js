@@ -74,6 +74,13 @@ describe("Validator", function() {
   describe(".cardType", function(){
   
     describe("[strict mode]", function(){
+      var assertCard = function(expected) {
+        return function(bin) {
+          var card = Moip.Validator.cardType(bin);
+          expect(card).toEqual(expected);    
+        }
+      }
+
       it("recognizes VISA", function(){
         var card = Moip.Validator.cardType("4111111111111111")
         var expected = {brand : 'VISA'}
@@ -99,10 +106,14 @@ describe("Validator", function() {
       });
 
       it("recognizes ELO", function(){
-        var card = Moip.Validator.cardType("4514160123456789")
-        var expected = {brand : 'ELO'}
-        expect(card).toEqual(expected);
-      });6370950000000005
+        assertElo = assertCard({brand : 'ELO'});
+
+        assertElo("4514160123456789");
+        assertElo("5067700123456789");
+        assertElo("5099990123456789");
+        assertElo("6500320123456789");
+        assertElo("6550210123456789");
+      });
       
       it("recognizes HIPER", function(){
         var card = Moip.Validator.cardType("6370950000000005")
@@ -112,6 +123,13 @@ describe("Validator", function() {
     });
         
     describe("[loose mode]", function(){
+      var assertCard = function(expected) {
+        return function(bin) {
+          var card = Moip.Validator.cardType(bin, true);
+          expect(card).toEqual(expected);    
+        }
+      }
+
       it("recognizes VISA", function(){
         var card = Moip.Validator.cardType("411111", true)
         var expected = {brand : 'VISA'}
@@ -137,9 +155,13 @@ describe("Validator", function() {
       });
         
       it("recognizes ELO", function(){
-        var card = Moip.Validator.cardType("451416", true)
-        var expected = {brand : 'ELO'}
-        expect(card).toEqual(expected);
+        assertElo = assertCard({brand : 'ELO'});
+
+        assertElo("451416");
+        assertElo("506770");
+        assertElo("509999");
+        assertElo("650032");
+        assertElo("655021");
       });
       
       it("recognizes HIPER", function(){
