@@ -18,18 +18,18 @@
     },
 
     accountNumberIsValid: function(accountNumber) {
-      return accountNumber.length == this.accountNumberLength() && 
+      return accountNumber.length == this.accountNumberLength() &&
         Moip.CommonBankAccountValidator.accountNumberIsValid(accountNumber);
     },
 
     accountCheckNumberIsValid: function(accountCheckNumber) {
-      return Moip.GenericBankAccountValidator.accountCheckNumberIsValid(accountCheckNumber);
+      return true;
     },
 
     agencyCheckNumberMatch: function(bankAccount) {
       return true;
     },
-    
+
     accountCheckNumberMatch: function(bankAccount) {
       return true;
     },
