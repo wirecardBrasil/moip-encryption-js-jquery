@@ -8,4 +8,4 @@ _SpecRunner.html
 .todo
 *.swp
 .idea
-
+.DS_Store

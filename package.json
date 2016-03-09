@@ -1,12 +1,12 @@
 {
   "name": "moip",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "grunt jasmine"
   },
-  "author": "",
+  "author": "Moip Pagamentos",
   "license": "ISC",
   "devDependencies": {
     "grunt": "^0.4.5",

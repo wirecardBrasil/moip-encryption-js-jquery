@@ -28,7 +28,7 @@ Veja nossa página de exemplo utilizando o JavaScript de criptografia de cartão
 ## É preciso instalar?
 Não. O arquivo javascript é publicado em [http://assets.moip.com.br/v2].
 A versão mais recente é [http://assets.moip.com.br/v2/moip.min.js].
-Porém, é recomendado que um release especifico seja referenciado, por exemplo [http://assets.moip.com.br/v2/moip-2.5.2.min.js].
+Porém, é recomendado que um release especifico seja referenciado, por exemplo [http://assets.moip.com.br/v2/moip-2.6.1.min.js].
 
 ## Criptografar um cartão de crédito
 ```html
@@ -129,7 +129,7 @@ Possíveis retornos:
 
 ---
 ## Validação de conta bancária
-A validação da conta bancária é realizada sobre as regras dos seguintes bancos: Itaú, Bradesco, Banco do Brasil, Santander, Citibank, HSBC e Banrisul. Para os outros bancos é realizada uma validação padrão: 
+A validação da conta bancária é realizada sobre as regras dos seguintes bancos: Itaú, Bradesco, Banco do Brasil, Santander, Citibank, HSBC e Banrisul. Para os outros bancos é realizada uma validação padrão:
  * Agência de 1 até 5 números
  * Dígito da agência de 0 a 2 caracteres
  * Conta corrente de 1 até 12 números
