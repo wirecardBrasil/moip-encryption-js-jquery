@@ -29,7 +29,11 @@
 
     agencyCheckNumberMatch: function(bankAccount) {
       var checkNumberCalculated = Moip.BradescoCheckNumberCalculator.calculateAgency(bankAccount.agencyNumber);
-      return checkNumberCalculated === bankAccount.agencyCheckNumber.toUpperCase();
+      var checkNumberInformed = bankAccount.agencyCheckNumber.toUpperCase();
+      if (checkNumberInformed === "0") {
+        checkNumberInformed = "P";
+      }
+      return checkNumberCalculated === checkNumberInformed;
     },
     
     accountCheckNumberMatch: function(bankAccount) {

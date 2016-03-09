@@ -21,6 +21,13 @@ describe("BradescoValidator", function() {
       expect(validBankAccountParams.valid).toHaveBeenCalled();
     });
 
+    it("accepts a valid bank account when agency digit equals zero", function() {
+      validBankAccountParams.agencyNumber = "8221";
+      validBankAccountParams.agencyCheckNumber = "0";
+      Moip.BankAccount.validate(validBankAccountParams);
+      expect(validBankAccountParams.valid).toHaveBeenCalled();
+    });
+
     it("does NOT accept agency check empty", function() {
       validBankAccountParams.agencyCheckNumber = "";
       Moip.BankAccount.validate(validBankAccountParams);
