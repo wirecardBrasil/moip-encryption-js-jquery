@@ -169,6 +169,14 @@ describe("Validator", function() {
         var expected = {brand : 'HIPER'}
         expect(card).toEqual(expected);
       });
+
+      it("recognizes MASTERCARD new bins", function(){
+        assertMaster = assertCard({brand : 'MASTERCARD'});
+
+        assertMaster("222100");
+        assertMaster("257209");
+        assertMaster("272099");
+      })
     });
   });
     

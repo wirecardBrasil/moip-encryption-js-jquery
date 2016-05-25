@@ -31,6 +31,17 @@
         _hiperBins : ["637095", "637612", "637599", "637609", "637568"],
         _hipercardBins: ["606282"],
 
+        _masterCardBinRanges : [222100, 272099],
+
+        _isInMasterCardBinRanges : function(range) {
+            var numRange = parseInt(range);
+            for (var i = 0; this._masterCardBinRanges.length; i+=2){
+                var startingRange = this._masterCardBinRanges[i], endingRange = this._masterCardBinRanges[i+1];
+                if (numRange >= start && numRange <= end) return true;
+            }
+            return false;
+        },
+
         _isInEloBinRanges : function(bin) {
             var numbin = parseInt(bin);
             for (var i = 0; i < this._eloBinRanges.length; i++) {
@@ -82,7 +93,9 @@
             };
             var brands = {
                     VISA:       { matches: function(cardNum){ return /^4\d{15}$/.test(cardNum); } },
-                    MASTERCARD: { matches: function(cardNum){ return /^5[1-5]\d{14}$/.test(cardNum); } },
+                    MASTERCARD: { matches: function(cardNum){ return /^5[1-5]\d{14}$/.test(cardNum) ||
+                                                              cardNum != null && cardNum.length == 16 &&
+                                                              that._isInMasterCardBinRanges(getBin(cardNum)); } },
                     AMEX:       { matches: function(cardNum){ return /^3[4,7]\d{13}$/.test(cardNum); } },
                     DINERS:     { matches: function(cardNum){ return /^3[0,6,8]\d{12}$/.test(cardNum); } },
                     HIPERCARD:  { matches: function(cardNum){
@@ -106,7 +119,9 @@
                 // for non-strict detections
                 looseBrands = {
                     VISA:       { matches: function(cardNum){ return /^4\d{3}\d*$/.test(cardNum); } },
-                    MASTERCARD: { matches: function(cardNum){ return /^5[1-5]\d{4}\d*$/.test(cardNum); } },
+                    MASTERCARD: { matches: function(cardNum){ return /^5[1-5]\d{4}\d*$/.test(cardNum) ||
+                                                              cardNum != null && cardNum.length == 16 &&
+                                                              that._isInMasterCardBinRanges(getBin(cardNum)); } },
                     AMEX:       { matches: function(cardNum){ return /^3[4,7]\d{2}\d*$/.test(cardNum); } },
                     DINERS:     { matches: function(cardNum){ return /^3(?:0[0-5]|[68][0-9])+\d*$/.test(cardNum); } },
                     HIPERCARD:  { matches: function(cardNum){
