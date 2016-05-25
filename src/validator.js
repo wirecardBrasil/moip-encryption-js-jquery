@@ -94,7 +94,7 @@
             var brands = {
                     VISA:       { matches: function(cardNum){ return /^4\d{15}$/.test(cardNum); } },
                     MASTERCARD: { matches: function(cardNum){ return /^5[1-5]\d{14}$/.test(cardNum) ||
-                                                              cardNum != null && cardNum.length == 16 &&
+                                                              cardNum !== null && cardNum.length == 16 &&
                                                               that._isInMasterCardBinRanges(getBin(cardNum)); } },
                     AMEX:       { matches: function(cardNum){ return /^3[4,7]\d{13}$/.test(cardNum); } },
                     DINERS:     { matches: function(cardNum){ return /^3[0,6,8]\d{12}$/.test(cardNum); } },
@@ -120,7 +120,7 @@
                 looseBrands = {
                     VISA:       { matches: function(cardNum){ return /^4\d{3}\d*$/.test(cardNum); } },
                     MASTERCARD: { matches: function(cardNum){ return /^5[1-5]\d{4}\d*$/.test(cardNum) ||
-                                                              cardNum != null && cardNum.length == 16 &&
+                                                              cardNum !== null && cardNum.length == 16 &&
                                                               that._isInMasterCardBinRanges(getBin(cardNum)); } },
                     AMEX:       { matches: function(cardNum){ return /^3[4,7]\d{2}\d*$/.test(cardNum); } },
                     DINERS:     { matches: function(cardNum){ return /^3(?:0[0-5]|[68][0-9])+\d*$/.test(cardNum); } },
