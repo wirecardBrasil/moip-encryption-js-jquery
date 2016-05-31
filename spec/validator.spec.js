@@ -127,7 +127,7 @@ describe("Validator", function() {
         assertMaster("2221002857319036");
         assertMaster("2572098765432123");
         assertMaster("2720793872642452");
-      })
+      });
     });
 
 
@@ -182,9 +182,9 @@ describe("Validator", function() {
       it("recognizes MASTERCARD new range", function(){
         assertMaster = assertCard({brand : 'MASTERCARD'});
 
-        assertMaster("222100");
-        assertMaster("257209");
-        assertMaster("272099");
+        assertMaster("2221001231231232");
+        assertMaster("2572093213213213");
+        assertMaster("2720994564564566");
       })
     });
   });
