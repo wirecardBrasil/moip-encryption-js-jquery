@@ -42,8 +42,8 @@
             return false;
         },
 
-        _isInMasterCardRanges : function(range) {
-            var numRange = parseInt(range);
+        _isInMasterCardRanges : function(bin) {
+            var numRange = parseInt(bin);
             for (var i = 0; this._masterCardRanges.length; i+=2){
                 var startingRange = this._masterCardRanges[i], endingRange = this._masterCardRanges[i+1];
                 if (numRange >= startingRange && numRange <= endingRange) return true;
