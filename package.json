@@ -1,6 +1,6 @@
 {
   "name": "moip",
-  "version": "2.6.2",
+  "version": "2.8.0",
   "description": "",
   "main": "index.js",
   "scripts": {
