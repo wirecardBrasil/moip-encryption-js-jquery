@@ -114,19 +114,28 @@ describe("Validator", function() {
         assertElo("6500320123456789");
         assertElo("6550210123456789");
       });
-      
+
       it("recognizes HIPER", function(){
         var card = Moip.Validator.cardType("6370950000000005")
         var expected = {brand : 'HIPER'}
         expect(card).toEqual(expected);
       });
+
+      it("recognizes MASTERCARD new range", function(){
+        assertMaster = assertCard({brand : 'MASTERCARD'});
+
+        assertMaster("2221002857319036");
+        assertMaster("2572098765432123");
+        assertMaster("2720793872642452");
+      });
     });
-        
+
+
     describe("[loose mode]", function(){
       var assertCard = function(expected) {
         return function(bin) {
           var card = Moip.Validator.cardType(bin, true);
-          expect(card).toEqual(expected);    
+          expect(card).toEqual(expected);
         }
       }
 
@@ -135,25 +144,25 @@ describe("Validator", function() {
         var expected = {brand : 'VISA'}
         expect(card).toEqual(expected);
       });
-      
+
       it("recognizes MASTERCARD", function(){
         var card = Moip.Validator.cardType("510510", true)
         var expected = {brand : 'MASTERCARD'}
         expect(card).toEqual(expected);
       });
-      
+
       it("recognizes AMEX", function(){
         var card = Moip.Validator.cardType("341111", true)
         var expected = {brand : 'AMEX'}
         expect(card).toEqual(expected);
       });
-      
+
       it("recognizes DINERS", function(){
         var card = Moip.Validator.cardType("305693", true)
         var expected = {brand : 'DINERS'}
         expect(card).toEqual(expected);
       });
-        
+
       it("recognizes ELO", function(){
         assertElo = assertCard({brand : 'ELO'});
 
@@ -163,12 +172,20 @@ describe("Validator", function() {
         assertElo("650032");
         assertElo("655021");
       });
-      
+
       it("recognizes HIPER", function(){
         var card = Moip.Validator.cardType("637095", true)
         var expected = {brand : 'HIPER'}
         expect(card).toEqual(expected);
       });
+
+      it("recognizes MASTERCARD new range", function(){
+        assertMaster = assertCard({brand : 'MASTERCARD'});
+
+        assertMaster("2221001231231232");
+        assertMaster("2572093213213213");
+        assertMaster("2720994564564566");
+      })
     });
   });
     
