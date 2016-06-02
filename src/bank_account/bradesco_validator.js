@@ -31,7 +31,7 @@
       var checkNumberCalculated = Moip.BradescoCheckNumberCalculator.calculateAgency(bankAccount.agencyNumber);
       var checkNumberInformed = bankAccount.agencyCheckNumber.toUpperCase();
       if (checkNumberInformed === "0") {
-        checkNumberInformed = "P";
+        return checkNumberCalculated === checkNumberInformed || checkNumberCalculated === "P";
       }
       return checkNumberCalculated === checkNumberInformed;
     },
