@@ -121,6 +121,15 @@ describe("Validator", function() {
         expect(card).toEqual(expected);
       });
 
+      it("recognizes HIPERCARD", function(){
+        assertHiper = assertCard({brand : 'HIPERCARD'});
+
+        assertHiper("6062829544380656");
+        assertHiper("3841001111222233334");
+        assertHiper("3841401111222233334");
+        assertHiper("3841601111222233334");
+      });
+
       it("recognizes MASTERCARD new range", function(){
         assertMaster = assertCard({brand : 'MASTERCARD'});
 
