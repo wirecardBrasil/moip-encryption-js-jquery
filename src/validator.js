@@ -29,7 +29,7 @@
         ],
 
         _hiperBins : ["637095", "637612", "637599", "637609", "637568"],
-        _hipercardBins: ["606282"],
+        _hipercardBins: ["606282", "384100", "384140", "384160"],
 
         _masterCardRanges : [222100, 272099],
 
@@ -44,7 +44,7 @@
 
         _isInMasterCardRanges : function(bin) {
             var numRange = parseInt(bin);
-            for (var i = 0; this._masterCardRanges.length; i+=2){
+            for (var i = 0; i < this._masterCardRanges.length; i+=2){
                 var startingRange = this._masterCardRanges[i], endingRange = this._masterCardRanges[i+1];
                 if (numRange >= startingRange && numRange <= endingRange) return true;
             }
@@ -100,7 +100,7 @@
                     DINERS:     { matches: function(cardNum){ return /^3[0,6,8]\d{12}$/.test(cardNum); } },
                     HIPERCARD:  { matches: function(cardNum){
                                     return  cardNum !== null &&
-                                            cardNum.length == 16 &&
+                                            (cardNum.length == 16 || cardNum.length == 19) &&
                                             that._hipercardBins.indexOf(getBin(cardNum)) > -1;
                                 } },
                     ELO:        { matches: function(cardNum){
