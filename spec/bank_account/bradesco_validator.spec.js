@@ -56,11 +56,22 @@ describe("BradescoValidator", function() {
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
     });
 
+  });
+
+  describe("validate account check number", function(){
+
     it("does NOT accept when calc account check number invalid", function() {
       validBankAccountParams.accountCheckNumber = "8";
       Moip.BankAccount.validate(validBankAccountParams);
       var expectedParams = {errors: [{ description: 'Dígito da conta não corresponde ao número da conta/agência preenchido', code: 'ACCOUNT_CHECK_NUMBER_DONT_MATCH' }] };
       expect(validBankAccountParams.invalid).toHaveBeenCalledWith(expectedParams);
+    });
+
+    it("accepts a valid account when digit equals zero", function() {
+      validBankAccountParams.accountNumber = "0500778";
+      validBankAccountParams.accountCheckNumber = "0";
+      Moip.BankAccount.validate(validBankAccountParams);
+      expect(validBankAccountParams.valid).toHaveBeenCalled();
     });
 
   });
