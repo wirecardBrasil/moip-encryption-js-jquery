@@ -17,7 +17,6 @@
         "237": Moip.BradescoValidator,
         "341": Moip.ItauValidator,
         "033": Moip.SantanderValidator,
-        "041": Moip.BanrisulValidator,
         "745": Moip.CitibankValidator,
         "399": Moip.HSBCValidator
       };
@@ -41,7 +40,7 @@
       if(!validator.agencyNumberIsValid(params.agencyNumber)){
         errors.push({ description: validator.agencyNumberMsgError(), code: "INVALID_AGENCY_NUMBER" });
       }
-      
+
       if(!validator.agencyCheckNumberIsValid(params.agencyCheckNumber)){
         errors.push({ description: validator.agencyCheckNumberMsgError(), code: "INVALID_AGENCY_CHECK_NUMBER" });
       }
@@ -49,7 +48,7 @@
       if(!validator.accountNumberIsValid(params.accountNumber)){
         errors.push({ description: validator.accountNumberMsgError(), code: "INVALID_ACCOUNT_NUMBER" });
       }
-      
+
       if(!validator.accountCheckNumberIsValid(params.accountCheckNumber)){
         errors.push({ description: "Dígito da conta corrente inválido", code: "INVALID_ACCOUNT_CHECK_NUMBER" });
       }
@@ -72,7 +71,7 @@
         params.invalid({ errors: errors });
       }
     }
-  
+
   };
 
   Moip.BankAccount = BankAccount();
