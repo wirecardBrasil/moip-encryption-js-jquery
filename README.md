@@ -101,8 +101,8 @@ Moip.Validator.cardType("4111111111111111");    //return [Object]VISA
 Moip.Validator.cardType("341111111111111");     //return [Object]AMEX
 moip.Validator.cardType("30569309025904");      //return [Object]DINERS
 Moip.Validator.cardType("3841001111222233334"); //return [Object]HIPERCARD
-Moip.Valditor.cardType("4514160123456789");    //return [Object]ELO
-Moip.Valditor.cardType("6370950000000005");    //return [Object]HIPER
+Moip.Validator.cardType("4514160123456789");    //return [Object]ELO
+Moip.Validator.cardType("6370950000000005");    //return [Object]HIPER
 Moip.Validator.cardType("9191919191919191");    //return [Object]null
 ```
 Possíveis retornos:
