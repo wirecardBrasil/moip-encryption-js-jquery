@@ -63,7 +63,7 @@ describe("ItauValidator", function() {
     });
 
     it("does NOT accept account greater than nine digits", function() {
-      bankAccount.accountNumber = "123456789";
+      bankAccount.accountNumber = "1234567890";
       Moip.BankAccount.validate(bankAccount);
       var expectedParams = { errors: [{ 
         description: 'A conta corrente deve conter 9 números. Complete com zeros a esquerda se necessário.', 
@@ -76,7 +76,7 @@ describe("ItauValidator", function() {
       bankAccount.accountCheckNumber = "0";
       Moip.BankAccount.validate(bankAccount);
       var expectedParams = { errors: [{ 
-        description: 'Dígito da conta não corresponde ao número da conta preenchido', 
+        description: 'Dígito da conta não corresponde ao número da conta/agência preenchido', 
         code: 'ACCOUNT_CHECK_NUMBER_DONT_MATCH' 
       }]};
       expect(bankAccount.invalid).toHaveBeenCalledWith(expectedParams);
