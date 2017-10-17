@@ -11,17 +11,9 @@
   BanrisulCheckNumberCalculator.prototype = {
 
     calculate: function(accountNumber) {
-      // // Adds leading zeros to the left
-      // accountNumber = String("000000000" + accountNumber).slice(-9);
-      // var firstDigit = this.calculateFirstDigit(accountNumber);
-      // var secondDigit = this.calculateSecondDigit(accountNumber, firstDigit);
-      // var secondDigitSumSequence = this.calculateSecondDigitSumSequence(accountNumber, firstDigit);
-      // var digits = this.adjustDigits(accountNumber, firstDigit, secondDigitSumSequence, secondDigit);
-
-      // return digits.toString();
-
       var numbers = accountNumber.split("");
       var sumSeq = 0;
+      
       for (var i = 0; i < numbers.length; i++) {
         var number = parseInt(numbers[i]);
         sumSeq += this.multiplyAccordingWeight(number, i);
