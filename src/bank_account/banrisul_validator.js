@@ -47,7 +47,7 @@
       return Moip.CommonBankAccountValidator.accountNumberMsgError(this.accountNumberLength());
     },
 
-    accountNumberLength: function() { return 9; }
+    accountNumberLength: function() { return 8; }
     
   };
 
