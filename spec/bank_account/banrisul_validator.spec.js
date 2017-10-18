@@ -19,6 +19,7 @@ describe("BanrisulValidator", function() {
 
     it("does NOT accept invalid agency", function() {
       bankAccount.agencyNumber = "333123";
+      bankAccount.accountCheckNumber = "1";
       Moip.BankAccount.validate(bankAccount);
       var expectedParams = { errors: [{ 
         description: 'A agência deve conter 4 números. Complete com zeros a esquerda se necessário.', 

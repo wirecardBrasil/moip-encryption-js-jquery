@@ -31,7 +31,7 @@
     },
     
     accountCheckNumberMatch: function(bankAccount) {
-      var checkNumberCalculated = Moip.BanrisulCheckNumberCalculator.calculate(bankAccount.agencyNumber, bankAccount.accountNumber);
+      var checkNumberCalculated = Moip.BanrisulCheckNumberCalculator.calculate(bankAccount.accountNumber);
       return checkNumberCalculated === bankAccount.accountCheckNumber;
     },
 
