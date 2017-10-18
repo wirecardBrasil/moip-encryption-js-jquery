@@ -1,4 +1,4 @@
-describe("ItauValidator", function() {
+describe("BanrisulValidator", function() {
 
   var bankAccount;
 
