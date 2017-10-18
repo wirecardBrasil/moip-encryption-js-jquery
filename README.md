@@ -28,7 +28,7 @@ Veja nossa página de exemplo utilizando o JavaScript de criptografia de cartão
 ## É preciso instalar?
 Não. O arquivo javascript é publicado em [http://assets.moip.com.br/v2].
 A versão mais recente é [http://assets.moip.com.br/v2/moip.min.js].
-Porém, é recomendado que um release especifico seja referenciado, por exemplo [http://assets.moip.com.br/v2/moip-2.7.1.min.js].
+Porém, é recomendado que um release especifico seja referenciado, por exemplo [http://assets.moip.com.br/v2/moip-2.8.0.min.js].
 
 ## Criptografar um cartão de crédito
 ```html
