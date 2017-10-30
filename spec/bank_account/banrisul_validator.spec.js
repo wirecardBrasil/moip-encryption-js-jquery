@@ -57,7 +57,7 @@ describe("BanrisulValidator", function() {
       bankAccount.accountNumber = "1234";
       Moip.BankAccount.validate(bankAccount);
       var expectedParams = { errors: [{ 
-        description: 'A conta corrente deve conter 9 números. Complete com zeros a esquerda se necessário.', 
+        description: 'A conta corrente deve conter 9 números. Complete com zeros a direita se necessário.', 
         code: 'INVALID_ACCOUNT_NUMBER' 
       }]};
       expect(bankAccount.invalid).toHaveBeenCalledWith(expectedParams);
@@ -67,7 +67,7 @@ describe("BanrisulValidator", function() {
       bankAccount.accountNumber = "1234567890";
       Moip.BankAccount.validate(bankAccount);
       var expectedParams = { errors: [{ 
-        description: 'A conta corrente deve conter 9 números. Complete com zeros a esquerda se necessário.', 
+        description: 'A conta corrente deve conter 9 números. Complete com zeros a direita se necessário.', 
         code: 'INVALID_ACCOUNT_NUMBER' 
       }]};
       expect(bankAccount.invalid).toHaveBeenCalledWith(expectedParams);

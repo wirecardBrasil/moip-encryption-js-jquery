@@ -44,7 +44,8 @@
     },
 
     accountNumberMsgError: function() {
-      return Moip.CommonBankAccountValidator.accountNumberMsgError(this.accountNumberLength());
+      var length = this.accountNumberLength();
+      return "A conta corrente deve conter " + length + " números. Complete com zeros a direita se necessário.";
     },
 
     accountNumberLength: function() { return 9; }
