@@ -2,7 +2,7 @@
 
 ## Exemplo
 
-Veja nossa página de exemplo utilizando o JavaScript de criptografia de cartão [clicando aqui](http://moip.github.io/moip-sdk-js/).
+Veja nossa página de exemplo utilizando o JavaScript de criptografia de cartão [clicando aqui](http://moip.github.io/moip-encryption-js-jquery/).
 
 ## Build do projeto
 
