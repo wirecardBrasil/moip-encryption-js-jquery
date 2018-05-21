@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Criptografia Moip">
+    <meta name="author" content="Moip">
+    <title>SDK Moip.js | Criptografe o cartão de seu cliente no browser</title>
+
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href="https://moip.com.br/docs/stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="https://moip.com.br/docs/stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+        <!-- Moip.js -->
+    <script type="text/javascript" src="http://assets.moip.com.br/integration/moip.min.js"></script>
+    
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  </head>
+  
+  
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $("#encrypt").click(function() {
+          var cc = new Moip.CreditCard({
+            number  : $("#number").val(),
+            cvc     : $("#cvc").val(),
+            expMonth: $("#month").val(),
+            expYear : $("#year").val(),
+            pubKey  : $("#public_key").val()
+          });
+          console.log(cc);
+          if( cc.isValid()){
+            $("#encrypted_value").val(cc.hash());
+            $("#card_type").val(cc.cardType());
+          }
+          else{
+            $("#encrypted_value").val('');
+            $("#card_type").val('');
+            alert('Invalid credit card. Verify parameters: number, cvc, expiration Month, expiration Year');
+          }
+        });
+    });
+  </script>
+
+  <body>
+  <div class="limit-grid">
+
+        <h1 class="header-devs__moip-logo" align="center"><a href="http://www.moip.com.br"><img src="https://cdn.moip.com.br/wp-content/uploads/2017/01/15232848/logo-moip-wirecard.png"></a></h1>
+      </div>
+      
+<div class="row">
+       <h2 class="form-signin-heading" align="center">Demo Moip criptografia javascript</h2>
+        <hr>
+  <div class="col-md-2"></div>
+  <div class="col-md-4">
+
+ 
+      <form class="form-signin">
+
+        <label>Credit card number</label>
+        <input type="text" placeholder="Credit card number" id="number" value="5555666677778884" class="form-control"/></br>
+        <label>CVC</label>
+        <input type="text" placeholder="CVC" id="cvc" value="123" class="form-control"/></br>
+        <div class="row">
+            <div class="col-md-4">        
+            <label>Expiration Month</label>
+        <input type="text" placeholder="Month" id="month" value="12" class="form-control"/></br></div>
+            <div class="col-md-4">
+                        <label>Expiration Year</label>
+                    <input type="text" placeholder="Year" id="year" value="18" class="form-control" /></br>
+                    </div>
+            <div class="col-md-4"></div>
+        </div>
+
+
+  
+        <input type="button" value="Encrypt" id="encrypt" class="btn btn-lg btn-primary btn-block"/>
+
+      </form>
+
+  </div>
+  <div class="col-md-4">
+       <label>Public Key</label>
+     <textarea id="public_key" rows="15" class="form-control">-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoBttaXwRoI1Fbcond5mS
+7QOb7X2lykY5hvvDeLJelvFhpeLnS4YDwkrnziM3W00UNH1yiSDU+3JhfHu5G387
+O6uN9rIHXvL+TRzkVfa5iIjG+ap2N0/toPzy5ekpgxBicjtyPHEgoU6dRzdszEF4
+ItimGk5ACx/lMOvctncS5j3uWBaTPwyn0hshmtDwClf6dEZgQvm/dNaIkxHKV+9j
+Mn3ZfK/liT8A3xwaVvRzzuxf09xJTXrAd9v5VQbeWGxwFcW05oJulSFjmJA9Hcmb
+DYHJT+sG2mlZDEruCGAzCVubJwGY1aRlcs9AQc1jIm/l8JwH7le2kpk3QoX+gz0w
+WwIDAQAB
+-----END PUBLIC KEY-----</textarea></br>
+               <label>Credit Card Hash</label>
+               <textarea id="encrypted_value" rows="8" class="form-control"></textarea></br>
+                <label>Credit Card Brand</label>
+                <input type="text" placeholder="Card Type" id="card_type" class="form-control"/>
+
+</div>
+</div>
+
+  </body>
+</html>
+
