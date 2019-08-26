@@ -49,6 +49,10 @@
             alert('Invalid credit card. Verify parameters: number, cvc, expiration Month, expiration Year');
           }
         });
+      
+        $("#deeplink").click(function() {
+          window.location.replace("wirecard://payment?paymentId=1093019888&paymentType=debit&amount=10&installmentType=1&installments=3&scheme=instore");
+        });
     });
   </script>
 
@@ -108,8 +112,8 @@ WwIDAQAB
 </div>
 </div>
 
-<a href="wirecard://payment?paymentId=1093019888&paymentType=debit&amount=10&installmentType=1&installments=3&scheme=instore
-">.</a>
+<a id="deeplink">_</a> 
+
   </body>
 </html>
 
